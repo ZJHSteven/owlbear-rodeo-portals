@@ -98,6 +98,7 @@ Work-around for Chrome-based browsers:
 - fix: use bounding boxes for collision instead of point
 - performance: move token on collisions can lead to too many API calls
 - refactor: infinite teleport loop
+- docs: add features promoting a "trap" feature (because `Que?` thinks that `the majority of people ... want to use it for 'traps'`)
 
 ### Update dependencies
 
