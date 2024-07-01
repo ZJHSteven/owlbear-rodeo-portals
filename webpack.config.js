@@ -1,0 +1,87 @@
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const meta = require("./package.json");
+const CaseSensitivePathsPlugin = require("@umijs/case-sensitive-paths-webpack-plugin");
+
+module.exports = (env, argv) => ({
+  mode: "development",
+  entry: {
+    background: "./src/context-menu.ts",
+  },
+  devServer: {
+    server: "https",
+    devMiddleware: {
+      publicPath: "/owlbear-rodeo-portals",
+    },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  },
+  plugins: [
+    new CaseSensitivePathsPlugin(),
+    new HtmlWebpackPlugin({
+      title: meta.name,
+      filename: `background.html`,
+      favicon: "static/font-awesome/svgs/dungeon-solid.svg",
+      chunks: ["background"],
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "**/*",
+          context: "static/",
+          globOptions: {
+            ignore: ["**/*.{json,md}"],
+          },
+        },
+        {
+          from: "**/*.{json,md}",
+          context: "static/",
+          transform(content) {
+            let name = meta.name;
+            let version = meta.version;
+            if (argv.mode !== "production") {
+              name += " (Development)";
+              version += "-dev";
+            }
+
+            return content
+              .toString()
+              .replaceAll("$VERSION$", version)
+              .replaceAll("$BUILD_DATE_TIME$", new Date().toISOString())
+              .replaceAll("$NAME$", name)
+              .replaceAll("$DESCRIPTION$", meta.description)
+              .replaceAll("$AUTHOR$", meta.author.name)
+              .replaceAll("$HOMEPAGE$", meta.homepage)
+              .replaceAll(
+                "$GITLAB_PAGES$",
+                "https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/",
+              );
+          },
+        },
+      ],
+    }),
+  ],
+  output: {
+    filename: "[name].[contenthash].js",
+    path: path.resolve(__dirname, "public"),
+    clean: true,
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+});

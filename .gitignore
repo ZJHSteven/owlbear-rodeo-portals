@@ -1,0 +1,9 @@
+# IDE
+.idea/
+*.iml
+
+# dependencies
+node_modules/
+
+# build output
+public/

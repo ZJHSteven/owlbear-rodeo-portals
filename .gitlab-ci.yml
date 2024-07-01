@@ -1,0 +1,17 @@
+image: node:lts-slim
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+pages:
+  stage: deploy
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  environment: production
