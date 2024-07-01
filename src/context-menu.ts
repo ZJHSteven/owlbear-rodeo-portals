@@ -1,6 +1,6 @@
 "use strict";
 
-import OBR, {buildLine, Item, Line} from "@owlbear-rodeo/sdk";
+import OBR, {buildLine, Item, Line, Math2, Vector2} from "@owlbear-rodeo/sdk";
 import {EXTENSION_ID} from "./constants";
 import createIconUrl from "./createIconUrl";
 
@@ -13,10 +13,17 @@ const START_MODE_ID = `${EXTENSION_ID}/tool/start`;
 const ENTER_MODE_ID = `${EXTENSION_ID}/tool/enter`;
 
 const OTHER_ID_METADATA_ID = `${EXTENSION_ID}/link/otherId`;
+const JUST_TELEPORTED_METADATA_ID = `${EXTENSION_ID}/just/teleported`;
 
 let startId: string | null = null;
 let indicatorId: string | null = null;
 let enterIds: string[];
+
+type StringToVector2 = {
+  [key: string]: Vector2 | undefined
+};
+
+let knownPositions: StringToVector2 = {};
 
 OBR.onReady(() => {
   OBR.contextMenu.create({
@@ -196,5 +203,69 @@ OBR.onReady(() => {
 
       OBR.scene.local.deleteItems([indicatorId]);
     }
+  });
+
+  OBR.scene.items.onChange((items) => {
+    const teleportedIds = items
+      .filter(({metadata}) => metadata[JUST_TELEPORTED_METADATA_ID])
+      .map(({id}) => id);
+
+    OBR.scene.items.updateItems(teleportedIds, (items) => {
+      for (let item of items) {
+        delete item.metadata[JUST_TELEPORTED_METADATA_ID];
+      }
+    });
+
+    const movedItems = items.filter(({id, position, metadata}) => {
+      if (metadata[OTHER_ID_METADATA_ID] !== undefined || teleportedIds.includes(id)) {
+        return false;
+      }
+
+      const knownPosition = knownPositions[id];
+      if (knownPosition === undefined) {
+        return false;
+      }
+
+      const distance = Math2.distance(position, knownPosition);
+      return distance !== 0;
+    });
+
+    knownPositions = {};
+    items.forEach(({id, position}) => knownPositions[id] = position);
+
+    if (movedItems.length === 0) {
+      return;
+    }
+
+    OBR.scene.items
+      .getItems((item): boolean => item.metadata[OTHER_ID_METADATA_ID] !== undefined)
+      .then(portals => Promise.all(portals.map((portal) => OBR.scene.items.getItemBounds([portal.id]).then(bounds => ({
+        portal,
+        bounds
+      })))))
+      .then(all => {
+        movedItems.forEach(item => {
+          const collision = all.find(({portal, bounds}) =>
+            bounds.min.x <= item.position.x && item.position.x <= bounds.max.x &&
+            bounds.min.y <= item.position.y && item.position.y <= bounds.max.y
+          );
+
+          if (collision === undefined) {
+            return;
+          }
+
+          const targetId = collision.portal.metadata[OTHER_ID_METADATA_ID] as string;
+          OBR.scene.items.getItems([targetId])
+            .then(items => {
+              const targetPosition = items[0].position;
+              OBR.scene.items.updateItems([item], (items) => {
+                for (let item of items) {
+                  item.metadata[JUST_TELEPORTED_METADATA_ID] = true;
+                  item.position = targetPosition;
+                }
+              })
+            });
+        })
+      });
   });
 });

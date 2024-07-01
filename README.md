@@ -70,7 +70,6 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
-- feat: use portal: move tokens
 - feat: use portal: move view
 
 #### To be prioritized
@@ -96,6 +95,9 @@ Work-around for Chrome-based browsers:
 - feat: select default asset for new portals
 - feat: mishaps
 - feat: visual feedback instead of console.log
+- fix: use bounding boxes for collision instead of point
+- performance: move token on collisions can lead to too many API calls
+- refactor: infinite teleport loop
 
 ### Update dependencies
 
