@@ -73,13 +73,12 @@ Work-around for Chrome-based browsers:
 #### Prioritized
 
 - feat: render directions for indicators
-- fix: align svgs
-- docs: store page
-- docs: add features promoting a "trap" feature (because `Que?` thinks that `the majority of people ... want to use it for 'traps'`)
 - fix: position and bounding box for items that lie (because of rotation)
 
 #### To be prioritized
 
+- docs: create store image without smoke & spectre
+- fix: only move tokens on character layer (because that's what the description of the extension says)
 - feat: context menu to start a one-way link
 - feat: context menu to start a two-way link
 - fix: show indicators for new links if indicators are enabled
