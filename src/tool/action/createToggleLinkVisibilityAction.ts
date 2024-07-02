@@ -36,12 +36,12 @@ export default async function createToggleLinkVisibilityAction(obr: OBR) {
 
   const isSceneReady = await obr.scene.isReady();
   if (isSceneReady) {
-    handleSceneIsReady();
+    await handleSceneIsReady();
   }
 
-  obr.scene.onReadyChange((isReady) => {
+  obr.scene.onReadyChange(async (isReady) => {
     if (isReady) {
-      handleSceneIsReady();
+      await handleSceneIsReady();
     }
   })
 

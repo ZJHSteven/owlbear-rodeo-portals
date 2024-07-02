@@ -4,6 +4,11 @@ import {findPortals} from "./findPortals";
 import {getDestination} from "./getDestination";
 
 export default async function handleMovement(obr: OBR, items: Item[]) {
+  items = items.filter(({layer}) => layer === "CHARACTER");
+  if (items.length === 0) {
+    return;
+  }
+
   const teleports = await findTeleports(obr, items);
   return obr.scene.items.updateItems(
     (item) => item.id in teleports,

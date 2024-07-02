@@ -77,7 +77,6 @@ Work-around for Chrome-based browsers:
 
 - fix: position and bounding box for items that lie (because of rotation)
 - docs: create store image without smoke & spectre
-- fix: only move tokens on character layer (because that's what the description of the extension says)
 - feat: context menu to start a one-way link
 - feat: context menu to start a two-way link
 - fix: show indicators for new links if indicators are enabled
@@ -97,6 +96,8 @@ Work-around for Chrome-based browsers:
 - feat: select default asset for new portals
 - fix: use bounding boxes for collision instead of point
 - feat: mishaps (teleport somewhere else)
+- feat: option to enable/disable teleports for players
+- feat: option to select valid token layers for teleportation
 
 ### Update dependencies
 
