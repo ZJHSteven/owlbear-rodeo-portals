@@ -6,15 +6,15 @@ import createToggleLinkVisibilityAction, {
   LINK_VISIBILITY_METADATA_ID
 } from "./action/createToggleLinkVisibilityAction";
 
-export const TOOL_ID = `${EXTENSION_ID}/tool/portals-and-traps`;
+export const TOOL_ID = `${EXTENSION_ID}/tool/portals`;
 
-export default async function createPortalsAndTrapsTool(obr: OBR) {
+export default async function createPortalTool(obr: OBR) {
   await obr.tool.create({
     id: TOOL_ID,
     icons: [
       {
         icon: createIconUrl("dungeon-solid.svg"),
-        label: "Portals & Traps",
+        label: "Portals",
         filter: {
           roles: ["GM"],
         }

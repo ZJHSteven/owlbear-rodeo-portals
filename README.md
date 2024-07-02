@@ -6,6 +6,8 @@
 
 This extension lets you create portals between any kind of tokens in order to move character tokens on the map in a room for [Owlbear Rodeo].
 
+You can use the portals as traps, regular portals or teleportation circles.
+
 [Owlbear Rodeo]: https://owlbear.rodeo/
 
 ## Installation

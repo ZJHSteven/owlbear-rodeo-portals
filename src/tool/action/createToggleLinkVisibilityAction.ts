@@ -1,5 +1,5 @@
 import {OBR} from "../../obr/types";
-import {TOOL_ID} from "../createPortalsAndTrapsTool";
+import {TOOL_ID} from "../createPortalTool";
 import createIconUrl from "../../createIconUrl";
 import {findPortals} from "../../findPortals";
 import {Vector2} from "@owlbear-rodeo/sdk";
