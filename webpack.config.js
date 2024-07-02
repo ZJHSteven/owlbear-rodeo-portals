@@ -7,7 +7,7 @@ const CaseSensitivePathsPlugin = require("@umijs/case-sensitive-paths-webpack-pl
 module.exports = (env, argv) => ({
   mode: "development",
   entry: {
-    background: "./src/context-menu.ts",
+    background: "./src/background.ts",
   },
   devServer: {
     server: "https",

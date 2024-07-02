@@ -70,35 +70,34 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
-- feat: use portal: move view
+- feat: render directions for indicators
+- fix: align svgs
+- docs: store page
+- docs: add features promoting a "trap" feature (because `Que?` thinks that `the majority of people ... want to use it for 'traps'`)
+- fix: position and bounding box for items that lie (because of rotation)
 
 #### To be prioritized
 
-- feat: remove link
-- feat: change link
-- docs: store page
+- feat: context menu to start a one-way link
+- feat: context menu to start a two-way link
+- fix: show indicators for new links if indicators are enabled
+- refactor: remove setTimeout when smoke & spectre uses debounce
+- feat: move viewport
+- feat: two-way links
+- fix: update start/end of indicators for current links when origin/destination move
+- fix: update color of indicators for current links when theme changes
+- fix: update color of indicator for new link when theme changes
+- feat: change link origin
+- feat: change link destination
+- feat: change link directions
 - feat: i18n
-- feat: permissions
-- feat: filter for context menu
-- feat: filter for tools
-- feat: hide tool in toolbar when not activated
-- feat: (correct) error handling
 - feat: cursor
-- fix: position for items that lie about their position
-- refactor: split up context menu source code into separate units (files)
-- refactor: DRY context menu
 - refactor: no `as ...` conversion
-- feat: use whirlpool as extension and tool logo if possible
 - feat: tool to place a portal token and then link to another portal
 - feat: tool to place a portal token and then place another portal token that is automatically linked
-- feat: toggle for the visibility of the placed portal tokens
 - feat: select default asset for new portals
-- feat: mishaps
-- feat: visual feedback instead of console.log
 - fix: use bounding boxes for collision instead of point
-- performance: move token on collisions can lead to too many API calls
-- refactor: infinite teleport loop
-- docs: add features promoting a "trap" feature (because `Que?` thinks that `the majority of people ... want to use it for 'traps'`)
+- feat: mishaps (teleport somewhere else)
 
 ### Update dependencies
 
