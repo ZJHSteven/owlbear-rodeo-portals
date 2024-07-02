@@ -5,18 +5,13 @@ import {getDestination} from "./getDestination";
 
 export default async function handleMovement(obr: OBR, items: Item[]) {
   const teleports = await findTeleports(obr, items);
-  return new Promise((resolve) => {
-    // timeout for other extensions, that are not reacting on quick scene changes in succession
-    setTimeout(async () => {
-      resolve(obr.scene.items.updateItems(
-        (item) => item.id in teleports,
-        (items) => {
-          for (let item of items) {
-            item.position = teleports[item.id];
-          }
-        }));
-    }, 1);
-  });
+  return obr.scene.items.updateItems(
+    (item) => item.id in teleports,
+    (items) => {
+      for (let item of items) {
+        item.position = teleports[item.id];
+      }
+    });
 }
 
 async function findTeleports(obr: OBR, items: Item[]) {

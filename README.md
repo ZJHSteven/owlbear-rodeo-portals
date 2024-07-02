@@ -81,7 +81,6 @@ Work-around for Chrome-based browsers:
 - feat: context menu to start a one-way link
 - feat: context menu to start a two-way link
 - fix: show indicators for new links if indicators are enabled
-- refactor: remove setTimeout when smoke & spectre uses debounce
 - feat: move viewport
 - feat: two-way links
 - fix: update start/end of indicators for current links when origin/destination move
