@@ -1,4 +1,4 @@
-import {buildLine, buildRuler, Vector2} from "@owlbear-rodeo/sdk";
+import {buildLine, Vector2} from "@owlbear-rodeo/sdk";
 import {OBR} from "../../types";
 
 export default function createIndicator(obr: OBR, start: Vector2, end: Vector2) {
