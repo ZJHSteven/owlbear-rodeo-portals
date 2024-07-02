@@ -1,14 +1,15 @@
-import {buildLine, Vector2} from "@owlbear-rodeo/sdk";
+import {buildCurve, Curve} from "@owlbear-rodeo/sdk";
 import {OBR} from "../../types";
 
-export default function createIndicator(obr: OBR, start: Vector2, end: Vector2) {
-  return buildLine()
+export default function createIndicator(obr: OBR): Curve {
+  return buildCurve()
     .layer("POPOVER")
-    .startPosition(start)
-    .endPosition(end)
     .disableHit(true)
     .strokeWidth(5)
-    .strokeDash([10, 10])
     .strokeColor(obr.theme.primary.main)
+    .fillOpacity(0)
+    .position({x: 0, y: 0})
+    .closed(false)
+    .tension(0)
     .build();
 }

@@ -1,9 +1,10 @@
 import {OBR} from "../../obr/types";
 import {TOOL_ID} from "../createPortalTool";
 import createIconUrl from "../../createIconUrl";
-import {Item, Line, ToolEvent} from "@owlbear-rodeo/sdk";
+import {Curve, Item, ToolEvent} from "@owlbear-rodeo/sdk";
 import {DESTINATION_ID_METADATA_ID} from "../../constants";
 import createIndicator from "../../obr/scene/items/createIndicator";
+import setIndicatorPosition from "../../obr/scene/items/setIndicatorPosition";
 
 export default async function createAddOneWayTeleportMode(obr: OBR) {
   let origin: Item | null = null;
@@ -82,24 +83,25 @@ export default async function createAddOneWayTeleportMode(obr: OBR) {
   }
 
   async function addIndicator(origin: Item) {
-    const indicator = createIndicator(obr, origin.position, origin.position);
+    const indicator = setIndicatorPosition(createIndicator(obr), origin.position, origin.position);
     await obr.scene.local.addItems([indicator]);
     indicatorId = indicator.id;
   }
 
   function updateIndicator(event: ToolEvent) {
-    if (indicatorId === null) {
+    if (indicatorId === null || origin === null) {
       return;
     }
 
-    obr.scene.local.updateItems<Line>(
+    const start = origin.position;
+    const end = event.pointerPosition;
+    obr.scene.local.updateItems<Curve>(
       [indicatorId],
       (items) => {
         for (let item of items) {
-          item.endPosition = event.pointerPosition;
+          setIndicatorPosition(item, start, end);
         }
-      },
-      true
+      }
     )
   }
 

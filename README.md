@@ -72,7 +72,6 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
-- feat: render directions for indicators
 - fix: position and bounding box for items that lie (because of rotation)
 
 #### To be prioritized

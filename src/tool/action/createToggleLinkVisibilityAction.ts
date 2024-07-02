@@ -5,6 +5,7 @@ import {findPortals} from "../../findPortals";
 import {Vector2} from "@owlbear-rodeo/sdk";
 import createIndicator from "../../obr/scene/items/createIndicator";
 import {getDestination} from "../../getDestination";
+import setIndicatorPosition from "../../obr/scene/items/setIndicatorPosition";
 
 export const LINK_VISIBILITY_METADATA_ID = "links-visible";
 
@@ -15,7 +16,7 @@ export default async function createToggleLinkVisibilityAction(obr: OBR) {
     const destinations: Record<string, Vector2> = {};
     const indicators = await Promise.all(portals.map(async (portal) => {
       const destination = await getDestination(obr, portal, destinations);
-      return createIndicator(obr, portal.position, destination);
+      return setIndicatorPosition(createIndicator(obr), portal.position, destination);
     }));
 
     await obr.scene.local.addItems(indicators);
