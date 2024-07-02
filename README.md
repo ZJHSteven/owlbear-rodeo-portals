@@ -72,10 +72,10 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
-- fix: position and bounding box for items that lie (because of rotation)
 
 #### To be prioritized
 
+- fix: position and bounding box for items that lie (because of rotation)
 - docs: create store image without smoke & spectre
 - fix: only move tokens on character layer (because that's what the description of the extension says)
 - feat: context menu to start a one-way link

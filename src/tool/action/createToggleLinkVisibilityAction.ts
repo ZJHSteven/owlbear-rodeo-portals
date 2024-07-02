@@ -27,6 +27,24 @@ export default async function createToggleLinkVisibilityAction(obr: OBR) {
     return obr.scene.local.deleteItems(indicatorIds);
   }
 
+  async function handleSceneIsReady() {
+    const metadata = await obr.tool.getMetadata(TOOL_ID);
+    if (metadata !== undefined && metadata[LINK_VISIBILITY_METADATA_ID]) {
+      await showIndicators();
+    }
+  }
+
+  const isSceneReady = await obr.scene.isReady();
+  if (isSceneReady) {
+    handleSceneIsReady();
+  }
+
+  obr.scene.onReadyChange((isReady) => {
+    if (isReady) {
+      handleSceneIsReady();
+    }
+  })
+
   return obr.tool.createAction({
     id: `${TOOL_ID}/action/toggle-link-visibility`,
     icons: [
