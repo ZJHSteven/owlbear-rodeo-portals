@@ -10,6 +10,8 @@ You can use the portals as traps, regular portals or teleportation circles.
 
 [Owlbear Rodeo]: https://owlbear.rodeo/
 
+![Animation: A character token is teleported after entering a portal.](static/store/enter-portal.gif)
+
 ## Installation
 
 [Install Your Extension] using the URL <https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/manifest.json>.
@@ -76,7 +78,6 @@ Work-around for Chrome-based browsers:
 #### To be prioritized
 
 - fix: position and bounding box for items that lie (because of rotation)
-- docs: create store image without smoke & spectre
 - feat: context menu to start a one-way link
 - feat: context menu to start a two-way link
 - fix: show indicators for new links if indicators are enabled
