@@ -22,6 +22,13 @@ You can use the portals as traps, regular portals or teleportation circles.
 
 For features and usage, please go to the [store page](https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/store/index.html).
 
+## Support
+
+If there are any issues with the extension, join the [Owlbear Rodeo Discord], create a new post and mention `@resident_uhlig` in the [#extension-support] channel.
+
+[Owlbear Rodeo Discord]: <https://discord.gg/UY8AXjhzhe>
+[#extension-support]: <https://discord.com/channels/795808973743194152/1108276291960045578>
+
 ## Dependencies
 
 At runtime, this extension depends on:
