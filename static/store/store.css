@@ -1,0 +1,77 @@
+
+:root {
+  --comfort-black: #212427;
+  --comfort-white: #f0ece1;
+
+  --foreground-color: var(--comfort-black);
+  --background-color: var(--comfort-white);
+
+  --link-foreground-color: #0000e1;
+
+  --io-foreground-color: var(--comfort-black);
+  --io-background-color: #d6d3c9;
+
+  --img-border-color: var(--io-background-color);
+
+  --padding: .2rem;
+}
+
+html {
+  font-size: 100%;
+  font-family: system-ui;
+
+  color: var(--foreground-color);
+  background: var(--background-color);
+}
+
+body {
+  /* 100vh so scrolling to an anchor always brings the anchor to the top of the page */
+  margin: 0 auto 100vh auto;
+  max-width: 60rem;
+  padding: 0 1rem 1rem;
+  border-bottom: thin dotted var(--foreground-color);
+}
+
+@media (min-width: 62rem) {
+  body {
+    border-bottom: none;
+  }
+}
+
+:target:before {
+  content: "📍 ";
+}
+
+a {
+  font-weight: bold;
+  color: var(--link-foreground-color);
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:active {
+  position: relative;
+  top: .125rem;
+}
+
+code {
+  color: var(--io-foreground-color);
+  background: var(--io-background-color);
+  padding: 0 var(--padding);
+}
+
+img {
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--img-border-color);
+  padding: var(--padding);
+  display: block;
+  margin: 0 auto;
+}

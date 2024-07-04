@@ -20,7 +20,7 @@ You can use the portals as traps, regular portals or teleportation circles.
 
 ## Features and Usage
 
-For features and usage, please go to the [store page](static/store/index.md).
+For features and usage, please go to the [store page](https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/store/index.html).
 
 ## Dependencies
 

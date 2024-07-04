@@ -54,10 +54,7 @@ module.exports = (env, argv) => ({
               .replaceAll("$DESCRIPTION$", meta.description)
               .replaceAll("$AUTHOR$", meta.author.name)
               .replaceAll("$HOMEPAGE$", meta.homepage)
-              .replaceAll(
-                "$GITLAB_PAGES$",
-                "https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/",
-              );
+              .replaceAll("$GITLAB_PAGES$", meta.config.GITLAB_PAGES);
           },
         },
       ],
