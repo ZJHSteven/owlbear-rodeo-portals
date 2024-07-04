@@ -81,7 +81,21 @@ Work-around for Chrome-based browsers:
 - feat: context menu to start a one-way link
 - feat: context menu to start a two-way link
 - fix: show indicators for new links if indicators are enabled
-- feat: move viewport
+- feat: move viewport (for the connection that moves the token)
+
+  ```javascript
+  const anyTeleport = teleports[ids[0]];
+  const viewport = {
+    position: await obr.viewport.getPosition(),
+    scale: await obr.viewport.getScale(),
+  };
+
+  await obr.viewport.setPosition({
+    x: viewport.position.x - anyTeleport.x * viewport.scale,
+    y: viewport.position.y - anyTeleport.y * viewport.scale,
+  });
+  ```
+
 - refactor: code duplication in add one-way and two-way modes
 - fix: update start/end of indicators for current links when origin/destination move
 - fix: update color of indicators for current links when theme changes

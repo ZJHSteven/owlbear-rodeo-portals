@@ -15,12 +15,18 @@ export default async function handleMovement(obr: OBR, items: Item[]) {
   }
 
   const teleports = await findTeleports(obr, items);
+  const ids = Object.keys(teleports);
+  if (ids.length === 0) {
+    return;
+  }
+
   return obr.scene.items.updateItems(
     (item) => item.id in teleports,
     (items) => {
       for (let item of items) {
         item.metadata[JUST_TELEPORTED_METADATA_ID] = true;
-        item.position = teleports[item.id];
+        item.position.x += teleports[item.id].x;
+        item.position.y += teleports[item.id].y;
       }
     });
 }
@@ -49,7 +55,11 @@ async function findTeleports(obr: OBR, items: Item[]) {
       }
 
       if (await collides(obr, item, portal, bounds)) {
-        teleports[item.id] = await getDestination(obr, portal, destinations);
+        const destination = await getDestination(obr, portal, destinations);
+        teleports[item.id] = {
+          x: destination.x - item.position.x,
+          y: destination.y - item.position.y,
+        }
       }
     }
   }
