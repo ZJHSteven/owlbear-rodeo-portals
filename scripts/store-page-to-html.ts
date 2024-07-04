@@ -39,6 +39,11 @@ let frontMatter: FrontMatter;
 let markdown: string;
 
 const defaultRenderer = new marked.Renderer();
+
+function isExternalLink(href: string): boolean {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 const renderer = {
   image(image: Tokens.Image): string {
     if (image.href.length === 0) {
@@ -46,6 +51,14 @@ const renderer = {
     }
 
     return `<a href="${image.href}" target="_blank">${defaultRenderer.image(image)}</a>`;
+  },
+  link(link: Tokens.Link): string | false {
+    const target = isExternalLink(link.href) ? "_blank" : null;
+    if (target === null) {
+      return false;
+    }
+
+    return `<a href="${link.href}" target="${target}">${link.text}</a>`;
   }
 };
 

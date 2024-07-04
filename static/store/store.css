@@ -67,6 +67,12 @@ a:active {
   top: .125rem;
 }
 
+a[href^="http://"]:after,
+a[href^="https://"]:after {
+  content: " (external link)";
+  font-weight: normal;
+}
+
 code {
   color: var(--io-foreground-color);
   background: var(--io-background-color);
