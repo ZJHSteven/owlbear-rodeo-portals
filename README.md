@@ -82,7 +82,7 @@ Work-around for Chrome-based browsers:
 - feat: context menu to start a two-way link
 - fix: show indicators for new links if indicators are enabled
 - feat: move viewport
-- feat: two-way links
+- refactor: code duplication in add one-way and two-way modes
 - fix: update start/end of indicators for current links when origin/destination move
 - fix: update color of indicators for current links when theme changes
 - fix: update color of indicator for new link when theme changes

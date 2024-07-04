@@ -45,6 +45,8 @@ All settings are stored as [metadata] of either tool or token.
 
 ### Create portals
 
+#### Create one-way portals
+
 1. Activate the *Portals* tool.
 2. Activate the *Add One-Way Teleport* mode.
 3. Click on the token that should be the origin.
@@ -52,6 +54,14 @@ All settings are stored as [metadata] of either tool or token.
 5. A notification is shown, that the link has been created.
 
 ![Animation: A one-way portal is created.]($GITLAB_PAGES$store/create-portal-link.gif)
+
+#### Create two-way portals
+
+1. Activate the *Portals* tool.
+2. Activate the *Add Two-Way Teleport* mode.
+3. Click on the token that should be one side of the portal.
+4. Click on the token that should be the other side of the portal.
+5. A notification is shown, that the link has been created.
 
 ### Delete portals
 
