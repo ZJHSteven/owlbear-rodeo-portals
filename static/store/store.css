@@ -29,13 +29,19 @@ body {
   margin: 0 auto 100vh auto;
   max-width: 60rem;
   padding: 0 1rem 1rem;
-  border-bottom: thin dotted var(--foreground-color);
 }
 
 @media (min-width: 62rem) {
   body {
     border-bottom: none;
   }
+}
+
+body:after {
+  content: "end of document";
+  text-align: center;
+  display: block;
+  font-size: x-small;
 }
 
 :target:before {
