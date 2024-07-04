@@ -3,8 +3,10 @@ import {OBR} from "./obr/types";
 import {findPortals} from "./findPortals";
 import {getDestination} from "./getDestination";
 import {EXTENSION_ID} from "./constants";
+import {LATEST_TELEPORT_IDS_METADATA_ID} from "./followTokensPopover";
+import {TELEPORT_CHANNEL_ID} from "./onTeleport";
 
-const JUST_TELEPORTED_METADATA_ID = `${EXTENSION_ID}/just-teleported`;
+export const JUST_TELEPORTED_METADATA_ID = `${EXTENSION_ID}/just-teleported`;
 
 export default async function handleMovement(obr: OBR, items: Item[]) {
   await removeJustTeleported(obr);
@@ -20,7 +22,7 @@ export default async function handleMovement(obr: OBR, items: Item[]) {
     return;
   }
 
-  return obr.scene.items.updateItems(
+  await obr.scene.items.updateItems(
     (item) => item.id in teleports,
     (items) => {
       for (let item of items) {
@@ -29,6 +31,9 @@ export default async function handleMovement(obr: OBR, items: Item[]) {
         item.position.y += teleports[item.id].y;
       }
     });
+
+  await obr.scene.setMetadata({[LATEST_TELEPORT_IDS_METADATA_ID]: ids});
+  await obr.broadcast.sendMessage(TELEPORT_CHANNEL_ID, {}, {destination: "ALL"});
 }
 
 async function removeJustTeleported(obr: OBR) {

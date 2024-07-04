@@ -5,7 +5,7 @@ import {EXTENSION_ID} from "../../../constants";
 
 const WORKER_COORDINATION_CHANNEL_ID = `${EXTENSION_ID}/channel/worker-coordination`;
 
-export default async function onItemsMove(obr: OBR, callback: (items: Item[]) => void) {
+export default async function onItemsMove(obr: OBR, callback: (obr: OBR, items: Item[]) => void) {
   const connectionId = await obr.player.getConnectionId();
   let worker: string | undefined = undefined;
 
@@ -59,7 +59,7 @@ export default async function onItemsMove(obr: OBR, callback: (items: Item[]) =>
       positions[item.id] = item.position;
     }
 
-    callback(moved);
+    callback(obr, moved);
   });
 }
 
