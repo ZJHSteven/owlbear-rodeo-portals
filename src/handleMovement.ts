@@ -2,9 +2,14 @@ import {BoundingBox, Item, Vector2} from "@owlbear-rodeo/sdk";
 import {OBR} from "./obr/types";
 import {findPortals} from "./findPortals";
 import {getDestination} from "./getDestination";
+import {EXTENSION_ID} from "./constants";
+
+const JUST_TELEPORTED_METADATA_ID = `${EXTENSION_ID}/just-teleported`;
 
 export default async function handleMovement(obr: OBR, items: Item[]) {
-  items = items.filter(({layer}) => layer === "CHARACTER");
+  await removeJustTeleported(obr);
+
+  items = items.filter(({layer, metadata}) => layer === "CHARACTER" && !metadata[JUST_TELEPORTED_METADATA_ID]);
   if (items.length === 0) {
     return;
   }
@@ -14,9 +19,21 @@ export default async function handleMovement(obr: OBR, items: Item[]) {
     (item) => item.id in teleports,
     (items) => {
       for (let item of items) {
+        item.metadata[JUST_TELEPORTED_METADATA_ID] = true;
         item.position = teleports[item.id];
       }
     });
+}
+
+async function removeJustTeleported(obr: OBR) {
+  return obr.scene.items.updateItems(
+    ({metadata}) => !!metadata[JUST_TELEPORTED_METADATA_ID],
+    (items) => {
+      for (let item of items) {
+        delete item.metadata[JUST_TELEPORTED_METADATA_ID];
+      }
+    }
+  )
 }
 
 async function findTeleports(obr: OBR, items: Item[]) {
