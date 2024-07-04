@@ -99,6 +99,7 @@ Work-around for Chrome-based browsers:
 - feat: mishaps (teleport somewhere else)
 - feat: option to enable/disable teleports for players
 - feat: option to select valid token layers for teleportation
+- feat: detect portal collision for the whole movement not only the new position of the moved tokens
 
 ### Update dependencies
 
