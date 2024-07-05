@@ -1,11 +1,11 @@
-import {OBR} from "../../types";
+import {Obr} from "../../types";
 import {Item} from "@owlbear-rodeo/sdk/lib/types/items/Item";
 import {Vector2} from "@owlbear-rodeo/sdk";
 import {EXTENSION_ID} from "../../../constants";
 
 const WORKER_COORDINATION_CHANNEL_ID = `${EXTENSION_ID}/channel/worker-coordination`;
 
-export default async function onItemsMove(obr: OBR, callback: (obr: OBR, items: Item[]) => void) {
+export default async function onItemsMove(obr: Obr, callback: (obr: Obr, items: Item[]) => void) {
   const connectionId = await obr.player.getConnectionId();
   let worker: string | undefined = undefined;
 
@@ -63,6 +63,6 @@ export default async function onItemsMove(obr: OBR, callback: (obr: OBR, items: 
   });
 }
 
-async function announceWorker(obr: OBR, worker: string) {
+async function announceWorker(obr: Obr, worker: string) {
   return obr.broadcast.sendMessage(WORKER_COORDINATION_CHANNEL_ID, {worker}, {destination: "ALL"});
 }

@@ -1,3 +1,3 @@
-import OBR, {Theme} from "@owlbear-rodeo/sdk";
+import OBR from "@owlbear-rodeo/sdk";
 
-export type OBR = Omit<typeof OBR, "theme"> & { theme: Theme };
+export type Obr = typeof OBR;

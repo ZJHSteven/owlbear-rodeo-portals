@@ -7,8 +7,8 @@ const CaseSensitivePathsPlugin = require("@umijs/case-sensitive-paths-webpack-pl
 module.exports = (env, argv) => ({
   mode: "development",
   entry: {
-    background: "./src/background.ts",
-    followTokensPopover: "./src/followTokensPopover.ts",
+    background: "./src/background/main.ts",
+    followTokensPopover: "./src/popover/followTokens/main.ts",
   },
   devServer: {
     server: "https",
