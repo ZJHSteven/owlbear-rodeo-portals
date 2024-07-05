@@ -8,10 +8,13 @@ import {
   updateIndicator,
 } from "../../crud/create/create";
 
+export const ADD_ONE_WAY_TELEPORT_TOOL_MODE_ID = `${TOOL_ID}/mode/add-one-way-teleport`;
+export const ADD_TWO_WAY_TELEPORT_TOOL_MODE_ID = `${TOOL_ID}/mode/add-two-way-teleport`;
+
 export default async function createToolModes(obr: Obr) {
   await Promise.all([
     obr.tool.createMode({
-      id: `${TOOL_ID}/mode/add-one-way-teleport`,
+      id: ADD_ONE_WAY_TELEPORT_TOOL_MODE_ID,
       icons: [
         {
           icon: createIconUrl("arrow-right-solid.svg"),
@@ -37,7 +40,7 @@ export default async function createToolModes(obr: Obr) {
     }),
 
     obr.tool.createMode({
-      id: `${TOOL_ID}/mode/add-two-way-teleport`,
+      id: ADD_TWO_WAY_TELEPORT_TOOL_MODE_ID,
       icons: [
         {
           icon: createIconUrl("arrows-left-right-solid.svg"),

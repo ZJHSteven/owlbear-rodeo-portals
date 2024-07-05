@@ -87,8 +87,6 @@ Work-around for Chrome-based browsers:
 
 - fix: delete destination id from metadata when destination is deleted
 - fix: position and bounding box for items that lie (because of rotation)
-- feat: context menu to start a one-way link
-- feat: context menu to start a two-way link
 - feat: change link origin
 - feat: change link destination
 - feat: change link directions
@@ -106,6 +104,8 @@ Work-around for Chrome-based browsers:
 - feat: getText() for RichText TextContent
 - feat: spread tokens when multiple tokens are teleported to the same destination
 - feat: keep relative position when multiple are teleported to the same destination
+- feat: overview of all possible workers and the current worker
+- feat: overview of all origins to quickly navigate to them
 
 ### Update dependencies
 
