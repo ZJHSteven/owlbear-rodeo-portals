@@ -15,6 +15,28 @@
   --padding: 0.2rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  html[data-color-scheme="system"] {
+    --foreground-color: var(--comfort-white);
+    --background-color: var(--comfort-black);
+
+    --link-foreground-color: #1e90ff;
+
+    --io-foreground-color: var(--comfort-white);
+    --io-background-color: #383c42;
+  }
+}
+
+html[data-color-scheme="dark"] {
+  --foreground-color: var(--comfort-white);
+  --background-color: var(--comfort-black);
+
+  --link-foreground-color: #1e90ff;
+
+  --io-foreground-color: var(--comfort-white);
+  --io-background-color: #383c42;
+}
+
 html {
   font-size: 100%;
   font-family: system-ui;
@@ -34,6 +56,32 @@ body {
   body {
     border-bottom: none;
   }
+}
+
+aside {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--io-background-color);
+  color: var(--io-foreground-color);
+  padding: 0.5rem;
+}
+
+label {
+  cursor: pointer;
+  filter: grayscale(100%);
+}
+
+label:hover,
+label:has(input:checked) {
+  filter: none;
+}
+
+input {
+  display: none;
 }
 
 body:after {

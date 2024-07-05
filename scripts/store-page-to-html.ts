@@ -76,6 +76,7 @@ marked.use({
         <title>${frontMatter.title}</title>
         <link rel="stylesheet" href="./store.css"/>
         <link rel="icon" href="${frontMatter.icon}"/>
+        <script src="./store.js"></script>
     </head>
     <body>
 ${html}
