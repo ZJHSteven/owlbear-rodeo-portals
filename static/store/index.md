@@ -88,5 +88,6 @@ The links are only shown for yourself and not for any other player or GM.
 1. Select a character token.
 2. Move it the center of the token into the bounding box of a portal origin.
 3. The character token is automagically moved to the portal's destination.
+4. The viewport of the player (all connections) that moved the token is centered on that token.
 
 ![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)

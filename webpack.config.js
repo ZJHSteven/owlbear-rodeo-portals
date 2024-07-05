@@ -8,7 +8,6 @@ module.exports = (env, argv) => ({
   mode: "development",
   entry: {
     background: "./src/background/main.ts",
-    followTokensPopover: "./src/teleport/followTokensPopover/main.ts",
   },
   devServer: {
     server: "https",
@@ -26,12 +25,6 @@ module.exports = (env, argv) => ({
       filename: `background.html`,
       favicon: "static/font-awesome/svgs/dungeon-solid.svg",
       chunks: ["background"],
-    }),
-    new HtmlWebpackPlugin({
-      title: meta.name,
-      filename: `followTokensPopover.html`,
-      favicon: "static/font-awesome/svgs/dungeon-solid.svg",
-      chunks: ["followTokensPopover"],
     }),
     new CopyPlugin({
       patterns: [

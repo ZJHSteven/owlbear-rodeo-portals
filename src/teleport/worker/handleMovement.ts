@@ -18,23 +18,25 @@ export default async function handleMovement(obr: Obr, movedItems: Item[]) {
     return;
   }
 
-  const teleports = await findTeleports(obr, movedCharacters);
-  const ids = Object.keys(teleports);
+  const tokenTeleports = await findTeleports(obr, movedCharacters);
+  const ids = Object.keys(tokenTeleports);
   if (ids.length === 0) {
     return;
   }
 
+  const userTeleports: Record<string, Vector2> = {};
   await obr.scene.items.updateItems(
-    (item) => item.id in teleports,
+    (item) => item.id in tokenTeleports,
     (items) => {
       for (let item of items) {
         item.metadata[JUST_TELEPORTED_METADATA_ID] = true;
-        item.position = teleports[item.id];
+        item.position = tokenTeleports[item.id];
+        userTeleports[item.lastModifiedUserId] = tokenTeleports[item.id];
       }
     },
   );
 
-  await obr.broadcast.sendMessage(TELEPORT_CHANNEL_ID, teleports, {
+  await obr.broadcast.sendMessage(TELEPORT_CHANNEL_ID, userTeleports, {
     destination: "ALL",
   });
 }

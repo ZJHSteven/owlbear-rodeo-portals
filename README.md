@@ -82,8 +82,6 @@ Work-around for Chrome-based browsers:
 #### Prioritized
 
 - fix: sometimes the teleport worker does not ... work
-- feat: less annoying/obtrusive way to move viewport to teleported tokens
-- refactor: use lastModifiedUserId instead of selection based work-around
 
 #### To be prioritized
 

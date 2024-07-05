@@ -1,6 +1,5 @@
 import { Obr } from "../../obr/types";
 import { TELEPORT_CHANNEL_ID } from "../worker/handleMovement";
-import { open } from "./popover";
 import followTokens from "./followTokens";
 import { Vector2 } from "@owlbear-rodeo/sdk";
 

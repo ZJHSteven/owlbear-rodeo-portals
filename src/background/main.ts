@@ -8,7 +8,7 @@ import {
 } from "../teleport/worker/coordination";
 import sceneIsReady from "../obr/scene/sceneIsReady";
 import { applyLinkIndicatorVisibility } from "../crud/read/link/updateLinkIndicatorsVisibility";
-import addFollowTokensCallbacks from "../teleport/followTokensPopover/addFollowTokensCallbacks";
+import addFollowTokensCallbacks from "../teleport/followTokens/addFollowTokensCallbacks";
 
 (async function main() {
   const obr = await obrIsReady();

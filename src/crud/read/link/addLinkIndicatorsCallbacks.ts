@@ -4,7 +4,6 @@ import updateLinkIndicatorsVisibility, {
   applyLinkIndicatorVisibility,
 } from "./updateLinkIndicatorsVisibility";
 import updateLinkIndicatorsTheme from "./updateLinkIndicatorsTheme";
-import onItemsMove from "../../../obr/scene/items/onItemsMove";
 
 export default async function addLinkIndicatorsCallbacks(obr: Obr) {
   onLinkVisibilityChange((linkVisibility) =>
