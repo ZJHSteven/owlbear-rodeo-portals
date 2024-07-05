@@ -36,7 +36,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "build": "webpack --mode production && ts-node scripts/store-page-to-html.ts < public/store/index.md > public/store/index.html",
     "start": "webpack serve"
   },
