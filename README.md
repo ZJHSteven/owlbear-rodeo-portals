@@ -83,9 +83,7 @@ Work-around for Chrome-based browsers:
 
 - fix: sometimes the teleport worker does not ... work
 - feat: less annoying/obtrusive way to move viewport to teleported tokens
-- fix: update indicators after creating links
-- fix: update indicators after deleting links
-- fix: update indicators after moving start/end
+- refactor: use lastModifiedUserId instead of selection based work-around
 
 #### To be prioritized
 
