@@ -26,8 +26,8 @@ For features and usage, please go to the [store page](https://resident-uhlig.git
 
 If there are any issues with the extension, join the [Owlbear Rodeo Discord], create a new post and mention `@resident_uhlig` in the [#extension-support] channel.
 
-[Owlbear Rodeo Discord]: <https://discord.gg/UY8AXjhzhe>
-[#extension-support]: <https://discord.com/channels/795808973743194152/1108276291960045578>
+[Owlbear Rodeo Discord]: https://discord.gg/UY8AXjhzhe
+[#extension-support]: https://discord.com/channels/795808973743194152/1108276291960045578
 
 ## Dependencies
 
@@ -81,17 +81,18 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
+- fix: sometimes the teleport worker does not ... work
+- feat: less annoying/obtrusive way to move viewport to teleported tokens
+- fix: update indicators after creating links
+- fix: update indicators after deleting links
+- fix: update indicators after moving start/end
 
 #### To be prioritized
 
+- fix: delete destination id from metadata when destination is deleted
 - fix: position and bounding box for items that lie (because of rotation)
 - feat: context menu to start a one-way link
 - feat: context menu to start a two-way link
-- fix: show indicators for new links if indicators are enabled
-- refactor: code duplication in add one-way and two-way modes
-- fix: update start/end of indicators for current links when origin/destination move
-- fix: update color of indicators for current links when theme changes
-- fix: update color of indicator for new link when theme changes
 - feat: change link origin
 - feat: change link destination
 - feat: change link directions
@@ -107,6 +108,7 @@ Work-around for Chrome-based browsers:
 - feat: option to select valid token layers for teleportation
 - feat: detect portal collision for the whole movement not only the new position of the moved tokens
 - feat: getText() for RichText TextContent
+- feat: spread tokens when multiple are teleported to the same spot
 
 ### Update dependencies
 

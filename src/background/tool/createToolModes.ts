@@ -1,6 +1,12 @@
 import { Obr } from "../../obr/types";
 import { TOOL_ID } from "./createTool";
 import createIconUrl from "../../fontAwesome/createIconUrl";
+import {
+  Direction,
+  reset,
+  setTarget,
+  updateIndicator,
+} from "../../crud/create/create";
 
 export default async function createToolModes(obr: Obr) {
   await Promise.all([
@@ -14,10 +20,20 @@ export default async function createToolModes(obr: Obr) {
         },
       ],
       cursors: [{ cursor: "crosshair" }],
-      onToolClick(context, event) {},
-      onToolMove(context, event) {},
-      onKeyDown(context, event) {},
-      onDeactivate() {},
+      async onToolClick(context, event) {
+        await handleSetTarget(setTarget(obr, event.target));
+      },
+      async onToolMove(context, event) {
+        await updateIndicator(obr, event.pointerPosition);
+      },
+      async onKeyDown(context, event) {
+        if (event.key === "Escape") {
+          await reset(obr);
+        }
+      },
+      async onDeactivate() {
+        await reset(obr);
+      },
     }),
 
     obr.tool.createMode({
@@ -30,10 +46,32 @@ export default async function createToolModes(obr: Obr) {
         },
       ],
       cursors: [{ cursor: "crosshair" }],
-      onToolClick(context, event) {},
-      onToolMove(context, event) {},
-      onKeyDown(context, event) {},
-      onDeactivate() {},
+      async onToolClick(context, event) {
+        await handleSetTarget(setTarget(obr, event.target, Direction.TWO_WAY));
+      },
+      async onToolMove(context, event) {
+        await updateIndicator(obr, event.pointerPosition, Direction.TWO_WAY);
+      },
+      async onKeyDown(context, event) {
+        if (event.key === "Escape") {
+          await reset(obr);
+        }
+      },
+      async onDeactivate() {
+        await reset(obr);
+      },
     }),
   ]);
+
+  async function handleSetTarget(promise: Promise<boolean | void>) {
+    return promise
+      .then((done) => {
+        if (done) {
+          obr.notification.show("Link has been created.", "SUCCESS");
+        }
+      })
+      .catch((error) => {
+        obr.notification.show(error, "WARNING");
+      });
+  }
 }

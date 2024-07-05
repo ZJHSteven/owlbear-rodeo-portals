@@ -6,7 +6,7 @@ if (location.hostname === "localhost") {
 }
 
 export default async function obrIsReady(): Promise<Obr> {
-  if (OBR.isAvailable) {
+  if (!OBR.isAvailable) {
     return Promise.reject("OBR is not available");
   }
 

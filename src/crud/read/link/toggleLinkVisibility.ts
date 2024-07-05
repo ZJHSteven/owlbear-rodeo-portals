@@ -4,7 +4,8 @@ import { TOOL_ID } from "../../../background/tool/createTool";
 
 export const LINK_VISIBILITY_METADATA_ID = "links-visible";
 
-const EVENT_TARGET = new EventTarget();
+type Callback = (linkVisibility: boolean) => void;
+const listeners: Callback[] = [];
 
 export default async function toggleLinkVisibility(
   obr: Obr,
@@ -15,13 +16,13 @@ export default async function toggleLinkVisibility(
     [LINK_VISIBILITY_METADATA_ID]: linkVisibility,
   });
 
-  EVENT_TARGET.dispatchEvent(
-    new CustomEvent("change", {
-      detail: linkVisibility,
-    }),
-  );
+  dispatch(linkVisibility);
 }
 
-export function onLinkVisibilityChange(callback) {
-  return EVENT_TARGET.addEventListener("change", callback);
+export function onLinkVisibilityChange(callback: Callback) {
+  listeners.push(callback);
+}
+
+function dispatch(linkVisibility: boolean) {
+  listeners.forEach((listener) => listener(linkVisibility));
 }

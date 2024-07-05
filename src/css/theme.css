@@ -93,8 +93,8 @@ button.center-viewport:before {
   height: 1.3rem;
   width: 1.3rem;
   background-color: var(--theme-primary-main);
-  mask: url("../static/font-awesome/svgs/users-viewfinder-solid.svg") no-repeat
-    center;
+  mask: url("../../static/font-awesome/svgs/users-viewfinder-solid.svg")
+    no-repeat center;
 }
 
 button.center-viewport:hover:before {

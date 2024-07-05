@@ -8,7 +8,7 @@ module.exports = (env, argv) => ({
   mode: "development",
   entry: {
     background: "./src/background/main.ts",
-    followTokensPopover: "./src/popover/followTokens/main.ts",
+    followTokensPopover: "./src/teleport/followTokensPopover/main.ts",
   },
   devServer: {
     server: "https",

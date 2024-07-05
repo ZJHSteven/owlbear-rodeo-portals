@@ -1,16 +1,18 @@
 import { Obr } from "../../../obr/types";
 import { Curve, Item, Theme, Vector2 } from "@owlbear-rodeo/sdk";
-import setIndicatorPosition, {
-  Heads,
-} from "../../../ui/canvas/indicator/setIndicatorPosition";
+import setIndicatorPosition from "../../../ui/canvas/indicator/setIndicatorPosition";
 import createIndicator, {
-  INDICATOR_METADATA_ID,
+  INDICATOR_ORIGIN_ID_METADATA_ID,
 } from "../../../ui/canvas/indicator/createIndicator";
+import { findOrigins } from "../origin/findOrigins";
+import { findDestination } from "../destination/findDestination";
+import { TOOL_ID } from "../../../background/tool/createTool";
+import { LINK_VISIBILITY_METADATA_ID } from "./toggleLinkVisibility";
 
 type Portal = {
+  originId: string;
   start: Vector2;
   end: Vector2;
-  heads: Heads;
 };
 
 type Updates = Record<string, Portal>;
@@ -26,9 +28,9 @@ export default async function updateLinkIndicatorsVisibility(
   linkVisibility: boolean,
 ) {
   const theme = await obr.theme.getTheme();
-  const diff = linkVisibility
+  const diff: Diff = linkVisibility
     ? await findDiff(obr)
-    : { added: [], updated: [], deleted: await findIndicatorIds(obr) };
+    : { added: [], updated: {}, deleted: await findIndicatorIds(obr) };
 
   await Promise.all([
     addIndicators(obr, theme, diff.added),
@@ -38,23 +40,56 @@ export default async function updateLinkIndicatorsVisibility(
 }
 
 async function findDiff(obr: Obr): Promise<Diff> {
-  /*
-    const origins = await findOrigins(obr);
-    const destinations: Record<string, Vector2> = {};
-    const indicators = await Promise.all(origins.map(async (portal) => {
-      const destination = await getDestination(obr, portal, destinations);
-    }));
+  const [origins, indicators] = await Promise.all([
+    findOrigins(obr),
+    findIndicators(obr),
+  ]);
 
-   */
+  const added: Portal[] = [];
+  const updated: Updates = {};
+  const destinations: Record<string, Vector2> = {};
+
+  for (let origin of origins) {
+    const destination = await findDestination(obr, origin, destinations);
+    if (destination === undefined) {
+      console.error("unknown destination");
+      continue;
+    }
+
+    const portal = {
+      originId: origin.id,
+      start: origin.position,
+      end: destination,
+    };
+
+    const indicator = indicators.find(
+      ({ metadata }) => metadata[INDICATOR_ORIGIN_ID_METADATA_ID] === origin.id,
+    );
+    if (indicator === undefined) {
+      added.push(portal);
+    } else {
+      updated[indicator.id] = portal;
+    }
+  }
+
+  const deleted = indicators
+    .filter(({ id }) => !(id in updated))
+    .map(({ id }) => id);
+
+  return { added, updated, deleted };
 }
 
 async function findIndicatorIds(obr: Obr): Promise<string[]> {
-  const items = await obr.scene.local.getItems(isIndicator);
-  return items.map(({ id }) => id);
+  const indicators = await findIndicators(obr);
+  return Promise.resolve(indicators.map(({ id }) => id));
 }
 
-export function isIndicator({ metadata }: Item) {
-  return !!metadata[INDICATOR_METADATA_ID];
+async function findIndicators(obr: Obr): Promise<Item[]> {
+  return obr.scene.local.getItems(isIndicator);
+}
+
+export function isIndicator({ metadata }: Item): boolean {
+  return metadata[INDICATOR_ORIGIN_ID_METADATA_ID] !== undefined;
 }
 
 async function addIndicators(obr: Obr, theme: Theme, portals: Portal[]) {
@@ -65,10 +100,9 @@ async function addIndicators(obr: Obr, theme: Theme, portals: Portal[]) {
   await obr.scene.local.addItems(
     portals.map((portal) =>
       setIndicatorPosition(
-        createIndicator(theme),
+        createIndicator(theme, portal.originId),
         portal.start,
         portal.end,
-        portal.heads,
       ),
     ),
   );
@@ -82,8 +116,8 @@ async function updateIndicators(obr: Obr, updates: Updates) {
 
   await obr.scene.local.updateItems<Curve>(keys, (indicators) => {
     for (let indicator of indicators) {
-      const { start, end, heads } = updates[indicator.id];
-      setIndicatorPosition(indicator, start, end, heads);
+      const { start, end } = updates[indicator.id];
+      setIndicatorPosition(indicator, start, end);
     }
   });
 }
@@ -94,4 +128,16 @@ async function deleteIndicators(obr: Obr, ids: string[]) {
   }
 
   await obr.scene.local.deleteItems(ids);
+}
+
+export async function applyLinkIndicatorVisibility(obr: Obr) {
+  const metadata = await obr.tool.getMetadata(TOOL_ID);
+  if (metadata === undefined) {
+    return;
+  }
+
+  await updateLinkIndicatorsVisibility(
+    obr,
+    metadata[LINK_VISIBILITY_METADATA_ID] as boolean,
+  );
 }

@@ -1,9 +1,9 @@
 import { buildCurve, Curve, Theme } from "@owlbear-rodeo/sdk";
 import { EXTENSION_ID } from "../../../constants";
 
-export const INDICATOR_METADATA_ID = `${EXTENSION_ID}/indicator`;
+export const INDICATOR_ORIGIN_ID_METADATA_ID = `${EXTENSION_ID}/indicator/origin-id`;
 
-export default function createIndicator(theme: Theme): Curve {
+export default function createIndicator(theme: Theme, originId: string): Curve {
   return buildCurve()
     .layer("POPOVER")
     .disableHit(true)
@@ -13,7 +13,7 @@ export default function createIndicator(theme: Theme): Curve {
     .position({ x: 0, y: 0 })
     .closed(false)
     .tension(0)
-    .metadata({ [INDICATOR_METADATA_ID]: true })
+    .metadata({ [INDICATOR_ORIGIN_ID_METADATA_ID]: originId })
     .build();
 }
 
