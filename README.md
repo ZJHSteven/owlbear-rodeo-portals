@@ -108,7 +108,8 @@ Work-around for Chrome-based browsers:
 - feat: option to select valid token layers for teleportation
 - feat: detect portal collision for the whole movement not only the new position of the moved tokens
 - feat: getText() for RichText TextContent
-- feat: spread tokens when multiple are teleported to the same spot
+- feat: spread tokens when multiple tokens are teleported to the same destination
+- feat: keep relative position when multiple are teleported to the same destination
 
 ### Update dependencies
 
