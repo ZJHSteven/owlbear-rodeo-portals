@@ -4,6 +4,6 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "strict": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   }
 }

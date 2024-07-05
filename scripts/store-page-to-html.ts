@@ -1,7 +1,7 @@
-import {marked, Tokens} from "marked";
-import {gfmHeadingId} from "marked-gfm-heading-id";
+import { marked, Tokens } from "marked";
+import { gfmHeadingId } from "marked-gfm-heading-id";
 import * as fs from "node:fs";
-import {parse} from 'yaml'
+import { parse } from "yaml";
 import * as meta from "../package.json";
 
 marked.use(gfmHeadingId());
@@ -25,14 +25,14 @@ function parseFrontMatter(input: string): [FrontMatter, string] {
 }
 
 type FrontMatter = {
-  title: string,
-  description: string,
-  author: string,
-  image: string,
-  icon: string,
-  tags: string[],
-  manifest: string,
-  "learn-more": string,
+  title: string;
+  description: string;
+  author: string;
+  image: string;
+  icon: string;
+  tags: string[];
+  manifest: string;
+  "learn-more": string;
 };
 
 let frontMatter: FrontMatter;
@@ -59,7 +59,7 @@ const renderer = {
     }
 
     return `<a href="${link.href}" target="${target}">${link.text}</a>`;
-  }
+  },
 };
 
 marked.use({
@@ -80,17 +80,17 @@ marked.use({
     <body>
 ${html}
     </body>
-</html>`.replaceAll(meta.config.GITLAB_PAGES, "../")
-    }
+</html>`.replaceAll(meta.config.GITLAB_PAGES, "../");
+    },
   },
   useNewRenderer: true,
   renderer,
-})
+});
 
-const input = fs.readFileSync(0, 'utf-8');
+const input = fs.readFileSync(0, "utf-8");
 const html = marked.parse(input);
 if (typeof html !== "string") {
-  throw "output can only handle string"
+  throw "output can only handle string";
 }
 
 fs.writeFileSync(1, html);

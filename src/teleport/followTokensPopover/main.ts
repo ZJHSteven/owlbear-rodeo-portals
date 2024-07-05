@@ -1,5 +1,5 @@
-import {Theme} from "@owlbear-rodeo/sdk";
-import {EXTENSION_ID} from "./constants";
+import { Theme } from "@owlbear-rodeo/sdk";
+import { EXTENSION_ID } from "./constants";
 import "./theme.css";
 import updateView from "./followTokensPopover/updateView";
 import sceneIsReady from "./obr/scene/sceneIsReady";
@@ -33,4 +33,4 @@ const scene = await sceneIsReady(obr);
 
 const metadata = await scene.getMetadata();
 await updateView(obr, metadata);
-scene.onMetadataChange(metadata => updateView(obr, metadata));
+scene.onMetadataChange((metadata) => updateView(obr, metadata));

@@ -1,9 +1,9 @@
-import {Obr} from "../../../obr/types";
-import {TOOL_ID} from "../../../background/tool/createTool";
+import { Obr } from "../../../obr/types";
+import { TOOL_ID } from "../../../background/tool/createTool";
 import createIconUrl from "../../../css/createIconUrl";
 
 export default async function createAddTwoWayTeleportMode(obr: Obr) {
-  return ;
+  return;
 }
 
 /*

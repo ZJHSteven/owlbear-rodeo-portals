@@ -1,8 +1,7 @@
 import obrIsReady from "../obr/obrIsReady";
 import createTool from "./tool/createTool";
 import createContextMenu from "./contextMenu/createContextMenu";
-import addLinkIndicatorsCallbacks
-  from "../crud/read/link/addLinkIndicatorsCallbacks";
+import addLinkIndicatorsCallbacks from "../crud/read/link/addLinkIndicatorsCallbacks";
 
 (async function main() {
   const obr = await obrIsReady();
@@ -12,5 +11,5 @@ import addLinkIndicatorsCallbacks
     createContextMenu(obr),
 
     addLinkIndicatorsCallbacks(obr),
-  ])
+  ]);
 })();

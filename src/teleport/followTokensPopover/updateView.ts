@@ -1,13 +1,15 @@
-import {Metadata} from "@owlbear-rodeo/sdk";
+import { Metadata } from "@owlbear-rodeo/sdk";
 import getText from "../obr/scene/items/getText";
 import {
   FOLLOW_TOKENS_POPOVER_ID,
-  LATEST_TELEPORT_IDS_METADATA_ID
+  LATEST_TELEPORT_IDS_METADATA_ID,
 } from "../followTokensPopover";
-import {Obr} from "../obr/types";
+import { Obr } from "../obr/types";
 
 export default async function updateView(obr: Obr, metadata: Metadata) {
-  const ids: string[] | undefined = metadata[LATEST_TELEPORT_IDS_METADATA_ID] as string[];
+  const ids: string[] | undefined = metadata[
+    LATEST_TELEPORT_IDS_METADATA_ID
+  ] as string[];
   if (ids === undefined || ids.length === 0) {
     return obr.popover.close(FOLLOW_TOKENS_POPOVER_ID);
   }
@@ -18,15 +20,15 @@ export default async function updateView(obr: Obr, metadata: Metadata) {
   }
 
   document.body.innerHTML = "";
-  document.body.append("The following tokens have been teleported:")
+  document.body.append("The following tokens have been teleported:");
 
   const ul = document.createElement("ul");
   ul.classList.add("flat");
-  items.forEach(item => {
-    const li = document.createElement('li');
+  items.forEach((item) => {
+    const li = document.createElement("li");
 
     const button = document.createElement("button");
-    button.classList.add("center-viewport")
+    button.classList.add("center-viewport");
     button.append("Center viewport on ", getText(item));
     button.addEventListener("click", async () => {
       const scale = await obr.viewport.getScale();
@@ -43,7 +45,7 @@ export default async function updateView(obr: Obr, metadata: Metadata) {
 
     li.append(button);
     ul.append(li);
-  })
+  });
 
   document.body.append(ul);
 

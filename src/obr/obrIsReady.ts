@@ -1,5 +1,5 @@
 import OBR from "@owlbear-rodeo/sdk";
-import {Obr} from "./types";
+import { Obr } from "./types";
 
 if (location.hostname === "localhost") {
   (window as any).OBR = OBR;
@@ -7,7 +7,7 @@ if (location.hostname === "localhost") {
 
 export default async function obrIsReady(): Promise<Obr> {
   if (OBR.isAvailable) {
-    return Promise.reject('OBR is not available');
+    return Promise.reject("OBR is not available");
   }
 
   if (OBR.isReady) {
@@ -16,5 +16,5 @@ export default async function obrIsReady(): Promise<Obr> {
 
   return new Promise<Obr>((resolve) => {
     OBR.onReady(() => resolve(OBR));
-  })
-};
+  });
+}

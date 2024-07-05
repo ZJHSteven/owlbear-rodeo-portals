@@ -47,8 +47,8 @@ All settings are stored as [metadata] of either tool or token.
 
 #### Create one-way portals
 
-1. Activate the *Portals* tool.
-2. Activate the *Add One-Way Teleport* mode.
+1. Activate the _Portals_ tool.
+2. Activate the _Add One-Way Teleport_ mode.
 3. Click on the token that should be the origin.
 4. Click on the token that should be the destination.
 5. A notification is shown, that the link has been created.
@@ -57,8 +57,8 @@ All settings are stored as [metadata] of either tool or token.
 
 #### Create two-way portals
 
-1. Activate the *Portals* tool.
-2. Activate the *Add Two-Way Teleport* mode.
+1. Activate the _Portals_ tool.
+2. Activate the _Add Two-Way Teleport_ mode.
 3. Click on the token that should be one side of the portal.
 4. Click on the token that should be the other side of the portal.
 5. A notification is shown, that the link has been created.
@@ -66,7 +66,7 @@ All settings are stored as [metadata] of either tool or token.
 ### Delete portals
 
 1. Right-click on an origin token.
-2. Click the *Remove Destination* context menu.
+2. Click the _Remove Destination_ context menu.
 3. The link is removed (without notification.)
 
 ![Animation: The destination is removed from a portal token.]($GITLAB_PAGES$store/delete-portal-link.gif)
@@ -75,10 +75,10 @@ All settings are stored as [metadata] of either tool or token.
 
 The links are only shown for yourself and not for any other player or GM.
 
-1. Activate the *Portals* tool.
-2. Click the *Show Links* action.
+1. Activate the _Portals_ tool.
+2. Click the _Show Links_ action.
 3. The existing links.
-4. Click the *Hide Links* action.
+4. Click the _Hide Links_ action.
 5. The existing links.
 
 ![Animation: The display of portal links is activated and deactivated.]($GITLAB_PAGES$store/show-portal-links.gif)

@@ -1,8 +1,8 @@
-import {Obr} from "../../obr/types";
-import {TOOL_ID} from "./createTool";
+import { Obr } from "../../obr/types";
+import { TOOL_ID } from "./createTool";
 import createIconUrl from "../../fontAwesome/createIconUrl";
 import toggleLinkVisibility, {
-  LINK_VISIBILITY_METADATA_ID
+  LINK_VISIBILITY_METADATA_ID,
 } from "../../crud/read/link/toggleLinkVisibility";
 
 export default async function createToolActions(obr: Obr) {
@@ -19,9 +19,9 @@ export default async function createToolActions(obr: Obr) {
             {
               key: LINK_VISIBILITY_METADATA_ID,
               value: false,
-            }
-          ]
-        }
+            },
+          ],
+        },
       },
       {
         icon: createIconUrl("eye-regular.svg"),
@@ -32,14 +32,14 @@ export default async function createToolActions(obr: Obr) {
           metadata: [
             {
               key: LINK_VISIBILITY_METADATA_ID,
-              value: true
-            }
-          ]
-        }
+              value: true,
+            },
+          ],
+        },
       },
     ],
     async onClick(context) {
       await toggleLinkVisibility(obr, context.metadata);
-    }
-  })
+    },
+  });
 }

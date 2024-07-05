@@ -1,4 +1,4 @@
-import {Image, isImage, Item, TextContent} from "@owlbear-rodeo/sdk";
+import { Image, isImage, Item, TextContent } from "@owlbear-rodeo/sdk";
 
 export default function getText(item: Item): string {
   if (isImage(item)) {
