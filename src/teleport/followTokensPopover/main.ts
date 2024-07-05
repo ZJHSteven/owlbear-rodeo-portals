@@ -2,11 +2,8 @@ import obrIsReady from "../../obr/obrIsReady";
 import addThemeCallbacks from "../../css/addThemeCallbacks";
 import applyTheme from "../../css/applyTheme";
 import addResizeCallbacks from "./addResizeCallbacks";
-import addTeleportIdsCallbacks from "./addTeleportIdsCallbacks";
 import sceneIsReady from "../../obr/scene/sceneIsReady";
 import updateView from "./updateView";
-import { LATEST_TELEPORT_IDS_METADATA_ID } from "../worker/handleMovement";
-import { Obr } from "../../obr/types";
 
 (async function main() {
   const obr = await obrIsReady();
@@ -15,15 +12,15 @@ import { Obr } from "../../obr/types";
   applyTheme(await obr.theme.getTheme());
   addResizeCallbacks(obr);
 
-  await Promise.all([
-    addThemeCallbacks(obr),
-    addTeleportIdsCallbacks(obr),
-
-    updateView(obr, await getLatestTeleportIds(obr)),
-  ]);
+  await Promise.all([addThemeCallbacks(obr), updateView(obr, getIds())]);
 })();
 
-async function getLatestTeleportIds(obr: Obr): Promise<string[]> {
-  const metadata = await obr.scene.getMetadata();
-  return metadata[LATEST_TELEPORT_IDS_METADATA_ID] as string[];
+function getIds(): string[] {
+  const params = new URLSearchParams(location.search);
+  const ids = params.get("ids");
+  if (ids === null) {
+    return [];
+  }
+
+  return ids.split(",");
 }

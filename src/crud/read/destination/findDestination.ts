@@ -9,7 +9,7 @@ export async function findDestination(
   destinations: Record<string, Vector2>,
 ): Promise<Vector2 | undefined> {
   if (destinations[origin.id]) {
-    return Promise.resolve(destinations[origin.id]);
+    return destinations[origin.id];
   }
 
   const item = optionalOne<Item>(
@@ -19,8 +19,8 @@ export async function findDestination(
   );
 
   if (item === undefined) {
-    return Promise.resolve(undefined);
+    return undefined;
   }
 
-  return Promise.resolve((destinations[origin.id] = item.position));
+  return (destinations[origin.id] = item.position);
 }

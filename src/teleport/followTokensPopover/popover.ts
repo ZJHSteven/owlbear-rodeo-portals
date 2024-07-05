@@ -40,10 +40,10 @@ export function render(parent: Element, { items, onGoto, onIgnore }: Props) {
 
 const FOLLOW_TOKENS_POPOVER_ID = `${EXTENSION_ID}/popover/follow-tokens`;
 
-export async function open(obr: Obr) {
+export async function open(obr: Obr, ids: string[]) {
   await obr.popover.open({
     id: FOLLOW_TOKENS_POPOVER_ID,
-    url: createUrl("followTokensPopover.html"),
+    url: createUrl("followTokensPopover.html?ids=" + ids.join(",")),
     width: 320,
     height: 240,
   });

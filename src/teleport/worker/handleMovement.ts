@@ -7,7 +7,6 @@ import { not } from "../../stream/predicate";
 
 export const JUST_TELEPORTED_METADATA_ID = `${EXTENSION_ID}/just-teleported`;
 export const TELEPORT_CHANNEL_ID = `${EXTENSION_ID}/channel/teleport`;
-export const LATEST_TELEPORT_IDS_METADATA_ID = `${EXTENSION_ID}/latest-teleport-ids`;
 
 export default async function handleMovement(obr: Obr, movedItems: Item[]) {
   const movedCharacters = movedItems
@@ -30,18 +29,14 @@ export default async function handleMovement(obr: Obr, movedItems: Item[]) {
     (items) => {
       for (let item of items) {
         item.metadata[JUST_TELEPORTED_METADATA_ID] = true;
-        item.position.x += teleports[item.id].x;
-        item.position.y += teleports[item.id].y;
+        item.position = teleports[item.id];
       }
     },
   );
 
-  await obr.scene.setMetadata({ [LATEST_TELEPORT_IDS_METADATA_ID]: ids });
-  await obr.broadcast.sendMessage(
-    TELEPORT_CHANNEL_ID,
-    {},
-    { destination: "ALL" },
-  );
+  await obr.broadcast.sendMessage(TELEPORT_CHANNEL_ID, teleports, {
+    destination: "ALL",
+  });
 }
 
 function isCharacter({ layer }: Item): boolean {
@@ -79,10 +74,7 @@ async function findTeleports(obr: Obr, items: Item[]) {
           continue;
         }
 
-        teleports[item.id] = {
-          x: destination.x - item.position.x,
-          y: destination.y - item.position.y,
-        };
+        teleports[item.id] = destination;
       }
     }
   }
@@ -106,7 +98,7 @@ async function getBounds(
   bounds: Record<string, BoundingBox>,
 ): Promise<BoundingBox> {
   if (bounds[item.id]) {
-    return Promise.resolve(bounds[item.id]);
+    return bounds[item.id];
   }
 
   return (bounds[item.id] = await obr.scene.items.getItemBounds([item.id]));

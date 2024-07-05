@@ -81,7 +81,7 @@ async function findDiff(obr: Obr): Promise<Diff> {
 
 async function findIndicatorIds(obr: Obr): Promise<string[]> {
   const indicators = await findIndicators(obr);
-  return Promise.resolve(indicators.map(({ id }) => id));
+  return indicators.map(({ id }) => id);
 }
 
 async function findIndicators(obr: Obr): Promise<Item[]> {

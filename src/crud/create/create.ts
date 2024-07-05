@@ -81,7 +81,7 @@ function mapDirectionToArrowHeads(direction: Direction): Heads {
 
 async function finish(obr: Obr, direction: Direction, target?: Item) {
   if (target === undefined) {
-    return Promise.resolve(false);
+    return false;
   }
 
   if (originId === null) {
@@ -123,7 +123,7 @@ async function finish(obr: Obr, direction: Direction, target?: Item) {
     }
   });
 
-  return Promise.resolve(true);
+  return true;
 }
 
 async function getOrigin(obr: Obr) {

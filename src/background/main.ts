@@ -8,7 +8,7 @@ import {
 } from "../teleport/worker/coordination";
 import sceneIsReady from "../obr/scene/sceneIsReady";
 import { applyLinkIndicatorVisibility } from "../crud/read/link/updateLinkIndicatorsVisibility";
-import addFollowTokensPopoverCallbacks from "../teleport/followTokensPopover/addFollowTokensPopoverCallbacks";
+import addFollowTokensCallbacks from "../teleport/followTokensPopover/addFollowTokensCallbacks";
 
 (async function main() {
   const obr = await obrIsReady();
@@ -24,6 +24,6 @@ import addFollowTokensPopoverCallbacks from "../teleport/followTokensPopover/add
     addWorkerCoordinationCallbacks(obr),
     suggestWorker(obr),
 
-    addFollowTokensPopoverCallbacks(obr),
+    addFollowTokensCallbacks(obr),
   ]);
 })();

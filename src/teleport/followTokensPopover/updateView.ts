@@ -1,6 +1,7 @@
 import { Obr } from "../../obr/types";
 import { close, render } from "./popover";
 import { Item } from "@owlbear-rodeo/sdk";
+import gotoItem from "../../obr/viewport/gotoItem";
 
 export default async function updateView(obr: Obr, ids: string[]) {
   if (ids.length === 0) {
@@ -19,23 +20,11 @@ export default async function updateView(obr: Obr, ids: string[]) {
   render(document.body, {
     items,
     async onGoto(item: Item) {
-      await goto(obr, item);
+      await gotoItem(obr, item);
+      await close(obr);
     },
     async onIgnore() {
       await close(obr);
     },
   });
-}
-
-async function goto(obr: Obr, item: Item) {
-  const scale = await obr.viewport.getScale();
-  const width = await obr.viewport.getWidth();
-  const height = await obr.viewport.getHeight();
-
-  await obr.viewport.setPosition({
-    x: -item.position.x * scale + width / 2,
-    y: -item.position.y * scale + height / 2,
-  });
-
-  await close(obr);
 }
