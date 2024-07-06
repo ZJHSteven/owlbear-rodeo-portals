@@ -19,31 +19,39 @@ export default function Workers() {
   const connectionId = useConnectionId();
 
   return (
-    <HasRole requiredRole="GM">
-      <p>
-        Only one of the users (players and GM) handles the movement of tokens
-        and teleports them (called <em>worker</em>.) Below is a list of all
-        connections.
-      </p>
-      <p>
-        Click a toggle to pick a new worker. This setting automatically changes,
-        when a new connection is established.
-      </p>
+    <>
+      <HasRole requiredRole="PLAYER">
+        <blockquote>
+          <p>You have no power here.</p>
+        </blockquote>
+        <p>— King Théoden</p>
+      </HasRole>
+      <HasRole requiredRole="GM">
+        <p>
+          Only one of the users (players and GM) handles the movement of tokens
+          and teleports them (called <em>worker</em>.) Below is a list of all
+          connections.
+        </p>
+        <p>
+          Click a toggle to pick a new worker. This setting automatically
+          changes, when a new connection is established.
+        </p>
 
-      {renderList(obr, players, connectionId, workerId)}
+        {renderList(obr, players, connectionId, workerId)}
 
-      <Legend>
-        <dt>
-          <Role role="GM" />
-        </dt>
-        <dd>GM</dd>
+        <Legend>
+          <dt>
+            <Role role="GM" />
+          </dt>
+          <dd>GM</dd>
 
-        <dt>
-          <Role role="PLAYER" />
-        </dt>
-        <dd>Player</dd>
-      </Legend>
-    </HasRole>
+          <dt>
+            <Role role="PLAYER" />
+          </dt>
+          <dd>Player</dd>
+        </Legend>
+      </HasRole>
+    </>
   );
 }
 
