@@ -26,8 +26,11 @@ For features and usage, please go to the [store page](https://resident-uhlig.git
 
 If there are any issues with the extension, join the [Owlbear Rodeo Discord], create a new post and mention `@resident_uhlig` in the [#extension-support] channel.
 
+For general comments, please use the thread [Portals chat].
+
 [Owlbear Rodeo Discord]: https://discord.gg/UY8AXjhzhe
 [#extension-support]: https://discord.com/channels/795808973743194152/1108276291960045578
+[Portals chat]: https://discord.com/channels/795808973743194152/1257966858800332861
 
 ## Dependencies
 
