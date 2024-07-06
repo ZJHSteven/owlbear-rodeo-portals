@@ -21,6 +21,7 @@ You can use the portals as traps, regular portals or teleportation circles.
 ## Features
 
 - Create one-way portals (from origin to destination)
+- Create two-way portals (both ends are origin and destination)
 - Teleport character token when moving center of character token into bounding box of origin token
 
 ## Installation
