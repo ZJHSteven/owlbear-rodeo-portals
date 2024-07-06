@@ -28,9 +28,11 @@ export default async function updateLinkIndicatorsVisibility(
   linkVisibility: boolean,
 ) {
   const theme = await obr.theme.getTheme();
-  const diff: Diff = linkVisibility
-    ? await findDiff(obr)
-    : { added: [], updated: {}, deleted: await findIndicatorIds(obr) };
+  const role = await obr.player.getRole();
+  const diff: Diff =
+    linkVisibility && role === "GM"
+      ? await findDiff(obr)
+      : { added: [], updated: {}, deleted: await findIndicatorIds(obr) };
 
   await Promise.all([
     addIndicators(obr, theme, diff.added),
