@@ -23,6 +23,12 @@ You can use the portals as traps, regular portals or teleportation circles.
 - Create one-way portals (from origin to destination)
 - Teleport character token when moving center of character token into bounding box of origin token
 
+## Installation
+
+[Install Your Extension] using the URL <https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/manifest.json>.
+
+[Install Your Extension]: https://docs.owlbear.rodeo/extensions/tutorial-hello-world/install-your-extension/
+
 ## Usage
 
 ### Permissions
@@ -91,3 +97,13 @@ The links are only shown for yourself and not for any other player or GM.
 4. The viewport of the player (all connections) that moved the token is centered on that token.
 
 ![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)
+
+## Support
+
+If there are any issues with the extension, join the [Owlbear Rodeo Discord], create a new post and mention `@resident_uhlig` in the [#extension-support] channel.
+
+For general comments, please use the thread [Portals chat].
+
+[Owlbear Rodeo Discord]: https://discord.gg/UY8AXjhzhe
+[#extension-support]: https://discord.com/channels/795808973743194152/1108276291960045578
+[Portals chat]: https://discord.com/channels/795808973743194152/1257966858800332861

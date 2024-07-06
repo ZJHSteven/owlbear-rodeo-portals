@@ -12,25 +12,9 @@ You can use the portals as traps, regular portals or teleportation circles.
 
 ![Animation: A character token is teleported after entering a portal.](static/store/enter-portal.gif)
 
-## Installation
+## Installation, Features, Usage, Support
 
-[Install Your Extension] using the URL <https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/manifest.json>.
-
-[Install Your Extension]: https://docs.owlbear.rodeo/extensions/tutorial-hello-world/install-your-extension/
-
-## Features and Usage
-
-For features and usage, please go to the [store page](https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/store/index.html).
-
-## Support
-
-If there are any issues with the extension, join the [Owlbear Rodeo Discord], create a new post and mention `@resident_uhlig` in the [#extension-support] channel.
-
-For general comments, please use the thread [Portals chat].
-
-[Owlbear Rodeo Discord]: https://discord.gg/UY8AXjhzhe
-[#extension-support]: https://discord.com/channels/795808973743194152/1108276291960045578
-[Portals chat]: https://discord.com/channels/795808973743194152/1257966858800332861
+Please go to the [store page](https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/store/index.html) for details.
 
 ## Dependencies
 
