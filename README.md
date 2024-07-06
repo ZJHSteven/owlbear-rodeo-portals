@@ -50,6 +50,8 @@ wait for my response before you start any actual coding.
 1. `npm start` in the repository root.
 2. [Install Your Extension] using URL <https://localhost:8080/owlbear-rodeo-portals/manifest.json>.
 
+[Install Your Extension]: https://docs.owlbear.rodeo/extensions/tutorial-hello-world/install-your-extension/
+
 If this does not work, then it is most likely because of issues with the
 self-signed certificate for localhost. Check your browser's JavaScript console.
 
