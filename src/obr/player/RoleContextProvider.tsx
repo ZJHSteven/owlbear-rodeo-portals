@@ -15,9 +15,6 @@ export default function RoleContextProvider({ children }: PropsWithChildren) {
     DEFAULT_ROLE,
   );
 
-  const a = onPlayerPropertyChange(obr, "role", (a) => {});
-  const b = obr.player.getRole();
-
   return (
     <roleContext.Provider value={currentRole}>{children}</roleContext.Provider>
   );
