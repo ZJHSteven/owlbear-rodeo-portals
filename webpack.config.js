@@ -4,81 +4,111 @@ const CopyPlugin = require("copy-webpack-plugin");
 const meta = require("./package.json");
 const CaseSensitivePathsPlugin = require("@umijs/case-sensitive-paths-webpack-plugin");
 
-module.exports = (env, argv) => ({
-  mode: "development",
-  entry: {
-    background: "./src/background/main.ts",
-  },
-  devServer: {
-    server: "https",
-    devMiddleware: {
-      publicPath: "/owlbear-rodeo-portals",
+module.exports = (env, argv) => {
+  const isProduction = argv.mode === "production";
+  return {
+    mode: "development",
+    entry: {
+      background: "./src/background/main.ts",
+      action: "./src/action/main.tsx",
     },
-    headers: {
-      "Access-Control-Allow-Origin": "*",
+    devtool: isProduction ? "none" : "eval-cheap-source-map",
+    devServer: {
+      server: "https",
+      devMiddleware: {
+        publicPath: "/owlbear-rodeo-portals",
+      },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     },
-  },
-  plugins: [
-    new CaseSensitivePathsPlugin(),
-    new HtmlWebpackPlugin({
-      title: meta.name,
-      filename: `background.html`,
-      favicon: "static/font-awesome/svgs/dungeon-solid.svg",
-      chunks: ["background"],
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: "**/*",
-          context: "static/",
-          globOptions: {
-            ignore: ["**/*.{json,md}"],
+    plugins: [
+      new CaseSensitivePathsPlugin(),
+      new HtmlWebpackPlugin({
+        title: meta.name,
+        filename: `background.html`,
+        favicon: "static/font-awesome/svgs/dungeon-solid.svg",
+        chunks: ["background"],
+      }),
+      new HtmlWebpackPlugin({
+        title: meta.name,
+        filename: `action.html`,
+        favicon: "static/font-awesome/svgs/dungeon-solid.svg",
+        chunks: ["action"],
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: "**/*",
+            context: "static/",
+            globOptions: {
+              ignore: ["**/*.{json,md}"],
+            },
           },
+          {
+            from: "**/*.{json,md}",
+            context: "static/",
+            transform(content) {
+              let name = meta.name;
+              let version = meta.version;
+              if (!isProduction) {
+                name += " (Development)";
+                version += "-dev";
+              }
+
+              return content
+                .toString()
+                .replaceAll("$VERSION$", version)
+                .replaceAll("$BUILD_DATE_TIME$", new Date().toISOString())
+                .replaceAll("$NAME$", name)
+                .replaceAll("$DESCRIPTION$", meta.description)
+                .replaceAll("$AUTHOR$", meta.author.name)
+                .replaceAll("$HOMEPAGE$", meta.homepage)
+                .replaceAll("$GITLAB_PAGES$", meta.config.GITLAB_PAGES);
+            },
+          },
+        ],
+      }),
+    ],
+    output: {
+      filename: "[name].[contenthash].js",
+      path: path.resolve(__dirname, "public"),
+      clean: true,
+    },
+    resolve: {
+      extensions: [".tsx", ".ts", ".js"],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          use: [
+            "style-loader",
+            {
+              loader: "css-loader",
+              options: {
+                modules: "local",
+              },
+            },
+          ],
         },
         {
-          from: "**/*.{json,md}",
-          context: "static/",
-          transform(content) {
-            let name = meta.name;
-            let version = meta.version;
-            if (argv.mode !== "production") {
-              name += " (Development)";
-              version += "-dev";
-            }
-
-            return content
-              .toString()
-              .replaceAll("$VERSION$", version)
-              .replaceAll("$BUILD_DATE_TIME$", new Date().toISOString())
-              .replaceAll("$NAME$", name)
-              .replaceAll("$DESCRIPTION$", meta.description)
-              .replaceAll("$AUTHOR$", meta.author.name)
-              .replaceAll("$HOMEPAGE$", meta.homepage)
-              .replaceAll("$GITLAB_PAGES$", meta.config.GITLAB_PAGES);
+          test: /\.tsx?$/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                "@babel/preset-typescript",
+                // https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#manual-babel-setup
+                // runtime automatic becomes default in Babel 8
+                ["@babel/preset-react", { runtime: "automatic" }],
+              ],
+            },
           },
+          exclude: /node_modules/,
         },
       ],
-    }),
-  ],
-  output: {
-    filename: "[name].[contenthash].js",
-    path: path.resolve(__dirname, "public"),
-    clean: true,
-  },
-  resolve: {
-    extensions: [".tsx", ".ts", ".js"],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-      },
-    ],
-  },
-});
+    },
+  };
+};

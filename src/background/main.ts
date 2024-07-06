@@ -10,7 +10,7 @@ import sceneIsReady from "../obr/scene/sceneIsReady";
 import { applyLinkIndicatorVisibility } from "../crud/read/link/updateLinkIndicatorsVisibility";
 import addFollowTokensCallbacks from "../teleport/followTokens/addFollowTokensCallbacks";
 
-(async function main() {
+(async function background() {
   const obr = await obrIsReady();
   await sceneIsReady(obr);
 

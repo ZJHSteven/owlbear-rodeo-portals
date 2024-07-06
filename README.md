@@ -21,13 +21,18 @@ Please go to the [store page](https://resident-uhlig.gitlab.io/owlbear-rodeo-por
 At runtime, this extension depends on:
 
 - [Owlbear Rodeo SDK]
+- [React]
+- [Font Awesome]
 
-The rest is written in vanilla JavaScript.
+The rest is written in vanilla [TypeScript].
 
 However, there are some dependencies for developing purpose,
 that are managed using [npm] in [package.json](package.json).
 
 [Owlbear Rodeo SDK]: https://github.com/owlbear-rodeo/sdk
+[React]: https://reactjs.org/
+[Font Awesome]: https://fontawesome.com/
+[TypeScript]: https://www.typescriptlang.org/
 [npm]: https://www.npmjs.com/
 
 ## Development
@@ -93,7 +98,6 @@ Work-around for Chrome-based browsers:
 - feat: getText() for RichText TextContent
 - feat: spread tokens when multiple tokens are teleported to the same destination
 - feat: keep relative position when multiple are teleported to the same destination
-- feat: overview of all possible workers and the current worker
 - feat: overview of all origins to quickly navigate to them
 
 ### Update dependencies
@@ -144,3 +148,4 @@ to [.prettierrc](.prettierrc) while commiting changes.
 
 - [Font Awesome Free License](static/font-awesome/LICENSE.txt)
 - [Owlbear Rodeo SDK License](https://github.com/owlbear-rodeo/sdk/blob/main/LICENSE)
+- [React License](https://github.com/facebook/react/blob/main/LICENSE)

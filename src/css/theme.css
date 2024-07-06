@@ -1,0 +1,159 @@
+:root {
+  --theme-primary-main: #bb99ff;
+  --theme-primary-light: rgb(200, 173, 255);
+  --theme-primary-dark: rgb(130, 107, 178);
+  --theme-primary-contrast-text: rgba(0, 0, 0, 0.87);
+
+  --theme-secondary-main: #ee99ff;
+  --theme-secondary-light: rgb(241, 173, 255);
+  --theme-secondary-dark: rgb(166, 107, 178);
+  --theme-secondary-contrast-text: rgba(0, 0, 0, 0.87);
+
+  --theme-background-default: #1e2231;
+  --theme-background-paper: #222639;
+
+  --theme-text-primary: #fff;
+  --theme-text-secondary: rgba(255, 255, 255, 0.7);
+  --theme-text-disabled: rgba(255, 255, 255, 0.5);
+
+  --owlbear-popover-border-radius: 1rem;
+
+  --transition-time: 0.3s;
+
+  --padding: 0.5rem;
+  --gap: 0.5rem;
+
+  --border-width: 1px;
+  --border-radius: 0.5rem;
+}
+
+* {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  outline: none;
+  transition:
+    background-color var(--transition-time),
+    color var(--transition-time),
+    border-color var(--transition-time);
+}
+
+::-webkit-scrollbar {
+  width: var(--padding);
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  border-radius: var(--border-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--theme-text-secondary);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--theme-text-primary);
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: var(--theme-text-disabled);
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  color: var(--theme-text-primary);
+}
+
+body {
+  margin: 0;
+  padding: var(--padding)
+    calc(var(--padding) + var(--owlbear-popover-border-radius));
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  justify-content: space-between;
+}
+
+button {
+  background: var(--theme-background-default);
+  border: var(--border-width) solid var(--theme-primary-main);
+  border-radius: var(--border-radius);
+  color: var(--theme-primary-main);
+  padding: var(--padding);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+}
+
+button:hover {
+  background: var(--theme-background-paper);
+  color: var(--theme-primary-light);
+  border-color: var(--theme-primary-light);
+}
+
+label {
+  display: flex;
+  gap: var(--gap);
+  flex-direction: row;
+  align-items: center;
+  color: var(--theme-text-primary);
+}
+
+input[type="radio"] {
+  cursor: pointer;
+  appearance: none;
+  color: var(--theme-text-primary);
+  padding: var(--padding) 0;
+  margin: 0;
+  border-width: var(--border-width);
+  border-style: solid;
+  border-color: var(--theme-text-secondary);
+  border-radius: var(--border-radius);
+  width: 2rem;
+  min-width: 2rem;
+  height: 1rem;
+  display: inline-block;
+  position: relative;
+  background-color: var(--theme-background-default);
+}
+
+input[type="radio"]:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 50%;
+  height: 100%;
+  display: block;
+  background: var(--theme-text-primary);
+  border-radius: var(--border-radius);
+  transition: left var(--transition-time);
+}
+
+input:checked {
+  border-color: var(--theme-primary-dark);
+  background-color: var(--theme-primary-dark);
+}
+
+input:checked:before {
+  background: var(--theme-primary-main);
+  left: 50%;
+}
+
+ul.toggles {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--gap);
+  flex-direction: column;
+}
