@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
       background: "./src/background/main.ts",
       action: "./src/action/main.tsx",
     },
-    devtool: isProduction ? "none" : "eval-cheap-source-map",
+    devtool: isProduction ? undefined : "eval-cheap-source-map",
     devServer: {
       server: "https",
       devMiddleware: {
