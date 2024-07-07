@@ -84,9 +84,9 @@ The links are only shown for yourself and not for any other player or GM.
 
 1. Activate the _Portals_ tool.
 2. Click the _Show Links_ action.
-3. The existing links.
+3. The existing links are shown.
 4. Click the _Hide Links_ action.
-5. The existing links.
+5. The existing links are no longer shown.
 
 ![Animation: The display of portal links is activated and deactivated.]($GITLAB_PAGES$store/show-portal-links.gif)
 
@@ -98,6 +98,18 @@ The links are only shown for yourself and not for any other player or GM.
 4. The viewport of the player (all connections) that moved the token is centered on that token.
 
 ![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)
+
+### Show/hide context menu
+
+During a game session you might want to remove clutter from the context menu. For this, you can hide the context menu entries of this extension.
+
+1. Activate the _Portals_ tool.
+2. Click the _Hide Context Menu Entries_ action.
+3. The context menu entries are removed.
+4. Click the _Show Context Menu Entries_ action.
+5. The context menu entries are created again.
+
+![Animation: The context menu entries are remove and created.]($GITLAB_PAGES$store/remove-context-menu.gif)
 
 ## Support
 

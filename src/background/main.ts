@@ -1,6 +1,6 @@
 import obrIsReady from "../obr/obrIsReady";
 import createTool from "./tool/createTool";
-import createContextMenu from "./contextMenu/createContextMenu";
+import updateContextMenu from "./contextMenu/updateContextMenu";
 import addLinkIndicatorsCallbacks from "../crud/read/link/addLinkIndicatorsCallbacks";
 import {
   addWorkerCoordinationCallbacks,
@@ -16,7 +16,7 @@ import addFollowTokensCallbacks from "../teleport/followTokens/addFollowTokensCa
 
   await Promise.all([
     createTool(obr),
-    createContextMenu(obr),
+    updateContextMenu(obr),
 
     addLinkIndicatorsCallbacks(obr),
     applyLinkIndicatorVisibility(obr),

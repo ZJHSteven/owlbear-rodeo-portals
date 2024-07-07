@@ -7,7 +7,10 @@ import createIndicator, {
 import { findOrigins } from "../origin/findOrigins";
 import { findDestination } from "../destination/findDestination";
 import { TOOL_ID } from "../../../background/tool/createTool";
-import { LINK_VISIBILITY_METADATA_ID } from "./toggleLinkVisibility";
+import {
+  DEFAULT_LINK_VISIBILITY,
+  LINK_VISIBILITY_METADATA_ID,
+} from "./toggleLinkVisibility";
 
 type Portal = {
   originId: string;
@@ -133,13 +136,18 @@ async function deleteIndicators(obr: Obr, ids: string[]) {
 }
 
 export async function applyLinkIndicatorVisibility(obr: Obr) {
+  const visibility = await getVisibility(obr);
+  await updateLinkIndicatorsVisibility(obr, visibility);
+}
+
+async function getVisibility(obr: Obr) {
   const metadata = await obr.tool.getMetadata(TOOL_ID);
-  if (metadata === undefined) {
-    return;
+  if (
+    metadata === undefined ||
+    metadata[LINK_VISIBILITY_METADATA_ID] === undefined
+  ) {
+    return DEFAULT_LINK_VISIBILITY;
   }
 
-  await updateLinkIndicatorsVisibility(
-    obr,
-    metadata[LINK_VISIBILITY_METADATA_ID] as boolean,
-  );
+  return metadata[LINK_VISIBILITY_METADATA_ID] as boolean;
 }

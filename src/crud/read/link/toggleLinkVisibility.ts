@@ -4,6 +4,7 @@ import { TOOL_ID } from "../../../background/tool/createTool";
 import { Callback } from "../../../types";
 
 export const LINK_VISIBILITY_METADATA_ID = "links-visible";
+export const DEFAULT_LINK_VISIBILITY = false;
 
 const callbacks: Callback<boolean>[] = [];
 
@@ -11,12 +12,12 @@ export default async function toggleLinkVisibility(
   obr: Obr,
   metadata: Metadata,
 ) {
-  const linkVisibility = !metadata[LINK_VISIBILITY_METADATA_ID];
+  const visibility = !metadata[LINK_VISIBILITY_METADATA_ID];
   await obr.tool.setMetadata(TOOL_ID, {
-    [LINK_VISIBILITY_METADATA_ID]: linkVisibility,
+    [LINK_VISIBILITY_METADATA_ID]: visibility,
   });
 
-  dispatch(linkVisibility);
+  dispatch(visibility);
 }
 
 export function onLinkVisibilityChange(callback: Callback<boolean>) {

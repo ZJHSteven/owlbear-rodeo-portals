@@ -8,11 +8,40 @@ import {
   ADD_ONE_WAY_TELEPORT_TOOL_MODE_ID,
   ADD_TWO_WAY_TELEPORT_TOOL_MODE_ID,
 } from "../tool/createToolModes";
+import { Metadata } from "@owlbear-rodeo/sdk";
 
-export default async function createContextMenu(obr: Obr) {
+export const CONTEXT_MENU_VISIBILITY_METADATA_ID = `context-menu-visible`;
+export const DEFAULT_CONTEXT_MENU_VISIBILITY = true;
+
+const REMOVE_DESTINATION_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/remove-destination`;
+const ADD_ONE_WAY_TELEPORT_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/create-one-way-teleport`;
+const ADD_TWO_WAY_TELEPORT_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/create-two-way-teleport`;
+
+export default async function updateContextMenu(obr: Obr) {
+  const visibility = await getVisibility(obr);
+  if (visibility) {
+    await createContextMenu(obr);
+  } else {
+    await removeContextMenu(obr);
+  }
+}
+
+async function getVisibility(obr: Obr) {
+  const metadata = await obr.tool.getMetadata(TOOL_ID);
+  if (
+    metadata === undefined ||
+    metadata[CONTEXT_MENU_VISIBILITY_METADATA_ID] === undefined
+  ) {
+    return DEFAULT_CONTEXT_MENU_VISIBILITY;
+  }
+
+  return metadata[CONTEXT_MENU_VISIBILITY_METADATA_ID] as boolean;
+}
+
+async function createContextMenu(obr: Obr) {
   await Promise.all([
     obr.contextMenu.create({
-      id: `${EXTENSION_ID}/contextMenu/remove-destination`,
+      id: REMOVE_DESTINATION_CONTEXT_MENU_ID,
       icons: [
         {
           icon: createIconUrl("trash-can-regular.svg"),
@@ -35,7 +64,7 @@ export default async function createContextMenu(obr: Obr) {
     }),
 
     obr.contextMenu.create({
-      id: `${EXTENSION_ID}/contextMenu/create-one-way-teleport`,
+      id: ADD_ONE_WAY_TELEPORT_CONTEXT_MENU_ID,
       icons: [
         {
           icon: createIconUrl("arrow-right-solid.svg"),
@@ -61,7 +90,7 @@ export default async function createContextMenu(obr: Obr) {
       },
     }),
     obr.contextMenu.create({
-      id: `${EXTENSION_ID}/contextMenu/create-two-way-teleport`,
+      id: ADD_TWO_WAY_TELEPORT_CONTEXT_MENU_ID,
       icons: [
         {
           icon: createIconUrl("arrows-left-right-solid.svg"),
@@ -87,4 +116,24 @@ export default async function createContextMenu(obr: Obr) {
       },
     }),
   ]);
+}
+
+async function removeContextMenu(obr: Obr) {
+  await Promise.all([
+    obr.contextMenu.remove(REMOVE_DESTINATION_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(ADD_ONE_WAY_TELEPORT_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(ADD_TWO_WAY_TELEPORT_CONTEXT_MENU_ID),
+  ]);
+}
+
+export async function toggleContextMenuVisibility(
+  obr: Obr,
+  metadata: Metadata,
+) {
+  const visibility = !metadata[CONTEXT_MENU_VISIBILITY_METADATA_ID];
+  await obr.tool.setMetadata(TOOL_ID, {
+    [CONTEXT_MENU_VISIBILITY_METADATA_ID]: visibility,
+  });
+
+  await updateContextMenu(obr);
 }
