@@ -81,7 +81,9 @@ marked.use({
     <body>
 ${html}
     </body>
-</html>`.replaceAll(meta.config.GITLAB_PAGES, "../");
+</html>`
+        .replaceAll(meta.config.GITLAB_PAGES, "../")
+        .replaceAll("$MANIFEST_URL$", frontMatter.manifest);
     },
   },
   useNewRenderer: true,
