@@ -20,6 +20,10 @@ export default function onItemsMove(obr: Obr, callback: Callback<Item[]>) {
       positions[item.id] = item.position;
     }
 
+    if (moved.length === 0) {
+      return;
+    }
+
     callback(moved);
   });
 }

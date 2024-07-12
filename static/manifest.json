@@ -6,12 +6,5 @@
   "homepage_url": "$HOMEPAGE$",
   "icon": "/owlbear-rodeo-portals/font-awesome/svgs/dungeon-solid.svg",
   "background_url": "/owlbear-rodeo-portals/background.html",
-  "description": "$DESCRIPTION$",
-  "action": {
-    "popover": "/owlbear-rodeo-portals/action.html",
-    "icon": "/owlbear-rodeo-portals/font-awesome/svgs/dungeon-solid.svg",
-    "title": "Portals",
-    "width": 360,
-    "height": 240
-  }
+  "description": "$DESCRIPTION$"
 }

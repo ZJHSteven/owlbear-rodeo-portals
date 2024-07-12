@@ -10,7 +10,6 @@ module.exports = (env, argv) => {
     mode: "development",
     entry: {
       background: "./src/background/main.ts",
-      action: "./src/action/main.tsx",
     },
     devtool: isProduction ? undefined : "eval-cheap-source-map",
     devServer: {
@@ -29,12 +28,6 @@ module.exports = (env, argv) => {
         filename: `background.html`,
         favicon: "static/font-awesome/svgs/dungeon-solid.svg",
         chunks: ["background"],
-      }),
-      new HtmlWebpackPlugin({
-        title: meta.name,
-        filename: `action.html`,
-        favicon: "static/font-awesome/svgs/dungeon-solid.svg",
-        chunks: ["action"],
       }),
       new CopyPlugin({
         patterns: [

@@ -35,7 +35,6 @@ export default async function createTool(obr: Obr) {
   });
 
   const metadata = await obr.tool.getMetadata(TOOL_ID);
-  console.log("createtool", metadata);
   if (metadata === undefined) {
     await obr.tool.setMetadata(TOOL_ID, DEFAULT_METADATA);
   } else {
