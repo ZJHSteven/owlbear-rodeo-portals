@@ -9,7 +9,7 @@ export default function onItemsMove(obr: Obr, callback: Callback<Item[]>) {
     const moved = items.filter((item) => {
       const position = positions[item.id];
       if (position === undefined) {
-        return false;
+        return true;
       }
 
       return position.x !== item.position.x || position.y !== item.position.y;
