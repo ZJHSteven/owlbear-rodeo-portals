@@ -75,8 +75,6 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
-fix: race condition if there are multiple connections for the same player id
-
 #### To be prioritized
 
 - fix: delete destination id from metadata when destination is deleted

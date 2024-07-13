@@ -1,5 +1,5 @@
 import { Obr } from "../../../obr/types";
-import { Curve, Item, Theme, Vector2 } from "@owlbear-rodeo/sdk";
+import { BoundingBox, Item, Path, Theme, Vector2 } from "@owlbear-rodeo/sdk";
 import setIndicatorPosition from "../../../ui/canvas/indicator/setIndicatorPosition";
 import createIndicator, {
   INDICATOR_ORIGIN_ID_METADATA_ID,
@@ -14,7 +14,7 @@ import {
 
 type Portal = {
   originId: string;
-  start: Vector2;
+  start: BoundingBox;
   end: Vector2;
 };
 
@@ -61,9 +61,10 @@ async function findDiff(obr: Obr): Promise<Diff> {
       continue;
     }
 
+    const boundingBox = await obr.scene.items.getItemBounds([origin.id]);
     const portal = {
       originId: origin.id,
-      start: origin.position,
+      start: boundingBox,
       end: destination,
     };
 
@@ -119,7 +120,7 @@ async function updateIndicators(obr: Obr, updates: Updates) {
     return;
   }
 
-  await obr.scene.local.updateItems<Curve>(keys, (indicators) => {
+  await obr.scene.local.updateItems<Path>(keys, (indicators) => {
     for (let indicator of indicators) {
       const { start, end } = updates[indicator.id];
       setIndicatorPosition(indicator, start, end);

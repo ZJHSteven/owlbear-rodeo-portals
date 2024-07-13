@@ -12,15 +12,16 @@ export async function findDestination(
     return destinations[origin.id];
   }
 
-  const item = optionalOne<Item>(
+  const destination = optionalOne<Item>(
     await obr.scene.items.getItems([
       origin.metadata[DESTINATION_ID_METADATA_ID] as string,
     ]),
   );
 
-  if (item === undefined) {
+  if (destination === undefined) {
     return undefined;
   }
 
-  return (destinations[origin.id] = item.position);
+  const boundingBox = await obr.scene.items.getItemBounds([destination.id]);
+  return (destinations[origin.id] = boundingBox.center);
 }

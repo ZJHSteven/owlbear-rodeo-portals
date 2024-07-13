@@ -1,4 +1,4 @@
-import { Curve, Item, ItemFilter, Vector2 } from "@owlbear-rodeo/sdk";
+import { Item, ItemFilter, Path, Vector2 } from "@owlbear-rodeo/sdk";
 import { Obr } from "../../obr/types";
 import { requireOne } from "../../data/array";
 import setIndicatorPosition, {
@@ -64,9 +64,10 @@ async function addIndicator(obr: Obr, origin: Item, direction: Direction) {
   }
 
   const theme = await obr.theme.getTheme();
+  const boundingBox = await obr.scene.items.getItemBounds([origin.id]);
   const indicator = setIndicatorPosition(
     createIndicator(theme, origin.id),
-    origin.position,
+    boundingBox,
     origin.position,
     mapDirectionToArrowHeads(direction),
   );
@@ -94,7 +95,7 @@ async function finish(obr: Obr, direction: Direction, target?: Item) {
       : "The two sides of a portal cannot be the same token.";
   }
 
-  const origin = await getOrigin(obr);
+  const origin = await getOrigin(obr, originId);
   if (target.layer !== origin.layer) {
     throw direction === Direction.ONE_WAY
       ? "Origin and destination must be on the same layer."
@@ -126,29 +127,41 @@ async function finish(obr: Obr, direction: Direction, target?: Item) {
   return true;
 }
 
-async function getOrigin(obr: Obr) {
-  return obr.scene.items
-    .getItems(({ id }) => id === originId)
-    .then(requireOne<Item>);
+async function getOrigin(obr: Obr, originId: string) {
+  return obr.scene.items.getItems([originId]).then(requireOne<Item>);
 }
 
 export async function updateIndicator(
   obr: Obr,
   position: Vector2,
-  direction: Direction = Direction.ONE_WAY,
+  direction: Direction,
+  target?: Item,
 ) {
-  if (indicatorId === null) {
+  if (indicatorId === null || originId == null) {
     return;
   }
 
-  const origin = await getOrigin(obr);
-  await obr.scene.local.updateItems<Curve>([indicatorId], (items) => {
+  const origin = await getOrigin(obr, originId);
+  const originBoundingBox = await obr.scene.items.getItemBounds([origin.id]);
+
+  const destinationBoundingBox =
+    target && target.id !== origin.id && target.layer === origin.layer
+      ? await obr.scene.items.getItemBounds([target.id])
+      : undefined;
+
+  await obr.scene.local.updateItems<Path>([indicatorId], (items) => {
     for (let item of items) {
+      // work-around race-condition: indicator might get deleted before this callback function gets called
+      if (item === null) {
+        continue;
+      }
+
       setIndicatorPosition(
         item,
-        origin.position,
+        originBoundingBox,
         position,
         mapDirectionToArrowHeads(direction),
+        destinationBoundingBox,
       );
     }
   });

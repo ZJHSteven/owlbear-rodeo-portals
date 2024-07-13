@@ -27,7 +27,12 @@ export default async function createToolModes(obr: Obr) {
         await handleSetTarget(setTarget(obr, event.target));
       },
       async onToolMove(context, event) {
-        await updateIndicator(obr, event.pointerPosition);
+        await updateIndicator(
+          obr,
+          event.pointerPosition,
+          Direction.ONE_WAY,
+          event.target,
+        );
       },
       async onKeyDown(context, event) {
         if (event.key === "Escape") {
@@ -53,7 +58,12 @@ export default async function createToolModes(obr: Obr) {
         await handleSetTarget(setTarget(obr, event.target, Direction.TWO_WAY));
       },
       async onToolMove(context, event) {
-        await updateIndicator(obr, event.pointerPosition, Direction.TWO_WAY);
+        await updateIndicator(
+          obr,
+          event.pointerPosition,
+          Direction.TWO_WAY,
+          event.target,
+        );
       },
       async onKeyDown(context, event) {
         if (event.key === "Escape") {
