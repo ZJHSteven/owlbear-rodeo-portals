@@ -1,11 +1,12 @@
 import { BoundingBox, Item, Vector2 } from "@owlbear-rodeo/sdk";
-import { Obr } from "../obr/types";
+import { isVector2, Obr } from "../obr/types";
 import { findOrigins } from "../crud/read/origin/findOrigins";
 import { findDestination } from "../crud/read/destination/findDestination";
 import onItemsMove from "../obr/scene/items/onItemsMove";
 import gotoItemPosition from "../obr/viewport/gotoItemPosition";
+import { EXTENSION_ID } from "../constants";
 
-let teleportIds: string[] = [];
+const DESTINATION_POSITION_METADATA_ID = `${EXTENSION_ID}/destination-position`;
 
 export default async function addOnItemsMoveCallback(obr: Obr) {
   onItemsMove(obr, (items) => {
@@ -16,31 +17,39 @@ export default async function addOnItemsMoveCallback(obr: Obr) {
 async function handleMovement(obr: Obr, movedItems: Item[]) {
   const ownCharacters = movedItems
     .filter(({ layer }) => layer === "CHARACTER")
-    .filter(({ lastModifiedUserId }) => lastModifiedUserId === obr.player.id);
+    .filter(({ lastModifiedUserId }) => lastModifiedUserId === obr.player.id)
+    .filter(({ position, metadata }) => {
+      if (metadata === undefined) {
+        return true;
+      }
 
-  const candidates: Item[] = [];
-  ownCharacters.forEach((item) => {
-    if (teleportIds.includes(item.id)) {
-      gotoItemPosition(obr, item.position);
-    } else {
-      candidates.push(item);
+      const destination = metadata[DESTINATION_POSITION_METADATA_ID];
+      if (!isVector2(destination)) {
+        return true;
+      }
+
+      return position.x !== destination.x || position.y !== destination.y;
+    });
+
+  const teleports = await findTeleports(obr, ownCharacters);
+
+  let isViewportUpdated = false;
+  await obr.scene.items.updateItems(ownCharacters, (items) => {
+    for (let item of items) {
+      if (item.id in teleports) {
+        const destination = teleports[item.id];
+        item.position = destination;
+        item.metadata[DESTINATION_POSITION_METADATA_ID] = destination;
+        if (!isViewportUpdated) {
+          gotoItemPosition(obr, destination).then(
+            () => (isViewportUpdated = true),
+          );
+        }
+      } else if (DESTINATION_POSITION_METADATA_ID in item.metadata) {
+        delete item.metadata[DESTINATION_POSITION_METADATA_ID];
+      }
     }
   });
-
-  const teleports = await findTeleports(obr, candidates);
-  teleportIds = Object.keys(teleports);
-  if (teleportIds.length === 0) {
-    return;
-  }
-
-  await obr.scene.items.updateItems(
-    ({ id }) => id in teleports,
-    (items) => {
-      for (let item of items) {
-        item.position = teleports[item.id];
-      }
-    },
-  );
 }
 
 async function findTeleports(obr: Obr, items: Item[]) {
