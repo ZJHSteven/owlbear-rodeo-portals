@@ -5,7 +5,10 @@ import { findDestination } from "../crud/read/destination/findDestination";
 import onItemsMove from "../obr/scene/items/onItemsMove";
 import gotoPosition from "../obr/viewport/gotoPosition";
 import { EXTENSION_ID } from "../constants";
-import getItemBounds from "../obr/scene/items/getItemBounds";
+import getItemBounds, {
+  isSupported,
+  SupportedItem,
+} from "../obr/scene/items/getItemBounds";
 
 const DESTINATION_POSITION_METADATA_ID = `${EXTENSION_ID}/destination-position`;
 
@@ -64,20 +67,18 @@ async function findTeleports(obr: Obr, items: Item[]) {
   const destinations: Record<string, Vector2> = {};
 
   const origins = await findOrigins(obr);
-  for (let item of items) {
-    for (let origin of origins) {
-      if (item.id === origin.id) {
-        continue;
-      }
-
-      if (await collides(item, origin, bounds)) {
-        const destination = await findDestination(obr, origin, destinations);
-        if (destination === undefined) {
-          console.error("unknown destination");
+  for (let origin of origins.filter(isSupported)) {
+    for (let item of items) {
+      try {
+        if (item.id === origin.id) {
           continue;
         }
 
-        teleports[item.id] = destination;
+        if (await collides(item, origin, bounds)) {
+          teleports[item.id] = await findDestination(obr, origin, destinations);
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
   }
@@ -87,7 +88,7 @@ async function findTeleports(obr: Obr, items: Item[]) {
 
 async function collides(
   { position: { x, y } }: Item,
-  origin: Item,
+  origin: SupportedItem,
   bounds: Record<string, BoundingBox>,
 ): Promise<boolean> {
   const { min, max } = await getBounds(origin, bounds);
@@ -95,7 +96,7 @@ async function collides(
 }
 
 async function getBounds(
-  item: Item,
+  item: SupportedItem,
   bounds: Record<string, BoundingBox>,
 ): Promise<BoundingBox> {
   if (bounds[item.id]) {

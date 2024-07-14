@@ -2,13 +2,16 @@ import { Obr } from "../../../obr/types";
 import { Item, Vector2 } from "@owlbear-rodeo/sdk";
 import { DESTINATION_ID_METADATA_ID } from "../../../constants";
 import { optionalOne } from "../../../data/array";
-import getItemBounds from "../../../obr/scene/items/getItemBounds";
+import getItemBounds, {
+  isSupported,
+  SupportedItem,
+} from "../../../obr/scene/items/getItemBounds";
 
 export async function findDestination(
   obr: Obr,
-  origin: Item,
+  origin: SupportedItem,
   destinations: Record<string, Vector2>,
-): Promise<Vector2 | undefined> {
+): Promise<Vector2> {
   if (destinations[origin.id]) {
     return destinations[origin.id];
   }
@@ -20,7 +23,11 @@ export async function findDestination(
   );
 
   if (destination === undefined) {
-    return undefined;
+    throw "unknown destination";
+  }
+
+  if (!isSupported(destination)) {
+    throw "unsupported destination type";
   }
 
   const boundingBox = await getItemBounds(destination);

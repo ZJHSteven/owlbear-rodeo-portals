@@ -25,7 +25,16 @@ import {
   Triangle,
 } from "./types";
 
-export default async function getItemBounds(item: Item) {
+// Can't get bounding box of Text or Path because too complex.
+// Work-around using OBR's native functions doesn't work for players because
+// they can't get bounding boxes of hidden items.
+export type SupportedItem = Curve | Line | Image | Shape;
+
+export function isSupported(item: Item): item is SupportedItem {
+  return isCurve(item) || isLine(item) || isImage(item) || isShape(item);
+}
+
+export default async function getItemBounds(item: SupportedItem) {
   if (isCurve(item)) {
     return getCurveBoundingBox(item);
   }
@@ -42,11 +51,7 @@ export default async function getItemBounds(item: Item) {
     return getShapeBoundingBox(item);
   }
 
-  // Can't get bounding box of Text or Path because too complex.
-  // Work-around using OBR's native functions doesn't work for players because
-  // they can't get bounding boxes of hidden items.
-
-  throw `item.type unsupported: ${item.type}`;
+  throw `unsupported item type`;
 }
 
 async function getCurveBoundingBox(curve: Curve) {

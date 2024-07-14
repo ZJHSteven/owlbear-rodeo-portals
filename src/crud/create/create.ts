@@ -1,20 +1,22 @@
 import { Item, ItemFilter, Path, Vector2 } from "@owlbear-rodeo/sdk";
 import { Obr } from "../../obr/types";
-import { requireOne } from "../../data/array";
 import setIndicatorPosition, {
   Heads,
 } from "../../ui/canvas/indicator/setIndicatorPosition";
 import hasDestination from "../read/destination/hasDestination";
 import setDestination from "../read/destination/setDestination";
 import createIndicator from "../../ui/canvas/indicator/createIndicator";
-import getItemBounds from "../../obr/scene/items/getItemBounds";
+import getItemBounds, {
+  isSupported,
+  SupportedItem,
+} from "../../obr/scene/items/getItemBounds";
 
 export enum Direction {
   ONE_WAY,
   TWO_WAY,
 }
 
-let originId: string | null = null;
+let origin: SupportedItem | null = null;
 let indicatorId: string | null = null;
 
 export async function setTarget(
@@ -22,7 +24,7 @@ export async function setTarget(
   target?: Item,
   direction: Direction = Direction.ONE_WAY,
 ) {
-  if (originId === null) {
+  if (origin === null) {
     return start(obr, direction, target);
   }
 
@@ -47,6 +49,10 @@ async function start(obr: Obr, direction: Direction, target?: Item) {
       : "Click on a token to set first side of the portal.";
   }
 
+  if (!isSupported(target)) {
+    throw "Unsupported token type.";
+  }
+
   if (hasDestination(target)) {
     throw "This token already has a destination.";
   }
@@ -55,11 +61,15 @@ async function start(obr: Obr, direction: Direction, target?: Item) {
     return;
   }
 
-  originId = target.id;
+  origin = target;
   await addIndicator(obr, target, direction);
 }
 
-async function addIndicator(obr: Obr, origin: Item, direction: Direction) {
+async function addIndicator(
+  obr: Obr,
+  origin: SupportedItem,
+  direction: Direction,
+) {
   if (indicatorId !== null) {
     throw "Indicator already set.";
   }
@@ -86,50 +96,62 @@ async function finish(obr: Obr, direction: Direction, target?: Item) {
     return false;
   }
 
-  if (originId === null) {
+  if (origin === null) {
     throw "Origin is not set.";
   }
 
-  if (target.id === originId) {
-    throw direction === Direction.ONE_WAY
-      ? "Origin and destination cannot be the same token."
-      : "The two sides of a portal cannot be the same token.";
+  if (!isSupported(target)) {
+    throw "Unsupported token type.";
   }
 
-  const origin = await getOrigin(obr, originId);
-  if (target.layer !== origin.layer) {
-    throw direction === Direction.ONE_WAY
-      ? "Origin and destination must be on the same layer."
-      : "Both sides of the portal must be on the same layer.";
+  const error = checkDestination(direction, origin, target);
+  if (error !== null) {
+    throw error;
   }
 
-  if (hasDestination(origin)) {
-    throw direction === Direction.ONE_WAY
-      ? "The origin already has a destination."
-      : "The first side of the portal already has a destination.";
-  }
-
-  if (direction === Direction.TWO_WAY && hasDestination(target)) {
-    throw "The second side of the portal already has a destination.";
-  }
-
-  const destinationIds: Record<string, string> = { [originId]: target.id };
+  const destinations: Record<string, SupportedItem> = { [origin.id]: target };
   if (direction === Direction.TWO_WAY) {
-    destinationIds[target.id] = originId;
+    destinations[target.id] = origin;
   }
 
-  const filter: ItemFilter<Item> = Object.keys(destinationIds);
+  const filter: ItemFilter<Item> = Object.keys(destinations);
   await obr.scene.items.updateItems(filter, (items) => {
     for (let item of items) {
-      setDestination(item, destinationIds[item.id]);
+      setDestination(item, destinations[item.id]);
     }
   });
 
   return true;
 }
 
-async function getOrigin(obr: Obr, originId: string) {
-  return obr.scene.items.getItems([originId]).then(requireOne<Item>);
+function checkDestination(
+  direction: Direction,
+  origin: Item,
+  target: SupportedItem,
+): string | null {
+  if (target.id === origin.id) {
+    return direction === Direction.ONE_WAY
+      ? "Origin and destination cannot be the same token."
+      : "The two sides of a portal cannot be the same token.";
+  }
+
+  if (target.layer !== origin.layer) {
+    return direction === Direction.ONE_WAY
+      ? "Origin and destination must be on the same layer."
+      : "Both sides of the portal must be on the same layer.";
+  }
+
+  if (hasDestination(origin)) {
+    return direction === Direction.ONE_WAY
+      ? "The origin already has a destination."
+      : "The first side of the portal already has a destination.";
+  }
+
+  if (direction === Direction.TWO_WAY && hasDestination(target)) {
+    return "The second side of the portal already has a destination.";
+  }
+
+  return null;
 }
 
 export async function updateIndicator(
@@ -138,15 +160,16 @@ export async function updateIndicator(
   direction: Direction,
   target?: Item,
 ) {
-  if (indicatorId === null || originId == null) {
+  if (indicatorId === null || origin == null) {
     return;
   }
 
-  const origin = await getOrigin(obr, originId);
   const originBoundingBox = await getItemBounds(origin);
 
   const destinationBoundingBox =
-    target && target.id !== origin.id && target.layer === origin.layer
+    target &&
+    isSupported(target) &&
+    isValidDestination(direction, origin, target)
       ? await getItemBounds(target)
       : undefined;
 
@@ -168,8 +191,16 @@ export async function updateIndicator(
   });
 }
 
+function isValidDestination(
+  direction: Direction,
+  origin: Item,
+  target: SupportedItem,
+) {
+  return checkDestination(direction, origin, target) === null;
+}
+
 export async function reset(obr: Obr) {
-  originId = null;
+  origin = null;
   if (indicatorId === null) {
     return;
   }

@@ -11,7 +11,9 @@ import {
   DEFAULT_LINK_VISIBILITY,
   LINK_VISIBILITY_METADATA_ID,
 } from "./toggleLinkVisibility";
-import getItemBounds from "../../../obr/scene/items/getItemBounds";
+import getItemBounds, {
+  isSupported,
+} from "../../../obr/scene/items/getItemBounds";
 
 type Portal = {
   originId: string;
@@ -55,27 +57,27 @@ async function findDiff(obr: Obr): Promise<Diff> {
   const updated: Updates = {};
   const destinations: Record<string, Vector2> = {};
 
-  for (let origin of origins) {
-    const destination = await findDestination(obr, origin, destinations);
-    if (destination === undefined) {
-      console.error("unknown destination");
-      continue;
-    }
+  for (let origin of origins.filter(isSupported)) {
+    try {
+      const destination = await findDestination(obr, origin, destinations);
+      const boundingBox = await getItemBounds(origin);
+      const portal = {
+        originId: origin.id,
+        start: boundingBox,
+        end: destination,
+      };
 
-    const boundingBox = await getItemBounds(origin);
-    const portal = {
-      originId: origin.id,
-      start: boundingBox,
-      end: destination,
-    };
-
-    const indicator = indicators.find(
-      ({ metadata }) => metadata[INDICATOR_ORIGIN_ID_METADATA_ID] === origin.id,
-    );
-    if (indicator === undefined) {
-      added.push(portal);
-    } else {
-      updated[indicator.id] = portal;
+      const indicator = indicators.find(
+        ({ metadata }) =>
+          metadata[INDICATOR_ORIGIN_ID_METADATA_ID] === origin.id,
+      );
+      if (indicator === undefined) {
+        added.push(portal);
+      } else {
+        updated[indicator.id] = portal;
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
