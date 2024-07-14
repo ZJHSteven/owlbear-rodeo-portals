@@ -5,6 +5,7 @@ import addLinkIndicatorsCallbacks from "../crud/read/link/addLinkIndicatorsCallb
 import sceneIsReady from "../obr/scene/sceneIsReady";
 import { applyLinkIndicatorVisibility } from "../crud/read/link/updateLinkIndicatorsVisibility";
 import addOnItemsMoveCallback from "../teleport/addOnItemsMoveCallback";
+import addCleanUpOrphanedOrigins from "../teleport/addCleanUpOrphanedOrigins";
 
 (async function background() {
   const obr = await obrIsReady();
@@ -18,5 +19,6 @@ import addOnItemsMoveCallback from "../teleport/addOnItemsMoveCallback";
     applyLinkIndicatorVisibility(obr),
 
     addOnItemsMoveCallback(obr),
+    addCleanUpOrphanedOrigins(obr),
   ]);
 })();

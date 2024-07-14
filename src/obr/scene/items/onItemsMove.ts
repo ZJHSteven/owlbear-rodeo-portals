@@ -2,10 +2,11 @@ import { Obr } from "../../types";
 import { Item } from "@owlbear-rodeo/sdk/lib/types/items/Item";
 import { Vector2 } from "@owlbear-rodeo/sdk";
 import { Callback } from "../../../types";
+import onSceneItemsChange from "./onSceneItemsChange";
 
 export default function onItemsMove(obr: Obr, callback: Callback<Item[]>) {
   let positions: Record<string, Vector2> = {};
-  return obr.scene.items.onChange((items) => {
+  onSceneItemsChange(obr, (items) => {
     const moved = items.filter((item) => {
       const position = positions[item.id];
       if (position === undefined) {

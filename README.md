@@ -75,8 +75,6 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
-- fix: delete destination id from metadata when destination is deleted
-
 #### To be prioritized
 
 - feat: change link origin
