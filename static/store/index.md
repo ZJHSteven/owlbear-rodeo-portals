@@ -14,7 +14,7 @@ learn-more: $HOMEPAGE$
 
 ## About
 
-This extension lets you create portals between any kind of tokens in order to move character tokens on the map.
+This extension lets you create portals between [supported tokens](#supported-tokens) in order to move character tokens on the map.
 
 You can use the portals as traps, regular portals or teleportation circles.
 
@@ -49,6 +49,22 @@ All players with permission to move a character token may [enter a portal](#ente
 All settings are stored as [metadata] of either tool or token.
 
 [metadata]: https://docs.owlbear.rodeo/extensions/reference/metadata
+
+### Supported tokens
+
+The following type of tokens are supported:
+
+- [Drawing](https://docs.owlbear.rodeo/docs/drawing/)
+  - Curve
+  - Line
+  - Shape
+    - Circle
+    - Hexagon
+    - Rectangle
+    - Triangle
+- [Image](https://docs.owlbear.rodeo/docs/images/)
+
+A token must not be on the map layer.
 
 ### Create portals
 
