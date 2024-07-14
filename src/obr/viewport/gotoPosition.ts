@@ -1,7 +1,7 @@
 import { Vector2 } from "@owlbear-rodeo/sdk";
 import { Obr } from "../types";
 
-export default async function gotoItemPosition(obr: Obr, position: Vector2) {
+export default async function gotoPosition(obr: Obr, position: Vector2) {
   const [scale, width, height] = await Promise.all([
     obr.viewport.getScale(),
     obr.viewport.getWidth(),

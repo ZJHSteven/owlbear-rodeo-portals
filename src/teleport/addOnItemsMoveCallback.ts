@@ -3,7 +3,7 @@ import { isVector2, Obr } from "../obr/types";
 import { findOrigins } from "../crud/read/origin/findOrigins";
 import { findDestination } from "../crud/read/destination/findDestination";
 import onItemsMove from "../obr/scene/items/onItemsMove";
-import gotoItemPosition from "../obr/viewport/gotoItemPosition";
+import gotoPosition from "../obr/viewport/gotoPosition";
 import { EXTENSION_ID } from "../constants";
 import getItemBounds from "../obr/scene/items/getItemBounds";
 
@@ -33,22 +33,23 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
     });
 
   const teleports = await findTeleports(obr, ownCharacters);
-
-  let isViewportUpdated = false;
   await obr.scene.items.updateItems(ownCharacters, (items) => {
+    let viewportDestination: Vector2 | null = null;
     for (let item of items) {
       if (item.id in teleports) {
         const destination = teleports[item.id];
         item.position = destination;
         item.metadata[DESTINATION_POSITION_METADATA_ID] = destination;
-        if (!isViewportUpdated) {
-          gotoItemPosition(obr, destination).then(
-            () => (isViewportUpdated = true),
-          );
+        if (viewportDestination === null) {
+          viewportDestination = destination;
         }
       } else if (DESTINATION_POSITION_METADATA_ID in item.metadata) {
         delete item.metadata[DESTINATION_POSITION_METADATA_ID];
       }
+    }
+
+    if (viewportDestination !== null) {
+      gotoPosition(obr, viewportDestination);
     }
   });
 }
@@ -69,7 +70,7 @@ async function findTeleports(obr: Obr, items: Item[]) {
         continue;
       }
 
-      if (await collides(obr, item, origin, bounds)) {
+      if (await collides(item, origin, bounds)) {
         const destination = await findDestination(obr, origin, destinations);
         if (destination === undefined) {
           console.error("unknown destination");
@@ -85,17 +86,15 @@ async function findTeleports(obr: Obr, items: Item[]) {
 }
 
 async function collides(
-  obr: Obr,
   { position: { x, y } }: Item,
   origin: Item,
   bounds: Record<string, BoundingBox>,
 ): Promise<boolean> {
-  const { min, max } = await getBounds(obr, origin, bounds);
+  const { min, max } = await getBounds(origin, bounds);
   return min.x <= x && x <= max.x && min.y <= y && y <= max.y;
 }
 
 async function getBounds(
-  obr: Obr,
   item: Item,
   bounds: Record<string, BoundingBox>,
 ): Promise<BoundingBox> {
