@@ -5,6 +5,7 @@ import { findDestination } from "../crud/read/destination/findDestination";
 import onItemsMove from "../obr/scene/items/onItemsMove";
 import gotoItemPosition from "../obr/viewport/gotoItemPosition";
 import { EXTENSION_ID } from "../constants";
+import getItemBounds from "../obr/scene/items/getItemBounds";
 
 const DESTINATION_POSITION_METADATA_ID = `${EXTENSION_ID}/destination-position`;
 
@@ -102,5 +103,5 @@ async function getBounds(
     return bounds[item.id];
   }
 
-  return (bounds[item.id] = await obr.scene.items.getItemBounds([item.id]));
+  return (bounds[item.id] = await getItemBounds(item));
 }

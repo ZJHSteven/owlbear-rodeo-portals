@@ -7,6 +7,7 @@ import setIndicatorPosition, {
 import hasDestination from "../read/destination/hasDestination";
 import setDestination from "../read/destination/setDestination";
 import createIndicator from "../../ui/canvas/indicator/createIndicator";
+import getItemBounds from "../../obr/scene/items/getItemBounds";
 
 export enum Direction {
   ONE_WAY,
@@ -64,7 +65,7 @@ async function addIndicator(obr: Obr, origin: Item, direction: Direction) {
   }
 
   const theme = await obr.theme.getTheme();
-  const boundingBox = await obr.scene.items.getItemBounds([origin.id]);
+  const boundingBox = await getItemBounds(origin);
   const indicator = setIndicatorPosition(
     createIndicator(theme, origin.id),
     boundingBox,
@@ -142,11 +143,11 @@ export async function updateIndicator(
   }
 
   const origin = await getOrigin(obr, originId);
-  const originBoundingBox = await obr.scene.items.getItemBounds([origin.id]);
+  const originBoundingBox = await getItemBounds(origin);
 
   const destinationBoundingBox =
     target && target.id !== origin.id && target.layer === origin.layer
-      ? await obr.scene.items.getItemBounds([target.id])
+      ? await getItemBounds(target)
       : undefined;
 
   await obr.scene.local.updateItems<Path>([indicatorId], (items) => {

@@ -2,6 +2,7 @@ import { Obr } from "../../../obr/types";
 import { Item, Vector2 } from "@owlbear-rodeo/sdk";
 import { DESTINATION_ID_METADATA_ID } from "../../../constants";
 import { optionalOne } from "../../../data/array";
+import getItemBounds from "../../../obr/scene/items/getItemBounds";
 
 export async function findDestination(
   obr: Obr,
@@ -22,6 +23,6 @@ export async function findDestination(
     return undefined;
   }
 
-  const boundingBox = await obr.scene.items.getItemBounds([destination.id]);
+  const boundingBox = await getItemBounds(destination);
   return (destinations[origin.id] = boundingBox.center);
 }

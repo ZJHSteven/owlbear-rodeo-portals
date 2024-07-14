@@ -11,6 +11,7 @@ import {
   DEFAULT_LINK_VISIBILITY,
   LINK_VISIBILITY_METADATA_ID,
 } from "./toggleLinkVisibility";
+import getItemBounds from "../../../obr/scene/items/getItemBounds";
 
 type Portal = {
   originId: string;
@@ -61,7 +62,7 @@ async function findDiff(obr: Obr): Promise<Diff> {
       continue;
     }
 
-    const boundingBox = await obr.scene.items.getItemBounds([origin.id]);
+    const boundingBox = await getItemBounds(origin);
     const portal = {
       originId: origin.id,
       start: boundingBox,
