@@ -64,8 +64,6 @@ The following type of tokens are supported:
     - Triangle
 - [Image](https://docs.owlbear.rodeo/docs/images/)
 
-A token must not be on the map layer.
-
 ### Create portals
 
 #### Create one-way portals

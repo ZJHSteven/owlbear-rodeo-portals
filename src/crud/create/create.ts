@@ -57,10 +57,6 @@ async function start(obr: Obr, direction: Direction, target?: Item) {
     throw "This token already has a destination.";
   }
 
-  if (target.layer === "MAP") {
-    return;
-  }
-
   origin = target;
   await addIndicator(obr, target, direction);
 }
@@ -133,12 +129,6 @@ function checkDestination(
     return direction === Direction.ONE_WAY
       ? "Origin and destination cannot be the same token."
       : "The two sides of a portal cannot be the same token.";
-  }
-
-  if (target.layer !== origin.layer) {
-    return direction === Direction.ONE_WAY
-      ? "Origin and destination must be on the same layer."
-      : "Both sides of the portal must be on the same layer.";
   }
 
   if (hasDestination(origin)) {

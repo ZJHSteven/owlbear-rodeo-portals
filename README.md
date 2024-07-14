@@ -91,7 +91,7 @@ Work-around for Chrome-based browsers:
 - fix: use bounding boxes for collision instead of point
 - feat: mishaps (teleport somewhere else)
 - feat: option to enable/disable teleports for players
-- feat: option to select valid token layers for teleportation
+- feat: option to select valid token layers for teleported tokens (still allow any layer for portals)
 - feat: detect portal collision for the whole movement not only the new position of the moved tokens
 - feat: spread tokens when multiple tokens are teleported to the same destination
 - feat: keep relative position when multiple are teleported to the same destination
