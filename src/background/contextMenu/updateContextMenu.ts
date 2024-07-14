@@ -48,7 +48,7 @@ async function createContextMenu(obr: Obr) {
           label: "Remove Destination",
           filter: {
             roles: ["GM"],
-            every: [
+            some: [
               {
                 key: ["metadata", DESTINATION_ID_METADATA_ID],
                 value: undefined,
