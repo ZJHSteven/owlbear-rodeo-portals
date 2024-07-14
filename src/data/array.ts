@@ -9,3 +9,7 @@ export function optionalOne<T>(array: T[]): T | undefined {
 
   return array[0];
 }
+
+export function unique<T>(value: T, index: number, array: T[]) {
+  return array.indexOf(value) === index;
+}

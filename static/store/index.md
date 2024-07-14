@@ -111,6 +111,15 @@ During a game session you might want to remove clutter from the context menu. Fo
 
 ![Animation: The context menu entries are remove and created.]($GITLAB_PAGES$store/remove-context-menu.gif)
 
+## Troubleshooting
+
+### Verify portals integrity
+
+1. Activate the _Portals_ tool.
+2. Click the _Verify Portals Integrity_ action.
+3. A notification is shown, that indicates the integrity.
+4. If there are any errors, you can open the browser's JavaScript console (<kbd>Ctrl + Shift + J</kbd> or <kbd>F12</kbd>) for details.
+
 ## Support
 
 If there are any issues with the extension, join the [Owlbear Rodeo Discord], create a new post and mention `@resident_uhlig` in the [#extension-support] channel.

@@ -75,10 +75,10 @@ Work-around for Chrome-based browsers:
 
 #### Prioritized
 
+- fix: delete destination id from metadata when destination is deleted
+
 #### To be prioritized
 
-- fix: delete destination id from metadata when destination is deleted
-- fix: position and bounding box for items that lie (because of rotation)
 - feat: change link origin
 - feat: change link destination
 - feat: change link directions

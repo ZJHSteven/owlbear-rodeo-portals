@@ -132,7 +132,6 @@ async function getImageBoundingBox(image: Image) {
     return getRectangleBoundingBox(rectangle);
   }
 
-  console.error(rectangle);
   throw `shape doesn't look like a rectangle`;
 }
 

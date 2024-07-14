@@ -115,7 +115,9 @@ a[href^="https://"]:after
   font-weight: normal;
 }
 
-code {
+code,
+kbd {
+  font-family: monospace;
   color: var(--io-foreground-color);
   background: var(--io-background-color);
   padding: 0 var(--padding);
