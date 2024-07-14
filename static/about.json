@@ -1,0 +1,4 @@
+{
+  "build_date_time": "$BUILD_DATE_TIME$",
+  "store_url": "$GITLAB_PAGES$store/index.html"
+}

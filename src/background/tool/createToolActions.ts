@@ -9,12 +9,15 @@ import {
   toggleContextMenuVisibility,
 } from "../contextMenu/updateContextMenu";
 import checkIntegrity from "../../teleport/checkIntegrity";
+import fetchExtension, { Extension } from "../../extension/fetchExtension";
+import showHelp from "../../help/showHelp";
 
 export default async function createToolActions(obr: Obr) {
   await Promise.all([
     createToggleLinkVisibilityAction(obr),
     createToggleContextMenuVisibilityAction(obr),
     createCheckPortalsAction(obr),
+    createMetaActions(obr),
   ]);
 }
 
@@ -123,6 +126,64 @@ async function createCheckPortalsAction(obr: Obr) {
       await obr.notification.show(
         `There are errors: ${errors.map(({ error }) => error).join("\n")}`,
         "ERROR",
+      );
+    },
+  });
+}
+
+async function createMetaActions(obr: Obr) {
+  const extension = await fetchExtension();
+  return Promise.all([
+    createHelpAction(obr, extension),
+    createInfoAction(obr, extension),
+  ]);
+}
+
+async function createHelpAction(obr: Obr, { storeUrl }: Extension) {
+  return obr.tool.createAction({
+    id: `${TOOL_ID}/action/help`,
+    icons: [
+      {
+        icon: createIconUrl("circle-question-solid.svg"),
+        label: "Open Help (Popup)",
+        filter: {
+          activeTools: [TOOL_ID],
+          roles: ["GM"],
+        },
+      },
+    ],
+    async onClick() {
+      try {
+        showHelp(storeUrl);
+      } catch (error) {
+        await obr.notification.show(`Could not open help: ${error}`, "ERROR");
+      }
+    },
+  });
+}
+
+async function createInfoAction(obr: Obr, extension: Extension) {
+  return obr.tool.createAction({
+    id: `${TOOL_ID}/action/info`,
+    icons: [
+      {
+        icon: createIconUrl("circle-info-solid.svg"),
+        label: "Show Extension Information",
+        filter: {
+          activeTools: [TOOL_ID],
+          roles: ["GM"],
+        },
+      },
+    ],
+    async onClick() {
+      const formatter = new Intl.DateTimeFormat(undefined, {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+
+      await obr.notification.show(
+        `${extension.name} ${extension.version} (${formatter.format(extension.buildDateTime)})`,
+        "DEFAULT",
       );
     },
   });
