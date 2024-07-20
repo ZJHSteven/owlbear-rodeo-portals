@@ -83,7 +83,7 @@ ${html}
     </body>
 </html>`
         .replaceAll(meta.config.GITLAB_PAGES, "../")
-        .replaceAll("$MANIFEST_URL$", frontMatter.manifest);
+        .replaceAll(">../manifest.json<", `>${frontMatter.manifest}<`);
     },
   },
   useNewRenderer: true,

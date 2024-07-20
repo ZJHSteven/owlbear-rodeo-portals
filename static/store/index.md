@@ -26,7 +26,7 @@ You can use the portals as traps, regular portals or teleportation circles.
 
 ## Installation
 
-[Install Your Extension] using the URL [$MANIFEST_URL$](../manifest.json).
+[Install Your Extension] using the URL [$GITLAB_PAGES$manifest.json](../manifest.json).
 
 [Install Your Extension]: https://docs.owlbear.rodeo/extensions/tutorial-hello-world/install-your-extension/
 
