@@ -5,7 +5,7 @@ author: $AUTHOR$
 image: $GITLAB_PAGES$store/enter-portal.gif
 icon: $GITLAB_PAGES$font-awesome/svgs/dungeon-solid.svg
 tags:
-  - tool
+  - automation
 manifest: $GITLAB_PAGES$manifest.json
 learn-more: $HOMEPAGE$
 ---
