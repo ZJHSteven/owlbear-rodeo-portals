@@ -1,5 +1,9 @@
 image: node:lts-slim
 
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  GIT_DEPTH: "0"
+
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH
@@ -15,3 +19,17 @@ pages:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
   environment: production
+
+sonarcloud-check:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
