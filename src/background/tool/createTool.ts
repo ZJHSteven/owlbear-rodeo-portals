@@ -1,7 +1,10 @@
 import { EXTENSION_ID } from "../../constants";
 import { Obr } from "../../obr/types";
 import createIconUrl from "../../fontAwesome/createIconUrl";
-import createToolModes from "./createToolModes";
+import createToolModes, {
+  DEFAULT_DIRECTION,
+  DIRECTION_METADATA_ID,
+} from "./createToolModes";
 import createToolActions from "./createToolActions";
 import {
   DEFAULT_LINK_VISIBILITY,
@@ -17,6 +20,7 @@ export const TOOL_ID = `${EXTENSION_ID}/tool/portals`;
 const DEFAULT_METADATA = {
   [LINK_VISIBILITY_METADATA_ID]: DEFAULT_LINK_VISIBILITY,
   [CONTEXT_MENU_VISIBILITY_METADATA_ID]: DEFAULT_CONTEXT_MENU_VISIBILITY,
+  [DIRECTION_METADATA_ID]: DEFAULT_DIRECTION,
 };
 
 export default async function createTool(obr: Obr) {

@@ -8,60 +8,37 @@ import {
   updateIndicator,
 } from "../../crud/create/create";
 
-export const ADD_ONE_WAY_TELEPORT_TOOL_MODE_ID = `${TOOL_ID}/mode/add-one-way-teleport`;
-export const ADD_TWO_WAY_TELEPORT_TOOL_MODE_ID = `${TOOL_ID}/mode/add-two-way-teleport`;
+export const ATTACH_TELEPORT_TOOL_MODE_ID = `${TOOL_ID}/mode/attach-teleport`;
+
+export const DIRECTION_METADATA_ID = "direction";
+export const DEFAULT_DIRECTION = Direction.ONE_WAY;
 
 export default async function createToolModes(obr: Obr) {
   await Promise.all([
     obr.tool.createMode({
-      id: ADD_ONE_WAY_TELEPORT_TOOL_MODE_ID,
+      id: ATTACH_TELEPORT_TOOL_MODE_ID,
       icons: [
         {
-          icon: createIconUrl("arrow-right-solid.svg"),
-          label: "Add One-Way Teleport",
+          icon: createIconUrl("link-solid.svg"),
+          label: "Attach Teleport",
           filter: { activeTools: [TOOL_ID], roles: ["GM"] },
         },
       ],
       cursors: [{ cursor: "crosshair" }],
-      async onToolClick(context, event) {
-        await handleSetTarget(setTarget(obr, event.target));
-      },
-      async onToolMove(context, event) {
-        await updateIndicator(
-          obr,
-          event.pointerPosition,
-          Direction.ONE_WAY,
-          event.target,
+      async onToolClick({ metadata }, event) {
+        await handleSetTarget(
+          setTarget(
+            obr,
+            event.target,
+            metadata[DIRECTION_METADATA_ID] as Direction,
+          ),
         );
       },
-      async onKeyDown(context, event) {
-        if (event.key === "Escape") {
-          await reset(obr);
-        }
-      },
-      async onDeactivate() {
-        await reset(obr);
-      },
-    }),
-
-    obr.tool.createMode({
-      id: ADD_TWO_WAY_TELEPORT_TOOL_MODE_ID,
-      icons: [
-        {
-          icon: createIconUrl("arrows-left-right-solid.svg"),
-          label: "Add Two-Way Teleport",
-          filter: { activeTools: [TOOL_ID], roles: ["GM"] },
-        },
-      ],
-      cursors: [{ cursor: "crosshair" }],
-      async onToolClick(context, event) {
-        await handleSetTarget(setTarget(obr, event.target, Direction.TWO_WAY));
-      },
-      async onToolMove(context, event) {
+      async onToolMove({ metadata }, event) {
         await updateIndicator(
           obr,
           event.pointerPosition,
-          Direction.TWO_WAY,
+          metadata[DIRECTION_METADATA_ID] as Direction,
           event.target,
         );
       },

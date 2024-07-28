@@ -3,9 +3,11 @@ import { createToggleLinkVisibilityAction } from "./action/toggleLinkVisiblity";
 import { createToggleContextMenuVisibilityAction } from "./action/toggleContextMenuVisibility";
 import { createCheckPortalsAction } from "./action/checkPortals";
 import { createMetaActions } from "./action/meta";
+import createToggleDirectionAction from "./action/toggleDirection";
 
 export default async function createToolActions(obr: Obr) {
   await Promise.all([
+    createToggleDirectionAction(obr),
     createToggleLinkVisibilityAction(obr),
     createToggleContextMenuVisibilityAction(obr),
     createCheckPortalsAction(obr),

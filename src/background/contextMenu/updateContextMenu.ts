@@ -5,8 +5,8 @@ import removeDestinations from "../../crud/delete/destination/removeDestinations
 import { Direction, setTarget } from "../../crud/create/create";
 import { TOOL_ID } from "../tool/createTool";
 import {
-  ADD_ONE_WAY_TELEPORT_TOOL_MODE_ID,
-  ADD_TWO_WAY_TELEPORT_TOOL_MODE_ID,
+  ATTACH_TELEPORT_TOOL_MODE_ID,
+  DIRECTION_METADATA_ID,
 } from "../tool/createToolModes";
 import { Metadata } from "@owlbear-rodeo/sdk";
 
@@ -85,7 +85,10 @@ async function createContextMenu(obr: Obr) {
       async onClick(context) {
         await obr.player.deselect();
         await obr.tool.activateTool(TOOL_ID);
-        await obr.tool.activateMode(TOOL_ID, ADD_ONE_WAY_TELEPORT_TOOL_MODE_ID);
+        await obr.tool.activateMode(TOOL_ID, ATTACH_TELEPORT_TOOL_MODE_ID);
+        await obr.tool.setMetadata(TOOL_ID, {
+          [DIRECTION_METADATA_ID]: Direction.ONE_WAY,
+        });
         await setTarget(obr, context.items[0]);
       },
     }),
@@ -111,7 +114,10 @@ async function createContextMenu(obr: Obr) {
       async onClick(context) {
         await obr.player.deselect();
         await obr.tool.activateTool(TOOL_ID);
-        await obr.tool.activateMode(TOOL_ID, ADD_TWO_WAY_TELEPORT_TOOL_MODE_ID);
+        await obr.tool.activateMode(TOOL_ID, ATTACH_TELEPORT_TOOL_MODE_ID);
+        await obr.tool.setMetadata(TOOL_ID, {
+          [DIRECTION_METADATA_ID]: Direction.TWO_WAY,
+        });
         await setTarget(obr, context.items[0], Direction.TWO_WAY);
       },
     }),

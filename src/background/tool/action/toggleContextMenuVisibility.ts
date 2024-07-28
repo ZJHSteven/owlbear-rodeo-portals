@@ -7,7 +7,7 @@ import {
 } from "../../contextMenu/updateContextMenu";
 
 export async function createToggleContextMenuVisibilityAction(obr: Obr) {
-  return obr.tool.createAction({
+  await obr.tool.createAction({
     id: `${TOOL_ID}/action/toggle-context-menu-visibility`,
     icons: [
       {
