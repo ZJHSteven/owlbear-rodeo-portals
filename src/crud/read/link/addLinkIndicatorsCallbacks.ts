@@ -12,4 +12,5 @@ export default async function addLinkIndicatorsCallbacks(obr: Obr) {
   );
   obr.theme.onChange((theme) => updateLinkIndicatorsTheme(obr, theme));
   onSceneItemsChange(obr, async () => await applyLinkIndicatorVisibility(obr));
+  obr.player.onChange(() => applyLinkIndicatorVisibility(obr));
 }
