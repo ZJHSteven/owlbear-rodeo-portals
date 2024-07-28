@@ -84,7 +84,6 @@ Work-around for Chrome-based browsers:
 - feat: cursor
 - refactor: no `as ...` conversion
 - feat: tool to place a portal token and then link to another portal
-- feat: tool to place a portal token and then place another portal token that is automatically linked
 - feat: select default asset for new portals
 - fix: use bounding boxes for collision instead of point
 - feat: mishaps (teleport somewhere else)

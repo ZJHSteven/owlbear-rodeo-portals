@@ -4,7 +4,9 @@ import setIndicatorPosition, {
   Heads,
 } from "../../ui/canvas/indicator/setIndicatorPosition";
 import hasDestination from "../read/destination/hasDestination";
-import setDestination from "../read/destination/setDestination";
+import setDestination, {
+  setDestinations,
+} from "../read/destination/setDestination";
 import createIndicator from "../../ui/canvas/indicator/createIndicator";
 import getItemBounds, {
   isSupported,
@@ -19,7 +21,7 @@ export enum Direction {
 let origin: SupportedItem | null = null;
 let indicatorId: string | null = null;
 
-export async function setTarget(
+export async function setLinkTarget(
   obr: Obr,
   target?: Item,
   direction: Direction = Direction.ONE_WAY,
@@ -31,13 +33,13 @@ export async function setTarget(
   return finish(obr, direction, target)
     .then((done) => {
       if (done) {
-        reset(obr);
+        resetLink(obr);
       }
 
       return done;
     })
     .catch((error) => {
-      reset(obr);
+      resetLink(obr);
       throw error;
     });
 }
@@ -105,18 +107,7 @@ async function finish(obr: Obr, direction: Direction, target?: Item) {
     throw error;
   }
 
-  const destinations: Record<string, SupportedItem> = { [origin.id]: target };
-  if (direction === Direction.TWO_WAY) {
-    destinations[target.id] = origin;
-  }
-
-  const filter: ItemFilter<Item> = Object.keys(destinations);
-  await obr.scene.items.updateItems(filter, (items) => {
-    for (let item of items) {
-      setDestination(item, destinations[item.id]);
-    }
-  });
-
+  await setDestinations(obr, origin, target, direction);
   return true;
 }
 
@@ -144,7 +135,7 @@ function checkDestination(
   return null;
 }
 
-export async function updateIndicator(
+export async function updateLinkIndicator(
   obr: Obr,
   position: Vector2,
   direction: Direction,
@@ -189,7 +180,7 @@ function isValidDestination(
   return checkDestination(direction, origin, target) === null;
 }
 
-export async function reset(obr: Obr) {
+export async function resetLink(obr: Obr) {
   origin = null;
   if (indicatorId === null) {
     return;

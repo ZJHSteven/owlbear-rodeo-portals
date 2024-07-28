@@ -2,7 +2,7 @@ import { Obr } from "../../../obr/types";
 import { TOOL_ID } from "../createTool";
 import createIconUrl from "../../../fontAwesome/createIconUrl";
 import { DIRECTION_METADATA_ID } from "../createToolModes";
-import { Direction } from "../../../crud/create/create";
+import { Direction } from "../../../crud/create/link";
 
 export default async function createToggleDirectionAction(obr: Obr) {
   await obr.tool.createAction({

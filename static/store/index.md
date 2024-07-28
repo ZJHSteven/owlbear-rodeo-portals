@@ -66,23 +66,38 @@ The following type of tokens are supported:
 
 ### Create portals
 
-#### Create one-way portals
+There are two ways to add portals on your map.
 
-1. Activate the _Portals_ tool.
-2. Activate the _Add One-Way Teleport_ mode.
-3. Click on the token that should be the origin.
-4. Click on the token that should be the destination.
-5. A notification is shown, that the link has been created.
+1. Add a link between two existing tokens.
 
-![Animation: A one-way portal is created.]($GITLAB_PAGES$store/create-portal-link.gif)
+   1. Activate the _Portals_ tool.
+   2. Activate the _Attach Teleport to Token_ mode.
+   3. Click on the token that should be the origin.
+   4. Click on the token that should be the destination.
+   5. A notification is shown, that the link has been created.
 
-#### Create two-way portals
+   ![Animation: A link is added between two existing tokens.]($GITLAB_PAGES$store/attach-teleport.gif)
 
-1. Activate the _Portals_ tool.
-2. Activate the _Add Two-Way Teleport_ mode.
-3. Click on the token that should be one side of the portal.
-4. Click on the token that should be the other side of the portal.
-5. A notification is shown, that the link has been created.
+2. Place two new tokens and automatically link them.
+
+   1. Activate the _Portals_ tool.
+   2. Click the _Set Image (Origin)_ action to pick a token as the origin. (You only have to do this once.)
+   3. Click the _Set Image (Destination)_ action to pick a token as the destination. (You only have to do this once.)
+   4. Activate the _Add Teleport Token to Map_ mode.
+   5. Click on the map where the origin should be placed.
+   6. Click on the map where the destination should be placed.
+   7. A notification is shown, that the link has been created.
+
+   ![Animation: After defining the respective images, two tokens are added as origin and destinations.]($GITLAB_PAGES$store/add-teleport-tokens.gif)
+
+### Create two-way portals
+
+Usually new portals only work in one direction, from origin to destination. To create two-way portals,
+you can either create a one-way portal and then link the destination back to the origin manually.
+
+Or you can toggle the direction for new portals. If the two-way direction is enabled, new links automatically are created in both directions.
+
+![Animation: The direction is changed from one-way to two-way.]($GITLAB_PAGES$store/toggle-direction.gif)
 
 ### Delete portals
 

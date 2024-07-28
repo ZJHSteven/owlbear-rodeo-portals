@@ -2,7 +2,7 @@ import { Obr } from "../../obr/types";
 import { DESTINATION_ID_METADATA_ID, EXTENSION_ID } from "../../constants";
 import createIconUrl from "../../fontAwesome/createIconUrl";
 import removeDestinations from "../../crud/delete/destination/removeDestinations";
-import { Direction, setTarget } from "../../crud/create/create";
+import { Direction, setLinkTarget } from "../../crud/create/link";
 import { TOOL_ID } from "../tool/createTool";
 import {
   ATTACH_TELEPORT_TOOL_MODE_ID,
@@ -89,7 +89,7 @@ async function createContextMenu(obr: Obr) {
         await obr.tool.setMetadata(TOOL_ID, {
           [DIRECTION_METADATA_ID]: Direction.ONE_WAY,
         });
-        await setTarget(obr, context.items[0]);
+        await setLinkTarget(obr, context.items[0]);
       },
     }),
     obr.contextMenu.create({
@@ -118,7 +118,7 @@ async function createContextMenu(obr: Obr) {
         await obr.tool.setMetadata(TOOL_ID, {
           [DIRECTION_METADATA_ID]: Direction.TWO_WAY,
         });
-        await setTarget(obr, context.items[0], Direction.TWO_WAY);
+        await setLinkTarget(obr, context.items[0], Direction.TWO_WAY);
       },
     }),
   ]);

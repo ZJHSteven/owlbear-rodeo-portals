@@ -3,12 +3,18 @@ import { TOOL_ID } from "./createTool";
 import createIconUrl from "../../fontAwesome/createIconUrl";
 import {
   Direction,
-  reset,
-  setTarget,
-  updateIndicator,
-} from "../../crud/create/create";
+  resetLink,
+  setLinkTarget,
+  updateLinkIndicator,
+} from "../../crud/create/link";
+import {
+  resetImage,
+  setImagePosition,
+  updateImageIndicator,
+} from "../../crud/create/image";
 
 export const ATTACH_TELEPORT_TOOL_MODE_ID = `${TOOL_ID}/mode/attach-teleport`;
+export const CREATE_TELEPORT_TOOL_MODE_ID = `${TOOL_ID}/mode/create-teleport`;
 
 export const DIRECTION_METADATA_ID = "direction";
 export const DEFAULT_DIRECTION = Direction.ONE_WAY;
@@ -20,14 +26,14 @@ export default async function createToolModes(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("link-solid.svg"),
-          label: "Attach Teleport",
+          label: "Attach Teleport to Token",
           filter: { activeTools: [TOOL_ID], roles: ["GM"] },
         },
       ],
       cursors: [{ cursor: "crosshair" }],
       async onToolClick({ metadata }, event) {
-        await handleSetTarget(
-          setTarget(
+        await handlePromise(
+          setLinkTarget(
             obr,
             event.target,
             metadata[DIRECTION_METADATA_ID] as Direction,
@@ -35,7 +41,7 @@ export default async function createToolModes(obr: Obr) {
         );
       },
       async onToolMove({ metadata }, event) {
-        await updateIndicator(
+        await updateLinkIndicator(
           obr,
           event.pointerPosition,
           metadata[DIRECTION_METADATA_ID] as Direction,
@@ -44,16 +50,48 @@ export default async function createToolModes(obr: Obr) {
       },
       async onKeyDown(context, event) {
         if (event.key === "Escape") {
-          await reset(obr);
+          await resetLink(obr);
         }
       },
       async onDeactivate() {
-        await reset(obr);
+        await resetLink(obr);
+      },
+    }),
+
+    obr.tool.createMode({
+      id: CREATE_TELEPORT_TOOL_MODE_ID,
+      icons: [
+        {
+          icon: createIconUrl("image-solid.svg"),
+          label: "Add Teleport Token to Scene",
+          filter: { activeTools: [TOOL_ID], roles: ["GM"] },
+        },
+      ],
+      cursors: [{ cursor: "crosshair" }],
+      async onToolClick({ metadata }, event) {
+        await handlePromise(
+          setImagePosition(
+            obr,
+            event.pointerPosition,
+            metadata[DIRECTION_METADATA_ID] as Direction,
+          ),
+        );
+      },
+      async onToolMove(context, event) {
+        await updateImageIndicator(obr, event.pointerPosition);
+      },
+      async onKeyDown(context, event) {
+        if (event.key === "Escape") {
+          await resetImage(obr);
+        }
+      },
+      async onDeactivate() {
+        await resetImage(obr);
       },
     }),
   ]);
 
-  async function handleSetTarget(promise: Promise<boolean | void>) {
+  async function handlePromise(promise: Promise<boolean | void>) {
     return promise
       .then((done) => {
         if (done) {
