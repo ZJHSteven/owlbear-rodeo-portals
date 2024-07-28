@@ -8,7 +8,7 @@ const child_process = require("child_process");
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
 
-  const gitRef = isProduction ? "main" : "origin/main";
+  const gitRef = isProduction ? "HEAD" : "origin/main";
   const gitId = child_process
     .execFileSync("git", ["rev-parse", gitRef], { encoding: "utf8" })
     .trim();
