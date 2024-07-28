@@ -94,6 +94,7 @@ Work-around for Chrome-based browsers:
 - feat: spread tokens when multiple tokens are teleported to the same destination
 - feat: keep relative position when multiple are teleported to the same destination
 - feat: overview of all origins to quickly navigate to them
+- refactor: use Suspense instead of useEffect + ignore
 
 ### Update dependencies
 

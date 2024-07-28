@@ -1,4 +1,10 @@
 {
   "build_date_time": "$BUILD_DATE_TIME$",
-  "store_url": "$GITLAB_PAGES$store/index.html"
+  "store_url": "$GITLAB_PAGES$store/index.html",
+  "git_lab": {
+    "project_id": 59471900
+  },
+  "git": {
+    "id": "$GIT_ID$"
+  }
 }

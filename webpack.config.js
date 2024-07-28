@@ -3,13 +3,21 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const meta = require("./package.json");
 const CaseSensitivePathsPlugin = require("@umijs/case-sensitive-paths-webpack-plugin");
+const child_process = require("child_process");
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
+
+  const gitRef = isProduction ? "main" : "origin/main";
+  const gitId = child_process
+    .execFileSync("git", ["rev-parse", gitRef], { encoding: "utf8" })
+    .trim();
+
   return {
     mode: "development",
     entry: {
       background: "./src/background/main.ts",
+      changelog: "./src/changelog/main.tsx",
     },
     devtool: isProduction ? undefined : "eval-cheap-source-map",
     devServer: {
@@ -28,6 +36,12 @@ module.exports = (env, argv) => {
         filename: `background.html`,
         favicon: "static/font-awesome/svgs/dungeon-solid.svg",
         chunks: ["background"],
+      }),
+      new HtmlWebpackPlugin({
+        title: meta.name,
+        filename: `changelog.html`,
+        favicon: "static/font-awesome/svgs/dungeon-solid.svg",
+        chunks: ["changelog"],
       }),
       new CopyPlugin({
         patterns: [
@@ -57,7 +71,8 @@ module.exports = (env, argv) => {
                 .replaceAll("$DESCRIPTION$", meta.description)
                 .replaceAll("$AUTHOR$", meta.author.name)
                 .replaceAll("$HOMEPAGE$", meta.homepage)
-                .replaceAll("$GITLAB_PAGES$", meta.config.GITLAB_PAGES);
+                .replaceAll("$GITLAB_PAGES$", meta.config.GITLAB_PAGES)
+                .replaceAll("$GIT_ID$", gitId);
             },
           },
         ],

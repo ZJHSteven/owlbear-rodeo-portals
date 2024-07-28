@@ -1,0 +1,33 @@
+:root {
+  --theme-primary-main: #bb99ff;
+  --theme-primary-light: rgb(200, 173, 255);
+  --theme-primary-dark: rgb(130, 107, 178);
+  --theme-primary-contrast-text: rgba(0, 0, 0, 0.87);
+
+  --theme-secondary-main: #ee99ff;
+  --theme-secondary-light: rgb(241, 173, 255);
+  --theme-secondary-dark: rgb(166, 107, 178);
+  --theme-secondary-contrast-text: rgba(0, 0, 0, 0.87);
+
+  --theme-background-default: #1e2231;
+  --theme-background-paper: #222639;
+
+  --theme-text-primary: #fff;
+  --theme-text-secondary: rgba(255, 255, 255, 0.7);
+  --theme-text-disabled: rgba(255, 255, 255, 0.5);
+}
+
+* {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  outline: none;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  padding: var(--padding);
+  color: var(--theme-text-primary);
+  background-color: var(--theme-background-default);
+}

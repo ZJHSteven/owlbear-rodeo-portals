@@ -1,0 +1,7 @@
+.commits dd {
+  font-size: smaller;
+}
+
+.irrelevant {
+  opacity: 0.5;
+}
