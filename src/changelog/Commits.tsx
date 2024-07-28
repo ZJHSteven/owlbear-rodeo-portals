@@ -13,7 +13,7 @@ type Props = {
 
 const READ_ID_METADATA_ID = `${EXTENSION_ID}/changelog/read-git-id`;
 
-export default function Commits({ projectId, installedId }: Props) {
+export default function Commits({ projectId, installedId }: Readonly<Props>) {
   const [commits, setCommits] = useState<Commit[] | undefined>(undefined);
   const [hasNext, setHasNext] = useState(false);
   const [readId, setReadId] = useState<string | undefined>(undefined);

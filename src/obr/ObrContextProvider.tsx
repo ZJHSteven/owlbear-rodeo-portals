@@ -5,7 +5,9 @@ import obrIsReady from "./obrIsReady";
 
 export const obrContext = createContext<Obr | undefined>(undefined);
 
-export default function ObrContextProvider({ children }: PropsWithChildren) {
+export default function ObrContextProvider({
+  children,
+}: Readonly<PropsWithChildren>) {
   const [obr, setObr] = useState<Obr | undefined>(undefined);
   usePromise(async () => obrIsReady(), setObr);
   return <obrContext.Provider value={obr}>{children}</obrContext.Provider>;
