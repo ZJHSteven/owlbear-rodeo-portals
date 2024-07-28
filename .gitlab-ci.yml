@@ -11,6 +11,8 @@ workflow:
 pages:
   stage: deploy
   script:
+    - apt-get update -y
+    - apt-get install -y git
     - npm ci
     - npm run build
   artifacts:
