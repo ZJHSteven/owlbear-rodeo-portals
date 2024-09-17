@@ -99,6 +99,16 @@ There are two ways to add portals on your map.
 
 ![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)
 
+### Keep relative position
+
+You can configure a destination to keep teleported tokens in the same relative position they had before teleporting. This can be useful if you intend to use the portal for multiple tokens at once, e.g. for actual portals instead of simple traps.
+
+1. Right-click on a destination token.
+2. Click the _Spread Incoming Teleports_ context menu.
+3. From now on the destination will spread the teleported tokens accordingly.
+
+You can change this setting back by using the _Center Incoming Teleports_ context menu.
+
 ### Create two-way portals
 
 Usually new portals only work in one direction, from origin to destination. To create two-way portals,
