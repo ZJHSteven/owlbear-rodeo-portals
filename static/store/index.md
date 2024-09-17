@@ -90,6 +90,15 @@ There are two ways to add portals on your map.
 
    ![Animation: After defining the respective images, two tokens are added as origin and destinations.]($GITLAB_PAGES$store/add-teleport-tokens.gif)
 
+### Enter a portal
+
+1. Select a character token.
+2. Move it the center of the token into the bounding box of a portal origin.
+3. The character token is automagically moved to the portal's destination.
+4. The viewport of the player (all connections) that moved the token is centered on that token.
+
+![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)
+
 ### Create two-way portals
 
 Usually new portals only work in one direction, from origin to destination. To create two-way portals,
@@ -118,15 +127,6 @@ The links are only shown for yourself and not for any other player or GM.
 5. The existing links are no longer shown.
 
 ![Animation: The display of portal links is activated and deactivated.]($GITLAB_PAGES$store/show-portal-links.gif)
-
-### Enter a portal
-
-1. Select a character token.
-2. Move it the center of the token into the bounding box of a portal origin.
-3. The character token is automagically moved to the portal's destination.
-4. The viewport of the player (all connections) that moved the token is centered on that token.
-
-![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)
 
 ### Show/hide context menu
 
