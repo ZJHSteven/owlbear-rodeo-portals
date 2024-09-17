@@ -17,18 +17,23 @@ export async function createCheckPortalsAction(obr: Obr) {
       },
     ],
     async onClick() {
-      const errors = await checkIntegrity(obr);
-      if (errors.length === 0) {
+      const validationResults = await checkIntegrity(obr);
+      if (validationResults.length === 0) {
         await obr.notification.show("Everything seems ok.", "INFO");
         return;
       }
 
-      errors.forEach(({ offendingItem, message }) => {
+      validationResults.forEach(({ offendingItem, level, message }) => {
+        if (level === "warning") {
+          console.warn(message, offendingItem.id, offendingItem);
+          return;
+        }
+
         console.error(message, offendingItem.id, offendingItem);
       });
 
       await obr.notification.show(
-        `There are errors: ${errors.map(({ message }) => message).join("\n")}`,
+        `There are errors or warnings: ${validationResults.map(({ message }) => message).join("\n")}`,
         "ERROR",
       );
     },
