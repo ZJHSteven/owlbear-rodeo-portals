@@ -93,7 +93,7 @@ There are two ways to add portals on your map.
 ### Enter a portal
 
 1. Select a character token.
-2. Move it the center of the token into the bounding box of a portal origin.
+2. Move it to the center of the token into the bounding box of a portal origin.
 3. The character token is automagically moved to the portal's destination.
 4. The viewport of the player (all connections) that moved the token is centered on that token.
 
