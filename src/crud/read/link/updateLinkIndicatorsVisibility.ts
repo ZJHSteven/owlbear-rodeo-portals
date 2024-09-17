@@ -14,6 +14,7 @@ import {
 import getItemBounds, {
   isSupported,
 } from "../../../obr/scene/items/getItemBounds";
+import { DESTINATION_ID_METADATA_ID } from "../../../constants";
 
 type Portal = {
   originId: string;
@@ -55,11 +56,22 @@ async function findDiff(obr: Obr): Promise<Diff> {
 
   const added: Portal[] = [];
   const updated: Updates = {};
-  const destinations: Record<string, Vector2> = {};
+  const destinationsCache: Record<string, Vector2> = {};
 
   for (let origin of origins.filter(isSupported)) {
     try {
-      const destination = await findDestination(obr, origin, destinations);
+      const destinationId = origin.metadata[
+        DESTINATION_ID_METADATA_ID
+      ] as string;
+      const destination = await getCached(
+        destinationId,
+        destinationsCache,
+        async () =>
+          findDestination(obr, destinationId).then(
+            ({ bounds: { center } }) => center,
+          ),
+      );
+
       const boundingBox = await getItemBounds(origin);
       const portal = {
         originId: origin.id,
@@ -86,6 +98,18 @@ async function findDiff(obr: Obr): Promise<Diff> {
     .map(({ id }) => id);
 
   return { added, updated, deleted };
+}
+
+async function getCached<T>(
+  key: string,
+  cache: Record<string, T>,
+  fetch: () => Promise<T>,
+): Promise<T> {
+  if (key in cache) {
+    return cache[key];
+  }
+
+  return fetch();
 }
 
 async function findIndicatorIds(obr: Obr): Promise<string[]> {

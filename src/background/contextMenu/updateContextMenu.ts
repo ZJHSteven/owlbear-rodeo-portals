@@ -1,5 +1,10 @@
 import { Obr } from "../../obr/types";
-import { DESTINATION_ID_METADATA_ID, EXTENSION_ID } from "../../constants";
+import {
+  DESTINATION_ID_METADATA_ID,
+  EXTENSION_ID,
+  SPREAD_ID_METADATA_ID,
+  SPREAD_RELATIVE,
+} from "../../constants";
 import createIconUrl from "../../fontAwesome/createIconUrl";
 import removeDestinations from "../../crud/delete/destination/removeDestinations";
 import { Direction, setLinkTarget } from "../../crud/create/link";
@@ -16,6 +21,8 @@ export const DEFAULT_CONTEXT_MENU_VISIBILITY = true;
 const REMOVE_DESTINATION_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/remove-destination`;
 const ADD_ONE_WAY_TELEPORT_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/create-one-way-teleport`;
 const ADD_TWO_WAY_TELEPORT_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/create-two-way-teleport`;
+const SPREAD_RELATIVE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/spread-relative`;
+const SPREAD_NONE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/spread-none`;
 
 export default async function updateContextMenu(obr: Obr) {
   const visibility = await getVisibility(obr);
@@ -121,6 +128,61 @@ async function createContextMenu(obr: Obr) {
         await setLinkTarget(obr, context.items[0], Direction.TWO_WAY);
       },
     }),
+
+    obr.contextMenu.create({
+      id: SPREAD_RELATIVE_CONTEXT_MENU_ID,
+      icons: [
+        {
+          icon: createIconUrl("maximize-solid.svg"),
+          label: "Spread Incoming Teleports",
+          filter: {
+            roles: ["GM"],
+            min: 1,
+            some: [
+              {
+                key: ["metadata", SPREAD_ID_METADATA_ID],
+                value: undefined,
+              },
+            ],
+          },
+        },
+      ],
+      async onClick(context) {
+        await obr.scene.items.updateItems(context.items, (items) => {
+          for (const item of items) {
+            item.metadata[SPREAD_ID_METADATA_ID] = SPREAD_RELATIVE;
+          }
+        });
+      },
+    }),
+
+    obr.contextMenu.create({
+      id: SPREAD_NONE_CONTEXT_MENU_ID,
+      icons: [
+        {
+          icon: createIconUrl("minimize-solid.svg"),
+          label: "Center Incoming Teleports",
+          filter: {
+            roles: ["GM"],
+            min: 1,
+            some: [
+              {
+                key: ["metadata", SPREAD_ID_METADATA_ID],
+                value: undefined,
+                operator: "!=",
+              },
+            ],
+          },
+        },
+      ],
+      async onClick(context) {
+        await obr.scene.items.updateItems(context.items, (items) => {
+          for (const item of items) {
+            delete item.metadata[SPREAD_ID_METADATA_ID];
+          }
+        });
+      },
+    }),
   ]);
 }
 
@@ -129,6 +191,8 @@ async function removeContextMenu(obr: Obr) {
     obr.contextMenu.remove(REMOVE_DESTINATION_CONTEXT_MENU_ID),
     obr.contextMenu.remove(ADD_ONE_WAY_TELEPORT_CONTEXT_MENU_ID),
     obr.contextMenu.remove(ADD_TWO_WAY_TELEPORT_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(SPREAD_RELATIVE_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(SPREAD_NONE_CONTEXT_MENU_ID),
   ]);
 }
 

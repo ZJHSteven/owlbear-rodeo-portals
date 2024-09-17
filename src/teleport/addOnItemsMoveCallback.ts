@@ -4,11 +4,13 @@ import { findOrigins } from "../crud/read/origin/findOrigins";
 import { findDestination } from "../crud/read/destination/findDestination";
 import onItemsMove from "../obr/scene/items/onItemsMove";
 import gotoPosition from "../obr/viewport/gotoPosition";
-import { EXTENSION_ID } from "../constants";
-import getItemBounds, {
-  isSupported,
-  SupportedItem,
-} from "../obr/scene/items/getItemBounds";
+import {
+  DESTINATION_ID_METADATA_ID,
+  EXTENSION_ID,
+  SPREAD_ID_METADATA_ID,
+  SPREAD_RELATIVE,
+} from "../constants";
+import getItemBounds, { isSupported } from "../obr/scene/items/getItemBounds";
 
 const DESTINATION_POSITION_METADATA_ID = `${EXTENSION_ID}/destination-position`;
 
@@ -58,24 +60,28 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
 }
 
 async function findTeleports(obr: Obr, items: Item[]) {
-  const teleports: Record<string, Vector2> = {};
   if (items.length === 0) {
-    return teleports;
+    return {};
   }
 
-  const bounds: Record<string, BoundingBox> = {};
-  const destinations: Record<string, Vector2> = {};
-
+  const destinationGroups: Record<string, { origin: Vector2; item: Item }[]> =
+    {};
   const origins = await findOrigins(obr);
   for (let origin of origins.filter(isSupported)) {
+    const bounds = await getItemBounds(origin);
+    const destinationId = origin.metadata[DESTINATION_ID_METADATA_ID] as string;
+    destinationGroups[destinationId] = [];
     for (let item of items) {
       try {
         if (item.id === origin.id) {
           continue;
         }
 
-        if (await collides(item, origin, bounds)) {
-          teleports[item.id] = await findDestination(obr, origin, destinations);
+        if (collides(item.position, bounds)) {
+          destinationGroups[destinationId].push({
+            origin: bounds.center,
+            item,
+          });
         }
       } catch (error) {
         console.error(error);
@@ -83,25 +89,22 @@ async function findTeleports(obr: Obr, items: Item[]) {
     }
   }
 
+  const teleports: Record<string, Vector2> = {};
+  for (let destinationId in destinationGroups) {
+    const { destination, bounds } = await findDestination(obr, destinationId);
+    const group = destinationGroups[destinationId];
+    for (const { origin, item } of group) {
+      teleports[item.id] = { ...bounds.center };
+      if (destination.metadata[SPREAD_ID_METADATA_ID] === SPREAD_RELATIVE) {
+        teleports[item.id].x += item.position.x - origin.x;
+        teleports[item.id].y += item.position.y - origin.y;
+      }
+    }
+  }
+
   return teleports;
 }
 
-async function collides(
-  { position: { x, y } }: Item,
-  origin: SupportedItem,
-  bounds: Record<string, BoundingBox>,
-): Promise<boolean> {
-  const { min, max } = await getBounds(origin, bounds);
+function collides({ x, y }: Vector2, { min, max }: BoundingBox) {
   return min.x <= x && x <= max.x && min.y <= y && y <= max.y;
-}
-
-async function getBounds(
-  item: SupportedItem,
-  bounds: Record<string, BoundingBox>,
-): Promise<BoundingBox> {
-  if (bounds[item.id]) {
-    return bounds[item.id];
-  }
-
-  return (bounds[item.id] = await getItemBounds(item));
 }

@@ -91,7 +91,6 @@ Work-around for Chrome-based browsers:
 - feat: option to select valid token layers for teleported tokens (still allow any layer for portals)
 - feat: detect portal collision for the whole movement not only the new position of the moved tokens
 - feat: spread tokens when multiple tokens are teleported to the same destination
-- feat: keep relative position when multiple are teleported to the same destination
 - feat: overview of all origins to quickly navigate to them
 - refactor: use Suspense instead of useEffect + ignore
 

@@ -1,6 +1,5 @@
 import { Obr } from "../../../obr/types";
-import { Item, Vector2 } from "@owlbear-rodeo/sdk";
-import { DESTINATION_ID_METADATA_ID } from "../../../constants";
+import { BoundingBox, Item } from "@owlbear-rodeo/sdk";
 import { optionalOne } from "../../../data/array";
 import getItemBounds, {
   isSupported,
@@ -9,17 +8,13 @@ import getItemBounds, {
 
 export async function findDestination(
   obr: Obr,
-  origin: SupportedItem,
-  destinations: Record<string, Vector2>,
-): Promise<Vector2> {
-  if (destinations[origin.id]) {
-    return destinations[origin.id];
-  }
-
+  destinationId: string,
+): Promise<{
+  destination: SupportedItem;
+  bounds: BoundingBox;
+}> {
   const destination = optionalOne<Item>(
-    await obr.scene.items.getItems([
-      origin.metadata[DESTINATION_ID_METADATA_ID] as string,
-    ]),
+    await obr.scene.items.getItems([destinationId]),
   );
 
   if (destination === undefined) {
@@ -30,6 +25,6 @@ export async function findDestination(
     throw "unsupported destination type";
   }
 
-  const boundingBox = await getItemBounds(destination);
-  return (destinations[origin.id] = boundingBox.center);
+  const bounds = await getItemBounds(destination);
+  return { destination, bounds };
 }
