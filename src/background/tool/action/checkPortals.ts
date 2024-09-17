@@ -23,12 +23,12 @@ export async function createCheckPortalsAction(obr: Obr) {
         return;
       }
 
-      errors.forEach(({ offendingItem, error }) => {
-        console.error(error, offendingItem.id, offendingItem);
+      errors.forEach(({ offendingItem, message }) => {
+        console.error(message, offendingItem.id, offendingItem);
       });
 
       await obr.notification.show(
-        `There are errors: ${errors.map(({ error }) => error).join("\n")}`,
+        `There are errors: ${errors.map(({ message }) => message).join("\n")}`,
         "ERROR",
       );
     },
