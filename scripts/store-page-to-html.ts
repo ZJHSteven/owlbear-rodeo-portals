@@ -86,7 +86,6 @@ ${html}
         .replaceAll(">../manifest.json<", `>${frontMatter.manifest}<`);
     },
   },
-  useNewRenderer: true,
   renderer,
 });
 
