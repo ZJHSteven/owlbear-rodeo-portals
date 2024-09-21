@@ -32,10 +32,20 @@ export async function createCheckPortalsAction(obr: Obr) {
         console.error(message, offendingItem.id, offendingItem);
       });
 
-      await obr.notification.show(
-        `There are errors or warnings: ${validationResults.map(({ message }) => message).join("\n")}`,
-        "ERROR",
+      alert(
+        validationResults
+          .map(({ level, message }) => `${getLevelEmoji(level)} ${message}`)
+          .join("\n"),
       );
     },
   });
+}
+
+function getLevelEmoji(level: "error" | "warning") {
+  switch (level) {
+    case "error":
+      return "❗";
+    case "warning":
+      return "⚠️";
+  }
 }
