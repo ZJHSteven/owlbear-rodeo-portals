@@ -1,6 +1,6 @@
 import { Obr } from "../obr/types";
 import { findOrigins } from "../crud/read/origin/findOrigins";
-import { Item } from "@owlbear-rodeo/sdk";
+import { Item, Layer } from "@owlbear-rodeo/sdk";
 import { isSupported } from "../obr/scene/items/getItemBounds";
 import {
   DESTINATION_ID_METADATA_ID,
@@ -18,88 +18,116 @@ export default async function checkIntegrity(
 ): Promise<ItemValidationResult[]> {
   const origins = await findOrigins(obr);
 
-  return (
-    await Promise.all([checkOrigins(origins), checkDestinations(obr, origins)])
-  ).flat();
+  const results: ItemValidationResult[] = [];
+  await Promise.all([
+    checkOrigins(origins, results),
+    checkDestinations(obr, origins, results),
+  ]);
+
+  return results;
 }
 
-async function checkOrigins(origins: Item[]): Promise<ItemValidationResult[]> {
-  return origins.flatMap(checkOrigin);
+async function checkOrigins(origins: Item[], results: ItemValidationResult[]) {
+  return origins.flatMap((origin) => checkOrigin(origin, results));
 }
 
-function checkOrigin(origin: Item): ItemValidationResult[] {
+function checkOrigin(origin: Item, results: ItemValidationResult[]) {
   if (!isSupported(origin)) {
-    return [
-      {
-        offendingItem: origin,
-        level: "error",
-        message: "Token type for origin not supported.",
-      },
-    ];
+    results.push({
+      offendingItem: origin,
+      level: "error",
+      message: "Token type for origin not supported.",
+    });
   }
 
-  return [];
+  if (!isAccessibleLayer(origin.layer)) {
+    results.push({
+      offendingItem: origin,
+      level: "warning",
+      message: `Origin token ${origin.id} is on an inaccessible layer.`,
+    });
+  }
 }
 
 async function checkDestinations(
   obr: Obr,
   origins: Item[],
-): Promise<ItemValidationResult[]> {
+  results: ItemValidationResult[],
+) {
   const destinationIds = origins.map(
     ({ metadata }) => metadata[DESTINATION_ID_METADATA_ID] as string,
   );
   const destinations = await obr.scene.items.getItems(destinationIds);
 
-  const errors = origins.flatMap((origin) =>
-    checkDestination(origin, destinations),
-  );
+  origins.forEach((origin) => checkDestination(origin, destinations, results));
 
-  const orphans = await checkOrphanedDestinations(obr, destinationIds);
-  orphans.forEach((orphan) => {
-    errors.push({
-      offendingItem: orphan,
-      level: "warning",
-      message: `Token ${orphan.id} looks like a destination but has no origin.`,
-    });
-  });
-
-  return errors;
-}
-
-async function checkOrphanedDestinations(obr: Obr, destinationIds: string[]) {
-  const destinations = await obr.scene.items.getItems(looksLikeDestination);
-  return destinations.filter(({ id }) => !destinationIds.includes(id));
-}
-
-function looksLikeDestination(item: Item) {
-  return SPREAD_ID_METADATA_ID in item.metadata;
+  await checkOrphanedDestinations(obr, destinationIds, results);
 }
 
 function checkDestination(
   origin: Item,
   destinations: Item[],
-): ItemValidationResult[] {
+  results: ItemValidationResult[],
+) {
   const destinationId = origin.metadata[DESTINATION_ID_METADATA_ID] as string;
   const destination = destinations.find(({ id }) => id === destinationId);
   if (destination === undefined) {
-    return [
-      {
-        offendingItem: origin,
-        level: "error",
-        message: `Destination token ${destinationId} is missing.`,
-      },
-    ];
+    results.push({
+      offendingItem: origin,
+      level: "error",
+      message: `Destination token ${destinationId} is missing.`,
+    });
+
+    return;
   }
 
   if (!isSupported(destination)) {
-    return [
-      {
-        offendingItem: destination,
-        level: "error",
-        message: "Token type for destination not supported.",
-      },
-    ];
+    results.push({
+      offendingItem: destination,
+      level: "error",
+      message: "Token type for destination not supported.",
+    });
   }
 
-  return [];
+  if (!isAccessibleLayer(destination.layer)) {
+    results.push({
+      offendingItem: destination,
+      level: "warning",
+      message: `Destination token ${destinationId} is on an inaccessible layer.`,
+    });
+  }
+}
+
+function isAccessibleLayer(layer: Layer) {
+  return (
+    layer === "MAP" ||
+    layer === "DRAWING" ||
+    layer === "PROP" ||
+    layer === "MOUNT" ||
+    layer === "CHARACTER" ||
+    layer === "ATTACHMENT" ||
+    layer === "NOTE" ||
+    layer === "TEXT"
+  );
+}
+
+async function checkOrphanedDestinations(
+  obr: Obr,
+  destinationIds: string[],
+  results: ItemValidationResult[],
+) {
+  const destinations = await obr.scene.items.getItems(looksLikeDestination);
+  destinations
+    .filter(({ id }) => !destinationIds.includes(id))
+    .forEach((orphan) => {
+      results.push({
+        offendingItem: orphan,
+        level: "warning",
+        message: `Token ${orphan.id} looks like a destination but has no origin.`,
+      });
+    });
+}
+
+function looksLikeDestination(item: Item) {
+  return SPREAD_ID_METADATA_ID in item.metadata;
 }
