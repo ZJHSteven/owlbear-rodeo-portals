@@ -2,7 +2,7 @@
   "private": true,
   "name": "Portals",
   "description": "This extension lets you create portals between tokens in order to move character tokens on the map.",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "author": {
     "name": "resident-uhlig"
   },

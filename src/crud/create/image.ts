@@ -59,7 +59,8 @@ function createImage(pointerPosition: Vector2, imageDownload: ImageDownload) {
     .locked(imageDownload.locked)
     .rotation(imageDownload.rotation)
     .scale(imageDownload.scale)
-    .position(pointerPosition);
+    .position(pointerPosition)
+    .layer("PROP");
   if (imageDownload.description !== undefined) {
     builder.description(imageDownload.description);
   }

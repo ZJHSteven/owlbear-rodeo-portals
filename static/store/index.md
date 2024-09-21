@@ -88,6 +88,8 @@ There are two ways to add portals on your map.
    6. Click on the map where the destination should be placed.
    7. A notification is shown, that the link has been created.
 
+   > ℹ️ The tokens are added to the "PROPS" layer by default. You can change the layer for them like every normal token.
+
    ![Animation: After defining the respective images, two tokens are added as origin and destinations.]($GITLAB_PAGES$store/add-teleport-tokens.gif)
 
 ### Enter a portal
