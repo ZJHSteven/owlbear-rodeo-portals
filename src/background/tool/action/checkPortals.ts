@@ -37,6 +37,10 @@ export async function createCheckPortalsAction(obr: Obr) {
           .map(({ level, message }) => `${getLevelEmoji(level)} ${message}`)
           .join("\n"),
       );
+
+      await obr.player.select(
+        validationResults.map(({ offendingItem: { id } }) => id),
+      );
     },
   });
 }

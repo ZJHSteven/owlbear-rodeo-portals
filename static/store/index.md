@@ -158,8 +158,9 @@ During a game session you might want to remove clutter from the context menu. Fo
 
 1. Activate the _Portals_ tool.
 2. Click the _Verify Portals Integrity_ action.
-3. A notification is shown, that indicates the integrity.
-4. If there are any errors, you can open the browser's JavaScript console (<kbd>Ctrl + Shift + J</kbd> or <kbd>F12</kbd>) for details.
+3. A notification is shown, that indicates the integrity. Also, all offending items are selected.
+
+   Furthermore, if there are any errors, you can open the browser's JavaScript console (<kbd>Ctrl + Shift + J</kbd> or <kbd>F12</kbd>) for details.
 
 ## Support
 
