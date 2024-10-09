@@ -92,6 +92,7 @@ Work-around for Chrome-based browsers:
 - feat: detect portal collision for the whole movement not only the new position of the moved tokens
 - feat: spread tokens when multiple tokens are teleported to the same destination
 - feat: overview of all origins to quickly navigate to them
+- fix: stop flickering when hiding/showing tokens (hide/show is required to break through walls)
 - refactor: use Suspense instead of useEffect + ignore
 
 ### Update dependencies
