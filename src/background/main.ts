@@ -5,7 +5,8 @@ import addLinkIndicatorsCallbacks from "../crud/read/link/addLinkIndicatorsCallb
 import sceneIsReady from "../obr/scene/sceneIsReady";
 import { applyLinkIndicatorVisibility } from "../crud/read/link/updateLinkIndicatorsVisibility";
 import addOnItemsMoveCallback from "../teleport/addOnItemsMoveCallback";
-import addCleanUpOrphanedOrigins from "../teleport/addCleanUpOrphanedOrigins";
+import addCleanUpOrphanedOriginsCallback from "../teleport/addCleanUpOrphanedOriginsCallback";
+import { addCollideWithWallsCallback } from "../teleport/addCollideWithWallsCallback";
 
 (async function background() {
   const obr = await obrIsReady();
@@ -19,6 +20,7 @@ import addCleanUpOrphanedOrigins from "../teleport/addCleanUpOrphanedOrigins";
     applyLinkIndicatorVisibility(obr),
 
     addOnItemsMoveCallback(obr),
-    addCleanUpOrphanedOrigins(obr),
+    addCleanUpOrphanedOriginsCallback(obr),
+    addCollideWithWallsCallback(obr),
   ]);
 })();

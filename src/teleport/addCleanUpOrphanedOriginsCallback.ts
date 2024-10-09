@@ -3,7 +3,7 @@ import { Obr } from "../obr/types";
 import hasDestination from "../crud/read/destination/hasDestination";
 import { DESTINATION_ID_METADATA_ID } from "../constants";
 
-export default async function addCleanUpOrphanedOrigins(obr: Obr) {
+export default async function addCleanUpOrphanedOriginsCallback(obr: Obr) {
   onSceneItemsChange(obr, async (items) => {
     const origins = items.filter(hasDestination);
     if (origins.length === 0) {

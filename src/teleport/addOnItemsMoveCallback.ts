@@ -13,6 +13,7 @@ import {
 import getItemBounds, { isSupported } from "../obr/scene/items/getItemBounds";
 
 const DESTINATION_POSITION_METADATA_ID = `${EXTENSION_ID}/destination-position`;
+export const VISIBLE_METADATA_ID = `${EXTENSION_ID}/visible`;
 
 export default async function addOnItemsMoveCallback(obr: Obr) {
   onItemsMove(obr, (items) => {
@@ -23,28 +24,30 @@ export default async function addOnItemsMoveCallback(obr: Obr) {
 async function handleMovement(obr: Obr, movedItems: Item[]) {
   const ownCharacters = movedItems
     .filter(({ layer }) => layer === "CHARACTER")
-    .filter(({ lastModifiedUserId }) => lastModifiedUserId === obr.player.id)
-    .filter(({ position, metadata }) => {
-      if (metadata === undefined) {
-        return true;
-      }
+    .filter(({ lastModifiedUserId }) => lastModifiedUserId === obr.player.id);
 
-      const destination = metadata[DESTINATION_POSITION_METADATA_ID];
-      if (!isVector2(destination)) {
-        return true;
-      }
+  const movedCharacters = ownCharacters.filter(({ position, metadata }) => {
+    const destination = metadata[DESTINATION_POSITION_METADATA_ID];
+    if (!isVector2(destination)) {
+      return true;
+    }
 
-      return position.x !== destination.x || position.y !== destination.y;
-    });
+    return position.x !== destination.x || position.y !== destination.y;
+  });
 
-  const teleports = await findTeleports(obr, ownCharacters);
-  await obr.scene.items.updateItems(ownCharacters, (items) => {
+  const teleports = await findTeleports(obr, movedCharacters);
+  await passWalls(obr, teleports);
+  await obr.scene.items.updateItems(movedCharacters, (items) => {
     let viewportDestination: Vector2 | null = null;
     for (let item of items) {
       if (item.id in teleports) {
         const destination = teleports[item.id];
         item.position = destination;
         item.metadata[DESTINATION_POSITION_METADATA_ID] = destination;
+        if (item.visible) {
+          item.metadata[VISIBLE_METADATA_ID] = true;
+        }
+
         if (viewportDestination === null) {
           viewportDestination = destination;
         }
@@ -57,6 +60,17 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
       gotoPosition(obr, viewportDestination);
     }
   });
+}
+
+async function passWalls(obr: Obr, teleports: Record<string, Vector2>) {
+  return obr.scene.items.updateItems(
+    ({ id, visible }) => id in teleports && visible,
+    (items) => {
+      for (const item of items) {
+        item.visible = false;
+      }
+    },
+  );
 }
 
 async function findTeleports(obr: Obr, items: Item[]) {
