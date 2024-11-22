@@ -14,7 +14,7 @@ learn-more: $HOMEPAGE$
 
 ## About
 
-This extension lets you create portals between [supported tokens](#supported-tokens) in order to move character tokens on the map.
+This extension lets you create portals between [supported tokens](#supported-tokens) in order to teleport character tokens on the map.
 
 You can use the portals as traps, regular portals or teleportation circles.
 
@@ -96,7 +96,7 @@ There are two ways to add portals on your map.
 
 1. Select a character token.
 2. Move it to the center of the token into the bounding box of a portal origin.
-3. The character token is automagically moved to the portal's destination.
+3. The character token is automagically teleported to the portal's destination.
 4. The viewport of the player (all connections) that moved the token is centered on that token.
 
 ![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)
