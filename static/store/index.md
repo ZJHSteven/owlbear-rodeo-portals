@@ -168,6 +168,6 @@ If there are any issues with the extension, join the [Owlbear Rodeo Discord], cr
 
 For general comments, please use the thread [Portals chat].
 
-[Owlbear Rodeo Discord]: https://discord.gg/UY8AXjhzhe
+[Owlbear Rodeo Discord]: https://discord.gg/u5RYMkV98s
 [#extension-support]: https://discord.com/channels/795808973743194152/1108276291960045578
 [Portals chat]: https://discord.com/channels/795808973743194152/1257966858800332861
