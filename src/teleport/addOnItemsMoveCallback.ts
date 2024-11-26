@@ -36,7 +36,12 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
   });
 
   const teleports = await findTeleports(obr, movedCharacters);
-  await passWalls(obr, teleports);
+  const teleportIds = Object.keys(teleports);
+  const attachments = await obr.scene.items.getItemAttachments(teleportIds);
+  const localAttachments =
+    await obr.scene.local.getItemAttachments(teleportIds);
+  await passWallsAttachments(obr, attachments, localAttachments);
+
   await obr.scene.items.updateItems(movedCharacters, (items) => {
     let viewportDestination: Vector2 | null = null;
     for (let item of items) {
@@ -44,10 +49,6 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
         const destination = teleports[item.id];
         item.position = destination;
         item.metadata[DESTINATION_POSITION_METADATA_ID] = destination;
-        if (item.visible) {
-          item.metadata[VISIBLE_METADATA_ID] = true;
-        }
-
         if (viewportDestination === null) {
           viewportDestination = destination;
         }
@@ -60,17 +61,46 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
       gotoPosition(obr, viewportDestination);
     }
   });
+
+  await setHadCollisionAttachments(obr, attachments, localAttachments);
 }
 
-async function passWalls(obr: Obr, teleports: Record<string, Vector2>) {
-  return obr.scene.items.updateItems(
-    ({ id, visible }) => id in teleports && visible,
-    (items) => {
-      for (const item of items) {
-        item.visible = false;
-      }
-    },
-  );
+async function passWallsAttachments(
+  obr: Obr,
+  attachments: Item[],
+  localAttachments: Item[],
+) {
+  return Promise.all([
+    obr.scene.items.updateItems(attachments, passWallsItems),
+    obr.scene.local.updateItems(localAttachments, passWallsItems),
+  ]);
+}
+
+function passWallsItems(items: Item[]) {
+  for (const item of items) {
+    if (item.visible) {
+      item.visible = false;
+    }
+  }
+}
+
+async function setHadCollisionAttachments(
+  obr: Obr,
+  attachments: Item[],
+  localAttachments: Item[],
+) {
+  return Promise.all([
+    obr.scene.items.updateItems(attachments, setHadCollisionItems),
+    obr.scene.local.updateItems(localAttachments, setHadCollisionItems),
+  ]);
+}
+
+function setHadCollisionItems(items: Item[]) {
+  for (const item of items) {
+    if (item.visible) {
+      item.metadata[VISIBLE_METADATA_ID] = true;
+    }
+  }
 }
 
 async function findTeleports(obr: Obr, items: Item[]) {
