@@ -39,6 +39,7 @@ Only players with the [role] `GM` may:
 - [Create portals](#create-portals)
 - [Delete portals](#delete-portals)
 - [Show existing links](#show-existing-links) between origins and destinations
+- [Disable/enable portals](#disableenable-portals)
 
 [role]: https://docs.owlbear.rodeo/extensions/apis/player#getrole
 
@@ -139,6 +140,16 @@ The links are only shown for yourself and not for any other player or GM.
 5. The existing links are no longer shown.
 
 ![Animation: The display of portal links is activated and deactivated.]($GITLAB_PAGES$store/show-portal-links.gif)
+
+### Disable/enable portals
+
+You can disable or enable individual portals.
+
+1. Right-click on the origin token.
+2. Click the _Disable Teleportation_ context menu.
+3. The portal is disabled.
+
+You can enable the portal again by using the _Enable Teleportation_ context menu.
 
 ### Show/hide context menu
 

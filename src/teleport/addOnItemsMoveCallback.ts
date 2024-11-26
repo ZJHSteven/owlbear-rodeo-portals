@@ -6,6 +6,7 @@ import onItemsMove from "../obr/scene/items/onItemsMove";
 import gotoPosition from "../obr/viewport/gotoPosition";
 import {
   DESTINATION_ID_METADATA_ID,
+  DISABLE_METADATA_ID,
   EXTENSION_ID,
   SPREAD_ID_METADATA_ID,
   SPREAD_RELATIVE,
@@ -111,7 +112,7 @@ async function findTeleports(obr: Obr, items: Item[]) {
   const destinationGroups: Record<string, { origin: Vector2; item: Item }[]> =
     {};
   const origins = await findOrigins(obr);
-  for (let origin of origins.filter(isSupported)) {
+  for (let origin of origins.filter(isSupported).filter(isActive)) {
     const bounds = await getItemBounds(origin);
     const destinationId = origin.metadata[DESTINATION_ID_METADATA_ID] as string;
     destinationGroups[destinationId] = [];
@@ -147,6 +148,10 @@ async function findTeleports(obr: Obr, items: Item[]) {
   }
 
   return teleports;
+}
+
+function isActive({ metadata }: Item): boolean {
+  return metadata === undefined || !metadata[DISABLE_METADATA_ID];
 }
 
 function collides({ x, y }: Vector2, { min, max }: BoundingBox) {

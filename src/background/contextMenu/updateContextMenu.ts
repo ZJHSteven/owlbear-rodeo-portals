@@ -1,6 +1,7 @@
 import { Obr } from "../../obr/types";
 import {
   DESTINATION_ID_METADATA_ID,
+  DISABLE_METADATA_ID,
   EXTENSION_ID,
   SPREAD_ID_METADATA_ID,
   SPREAD_RELATIVE,
@@ -23,6 +24,8 @@ const ADD_ONE_WAY_TELEPORT_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/create
 const ADD_TWO_WAY_TELEPORT_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/create-two-way-teleport`;
 const SPREAD_RELATIVE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/spread-relative`;
 const SPREAD_NONE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/spread-none`;
+const ENABLE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/enable`;
+const DISABLE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/disable`;
 
 export default async function updateContextMenu(obr: Obr) {
   const visibility = await getVisibility(obr);
@@ -183,6 +186,71 @@ async function createContextMenu(obr: Obr) {
         });
       },
     }),
+
+    obr.contextMenu.create({
+      id: ENABLE_CONTEXT_MENU_ID,
+      icons: [
+        {
+          icon: createIconUrl("toggle-off-solid.svg"),
+          label: "Enable Teleportation",
+          filter: {
+            roles: ["GM"],
+            min: 1,
+            some: [
+              {
+                key: ["metadata", DESTINATION_ID_METADATA_ID],
+                value: undefined,
+                operator: "!=",
+              },
+              {
+                key: ["metadata", DISABLE_METADATA_ID],
+                value: undefined,
+                operator: "!=",
+              },
+            ],
+          },
+        },
+      ],
+      async onClick(context) {
+        await obr.scene.items.updateItems(context.items, (items) => {
+          for (const item of items) {
+            delete item.metadata[DISABLE_METADATA_ID];
+          }
+        });
+      },
+    }),
+
+    obr.contextMenu.create({
+      id: DISABLE_CONTEXT_MENU_ID,
+      icons: [
+        {
+          icon: createIconUrl("toggle-on-solid.svg"),
+          label: "Disable Teleportation",
+          filter: {
+            roles: ["GM"],
+            min: 1,
+            some: [
+              {
+                key: ["metadata", DESTINATION_ID_METADATA_ID],
+                value: undefined,
+                operator: "!=",
+              },
+              {
+                key: ["metadata", DISABLE_METADATA_ID],
+                value: undefined,
+              },
+            ],
+          },
+        },
+      ],
+      async onClick(context) {
+        await obr.scene.items.updateItems(context.items, (items) => {
+          for (const item of items) {
+            item.metadata[DISABLE_METADATA_ID] = true;
+          }
+        });
+      },
+    }),
   ]);
 }
 
@@ -193,6 +261,8 @@ async function removeContextMenu(obr: Obr) {
     obr.contextMenu.remove(ADD_TWO_WAY_TELEPORT_CONTEXT_MENU_ID),
     obr.contextMenu.remove(SPREAD_RELATIVE_CONTEXT_MENU_ID),
     obr.contextMenu.remove(SPREAD_NONE_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(ENABLE_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(DISABLE_CONTEXT_MENU_ID),
   ]);
 }
 
