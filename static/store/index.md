@@ -108,10 +108,10 @@ There are two ways to add portals on your map.
 You can configure a destination to keep teleported tokens in the same relative position they had before teleporting. This can be useful if you intend to use the portal for multiple tokens at once, e.g. for actual portals instead of simple traps.
 
 1. Right-click on a destination token.
-2. Click the _Spread Incoming Teleports_ context menu.
+2. Click the _Spread Arrivals_ context menu.
 3. From now on the destination will spread the teleported tokens accordingly.
 
-You can change this setting back by using the _Center Incoming Teleports_ context menu.
+You can change this setting back by using the _Overlap Arrivals_ context menu.
 
 ### Create two-way portals
 
@@ -147,20 +147,20 @@ The links are only shown for yourself and not for any other player or GM.
 You can disable or enable individual portals.
 
 1. Right-click on the origin token.
-2. Click the _Disable Teleportation_ context menu.
+2. Click the _Disable Teleport_ context menu.
 3. The portal is disabled.
 
-You can enable the portal again by using the _Enable Teleportation_ context menu.
+You can enable the portal again by using the _Enable Teleport_ context menu.
 
 ### Toggle confirmation for teleportation
 
 By default, a character token is teleported automatically when dropped on a portal. You can enable a confirmation per portal:
 
 1. Right-click on the origin token.
-2. Click the _Ask before Teleportation_ context menu.
+2. Click the _Confirm Teleport_ context menu.
 3. The next time a token is dropped on the portal, the user is asked before the token is teleported.
 
-You can disable the confirmation again by using the _Do not ask before Teleportation_ context menu.
+You can disable the confirmation again by using the _Automagic Teleport_ context menu.
 
 ### Show/hide context menu
 

@@ -81,7 +81,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("arrow-right-solid.svg"),
-          label: "Add One-Way Teleport",
+          label: "Add 1-Way Teleport",
           filter: {
             roles: ["GM"],
             min: 1,
@@ -110,7 +110,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("arrows-left-right-solid.svg"),
-          label: "Add Two-Way Teleport",
+          label: "Add 2-Way Teleport",
           filter: {
             roles: ["GM"],
             min: 1,
@@ -140,7 +140,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("maximize-solid.svg"),
-          label: "Spread Incoming Teleports",
+          label: "Spread Arrivals",
           filter: {
             roles: ["GM"],
             min: 1,
@@ -167,7 +167,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("minimize-solid.svg"),
-          label: "Center Incoming Teleports",
+          label: "Overlap Arrivals",
           filter: {
             roles: ["GM"],
             min: 1,
@@ -195,7 +195,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("toggle-off-solid.svg"),
-          label: "Enable Teleportation",
+          label: "Enable Teleport",
           filter: {
             roles: ["GM"],
             min: 1,
@@ -228,7 +228,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("toggle-on-solid.svg"),
-          label: "Disable Teleportation",
+          label: "Disable Teleport",
           filter: {
             roles: ["GM"],
             min: 1,
@@ -260,7 +260,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("comment-solid.svg"),
-          label: "Do not ask before Teleportation",
+          label: "Automagic Teleport",
           filter: {
             roles: ["GM"],
             min: 1,
@@ -293,7 +293,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("comment-slash-solid.svg"),
-          label: "Ask before Teleportation",
+          label: "Confirm Teleport",
           filter: {
             roles: ["GM"],
             min: 1,
