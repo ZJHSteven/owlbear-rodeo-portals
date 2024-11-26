@@ -1,5 +1,6 @@
 import { Obr } from "../../obr/types";
 import {
+  ASK_FOR_CONFIRMATION_METADATA_ID,
   DESTINATION_ID_METADATA_ID,
   DISABLE_METADATA_ID,
   EXTENSION_ID,
@@ -26,6 +27,8 @@ const SPREAD_RELATIVE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/spread-rela
 const SPREAD_NONE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/spread-none`;
 const ENABLE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/enable`;
 const DISABLE_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/disable`;
+const ASK_FOR_CONFIRMATION_CONTEXT_MENU_ID = `${EXTENSION_ID}/contextMenu/ask`;
+const DO_NOT_ASK_FOR_CONFIRMATION_MENU_ID = `${EXTENSION_ID}/contextMenu/dont-ask`;
 
 export default async function updateContextMenu(obr: Obr) {
   const visibility = await getVisibility(obr);
@@ -251,6 +254,71 @@ async function createContextMenu(obr: Obr) {
         });
       },
     }),
+
+    obr.contextMenu.create({
+      id: ASK_FOR_CONFIRMATION_CONTEXT_MENU_ID,
+      icons: [
+        {
+          icon: createIconUrl("comment-solid.svg"),
+          label: "Do not ask before Teleportation",
+          filter: {
+            roles: ["GM"],
+            min: 1,
+            some: [
+              {
+                key: ["metadata", DESTINATION_ID_METADATA_ID],
+                value: undefined,
+                operator: "!=",
+              },
+              {
+                key: ["metadata", ASK_FOR_CONFIRMATION_METADATA_ID],
+                value: undefined,
+                operator: "!=",
+              },
+            ],
+          },
+        },
+      ],
+      async onClick(context) {
+        await obr.scene.items.updateItems(context.items, (items) => {
+          for (const item of items) {
+            delete item.metadata[ASK_FOR_CONFIRMATION_METADATA_ID];
+          }
+        });
+      },
+    }),
+
+    obr.contextMenu.create({
+      id: DO_NOT_ASK_FOR_CONFIRMATION_MENU_ID,
+      icons: [
+        {
+          icon: createIconUrl("comment-slash-solid.svg"),
+          label: "Ask before Teleportation",
+          filter: {
+            roles: ["GM"],
+            min: 1,
+            some: [
+              {
+                key: ["metadata", DESTINATION_ID_METADATA_ID],
+                value: undefined,
+                operator: "!=",
+              },
+              {
+                key: ["metadata", ASK_FOR_CONFIRMATION_METADATA_ID],
+                value: undefined,
+              },
+            ],
+          },
+        },
+      ],
+      async onClick(context) {
+        await obr.scene.items.updateItems(context.items, (items) => {
+          for (const item of items) {
+            item.metadata[ASK_FOR_CONFIRMATION_METADATA_ID] = true;
+          }
+        });
+      },
+    }),
   ]);
 }
 
@@ -263,6 +331,8 @@ async function removeContextMenu(obr: Obr) {
     obr.contextMenu.remove(SPREAD_NONE_CONTEXT_MENU_ID),
     obr.contextMenu.remove(ENABLE_CONTEXT_MENU_ID),
     obr.contextMenu.remove(DISABLE_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(ASK_FOR_CONFIRMATION_CONTEXT_MENU_ID),
+    obr.contextMenu.remove(DO_NOT_ASK_FOR_CONFIRMATION_MENU_ID),
   ]);
 }
 

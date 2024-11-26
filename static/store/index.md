@@ -40,6 +40,7 @@ Only players with the [role] `GM` may:
 - [Delete portals](#delete-portals)
 - [Show existing links](#show-existing-links) between origins and destinations
 - [Disable/enable portals](#disableenable-portals)
+- [Toggle confirmation for teleportation](#toggle-confirmation-for-teleportation)
 
 [role]: https://docs.owlbear.rodeo/extensions/apis/player#getrole
 
@@ -150,6 +151,16 @@ You can disable or enable individual portals.
 3. The portal is disabled.
 
 You can enable the portal again by using the _Enable Teleportation_ context menu.
+
+### Toggle confirmation for teleportation
+
+By default, a character token is teleported automatically when dropped on a portal. You can enable a confirmation per portal:
+
+1. Right-click on the origin token.
+2. Click the _Ask before Teleportation_ context menu.
+3. The next time a token is dropped on the portal, the user is asked before the token is teleported.
+
+You can disable the confirmation again by using the _Do not ask before Teleportation_ context menu.
 
 ### Show/hide context menu
 
