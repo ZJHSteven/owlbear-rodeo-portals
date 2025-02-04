@@ -24,9 +24,15 @@ export default async function addOnItemsMoveCallback(obr: Obr) {
 }
 
 async function handleMovement(obr: Obr, movedItems: Item[]) {
-  const ownCharacters = movedItems
+  const ownItems = movedItems
     .filter(({ layer }) => layer === "CHARACTER")
     .filter(({ lastModifiedUserId }) => lastModifiedUserId === obr.player.id);
+
+  const ownIds = ownItems.map(({ id }) => id);
+  const ownCharacters = ownItems.filter(
+    ({ attachedTo }) =>
+      attachedTo === undefined || !ownIds.includes(attachedTo),
+  );
 
   const movedCharacters = ownCharacters.filter(({ position, metadata }) => {
     const destination = metadata[DESTINATION_POSITION_METADATA_ID];
