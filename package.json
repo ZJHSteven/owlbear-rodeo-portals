@@ -31,7 +31,7 @@
     "marked": "^15.0.6",
     "marked-gfm-heading-id": "^4.1.1",
     "npm-check-updates": "^17.1.14",
-    "prettier": "3.4.2",
+    "prettier": "3.6.2",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
