@@ -1,4 +1,4 @@
-import { marked, Tokens } from "marked";
+import { marked, RendererObject, Tokens } from "marked";
 import { gfmHeadingId } from "marked-gfm-heading-id";
 import * as fs from "node:fs";
 import { parse } from "yaml";
@@ -44,8 +44,9 @@ function isExternalLink(href: string): boolean {
   return href.startsWith("http://") || href.startsWith("https://");
 }
 
-const renderer = {
+const renderer: RendererObject = {
   image(image: Tokens.Image): string {
+    defaultRenderer.parser = this.parser;
     if (image.href.length === 0) {
       return defaultRenderer.image(image);
     }
