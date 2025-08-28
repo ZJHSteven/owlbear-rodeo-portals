@@ -15,29 +15,29 @@
     "GITLAB_PAGES": "https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.7",
-    "@babel/preset-env": "^7.26.7",
-    "@babel/preset-react": "^7.26.3",
-    "@babel/preset-typescript": "^7.26.0",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "@umijs/case-sensitive-paths-webpack-plugin": "^1.0.1",
-    "babel-loader": "^9.2.1",
-    "copy-webpack-plugin": "^12.0.2",
+    "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.1",
     "css-loader": "^7.1.2",
-    "html-webpack-plugin": "^5.6.3",
+    "html-webpack-plugin": "^5.6.4",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
-    "marked": "^15.0.6",
-    "marked-gfm-heading-id": "^4.1.1",
-    "npm-check-updates": "^17.1.14",
-    "prettier": "3.4.2",
+    "lint-staged": "^16.1.5",
+    "marked": "^16.2.1",
+    "marked-gfm-heading-id": "^4.1.2",
+    "npm-check-updates": "^18.0.3",
+    "prettier": "3.6.2",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3",
+    "typescript": "^5.9.2",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.0",
-    "yaml": "^2.7.0"
+    "webpack-dev-server": "^5.2.2",
+    "yaml": "^2.8.1"
   },
   "scripts": {
     "prepare": "husky",
@@ -48,10 +48,10 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^3.0.1",
     "@owlbear-rodeo/sdk": "^3.1.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
