@@ -23,16 +23,29 @@ export default async function addOnItemsMoveCallback(obr: Obr) {
   });
 }
 
+async function getAttachmentChains(
+  obr: Obr,
+  itemIds: string[],
+): Promise<Item[][]> {
+  const ids: string[] = [];
+  const chains: Item[][] = [];
+  for (const id of itemIds) {
+    if (ids.includes(id)) {
+      continue;
+    }
+
+    const attachments = await obr.scene.items.getItemAttachments([id]);
+    chains.push(attachments);
+    ids.push(...attachments.map((item) => item.id));
+  }
+
+  return chains;
+}
+
 async function handleMovement(obr: Obr, movedItems: Item[]) {
-  const ownItems = movedItems
+  const ownCharacters = movedItems
     .filter(({ layer }) => layer === "CHARACTER")
     .filter(({ lastModifiedUserId }) => lastModifiedUserId === obr.player.id);
-
-  const ownIds = ownItems.map(({ id }) => id);
-  const ownCharacters = ownItems.filter(
-    ({ attachedTo }) =>
-      attachedTo === undefined || !ownIds.includes(attachedTo),
-  );
 
   const movedCharacters = ownCharacters.filter(({ position, metadata }) => {
     const destination = metadata[DESTINATION_POSITION_METADATA_ID];
@@ -44,8 +57,12 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
   });
 
   const teleports = await findTeleports(obr, movedCharacters);
-  const teleportIds = Object.keys(teleports);
-  const attachments = await obr.scene.items.getItemAttachments(teleportIds);
+  const attachmentChains = await getAttachmentChains(
+    obr,
+    Object.keys(teleports),
+  );
+  const teleportIds = attachmentChains.map((attachments) => attachments[0].id);
+  const attachments = attachmentChains.reduce((a, b) => [...a, ...b], []);
   const localAttachments =
     await obr.scene.local.getItemAttachments(teleportIds);
   await passWallsAttachments(obr, attachments, localAttachments);
@@ -53,7 +70,7 @@ async function handleMovement(obr: Obr, movedItems: Item[]) {
   await obr.scene.items.updateItems(movedCharacters, (items) => {
     let viewportDestination: Vector2 | null = null;
     for (let item of items) {
-      if (item.id in teleports) {
+      if (teleportIds.includes(item.id)) {
         const destination = teleports[item.id];
         item.position = destination;
         item.metadata[DESTINATION_POSITION_METADATA_ID] = destination;
