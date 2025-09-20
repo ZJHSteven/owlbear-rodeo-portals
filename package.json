@@ -1,16 +1,17 @@
 {
   "private": true,
-  "name": "Portals",
-  "description": "This extension lets you create portals between tokens in order to teleport character tokens on the map.",
+  "name": "传送门",
+  "description": "此扩展用于在 Owlbear Rodeo 地图上创建传送门，将角色令牌即时传送到目的地。",
   "version": "0.0.33",
   "author": {
-    "name": "resident-uhlig"
+    "name": "ZJHSteven",
+    "url": "https://github.com/ZJHSteven"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/resident-uhlig/owlbear-rodeo-portals.git"
+    "url": "https://github.com/ZJHSteven/owlbear-rodeo-portals.git"
   },
-  "homepage": "https://gitlab.com/resident-uhlig/owlbear-rodeo-portals",
+  "homepage": "https://github.com/ZJHSteven/owlbear-rodeo-portals",
   "config": {
     "GITLAB_PAGES": "https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/"
   },
