@@ -2,7 +2,7 @@ import { marked } from "marked";
 import { gfmHeadingId } from "marked-gfm-heading-id";
 import fs from "node:fs";
 import { parse } from "yaml";
-import meta from "../package.json" assert { type: "json" };
+import meta from "../package.json" with { type: "json" };
 
 function parseFrontMatter(input) {
   if (!input.startsWith("---")) {

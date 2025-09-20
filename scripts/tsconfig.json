@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "lib": ["es2023"],
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "strict": true,
-    "resolveJsonModule": true
-  }
-}
