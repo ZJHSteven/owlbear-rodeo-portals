@@ -1,6 +1,7 @@
 import { Obr } from "../../../obr/types";
 import { TOOL_ID } from "../createTool";
 import createIconUrl from "../../../fontAwesome/createIconUrl";
+import { labels, notifications } from "../../../i18n/strings";
 import checkIntegrity from "../../../teleport/checkIntegrity";
 
 export async function createCheckPortalsAction(obr: Obr) {
@@ -9,7 +10,7 @@ export async function createCheckPortalsAction(obr: Obr) {
     icons: [
       {
         icon: createIconUrl("list-check-solid.svg"),
-        label: "Check Portals Integrity",
+        label: labels.checkIntegrity,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],
@@ -19,7 +20,7 @@ export async function createCheckPortalsAction(obr: Obr) {
     async onClick() {
       const validationResults = await checkIntegrity(obr);
       if (validationResults.length === 0) {
-        await obr.notification.show("Everything seems ok.", "INFO");
+        await obr.notification.show(notifications.integrityOk, "INFO");
         return;
       }
 

@@ -1,6 +1,7 @@
 import { Obr } from "../obr/types";
 import { findOrigins } from "../crud/read/origin/findOrigins";
 import { Item, Layer } from "@owlbear-rodeo/sdk";
+import { errors } from "../i18n/strings";
 import { isSupported } from "../obr/scene/items/getItemBounds";
 import {
   DESTINATION_ID_METADATA_ID,
@@ -36,7 +37,7 @@ function checkOrigin(origin: Item, results: ItemValidationResult[]) {
     results.push({
       offendingItem: origin,
       level: "error",
-      message: "Token type for origin not supported.",
+      message: errors.originTypeUnsupported,
     });
   }
 
@@ -44,7 +45,7 @@ function checkOrigin(origin: Item, results: ItemValidationResult[]) {
     results.push({
       offendingItem: origin,
       level: "warning",
-      message: `Origin token ${origin.id} is on an inaccessible layer.`,
+      message: errors.originLayerInaccessible(origin.id),
     });
   }
 }
@@ -75,7 +76,7 @@ function checkDestination(
     results.push({
       offendingItem: origin,
       level: "error",
-      message: `Destination token ${destinationId} is missing.`,
+      message: errors.destinationMissing(destinationId),
     });
 
     return;
@@ -85,7 +86,7 @@ function checkDestination(
     results.push({
       offendingItem: destination,
       level: "error",
-      message: "Token type for destination not supported.",
+      message: errors.destinationTypeUnsupported,
     });
   }
 
@@ -93,7 +94,7 @@ function checkDestination(
     results.push({
       offendingItem: destination,
       level: "warning",
-      message: `Destination token ${destinationId} is on an inaccessible layer.`,
+      message: errors.destinationLayerInaccessible(destinationId),
     });
   }
 }
@@ -123,7 +124,7 @@ async function checkOrphanedDestinations(
       results.push({
         offendingItem: orphan,
         level: "warning",
-        message: `Token ${orphan.id} looks like a destination but has no origin.`,
+        message: errors.orphanDestination(orphan.id),
       });
     });
 }

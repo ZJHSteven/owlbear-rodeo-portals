@@ -1,6 +1,7 @@
 import { Obr } from "../../obr/types";
 import { TOOL_ID } from "./createTool";
 import createIconUrl from "../../fontAwesome/createIconUrl";
+import { labels, notifications } from "../../i18n/strings";
 import {
   Direction,
   resetLink,
@@ -26,7 +27,7 @@ export default async function createToolModes(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("link-solid.svg"),
-          label: "Attach Teleport to Token",
+          label: labels.attachMode,
           filter: { activeTools: [TOOL_ID], roles: ["GM"] },
         },
       ],
@@ -63,7 +64,7 @@ export default async function createToolModes(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("image-solid.svg"),
-          label: "Add Teleport Token to Scene",
+          label: labels.createMode,
           filter: { activeTools: [TOOL_ID], roles: ["GM"] },
         },
       ],
@@ -95,7 +96,7 @@ export default async function createToolModes(obr: Obr) {
     return promise
       .then((done) => {
         if (done) {
-          obr.notification.show("Link has been created.", "SUCCESS");
+          obr.notification.show(notifications.linkCreated, "SUCCESS");
         }
       })
       .catch((error) => {

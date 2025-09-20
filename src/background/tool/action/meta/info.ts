@@ -2,6 +2,7 @@ import { Obr } from "../../../../obr/types";
 import { Extension } from "../../../../extension/fetchExtension";
 import { TOOL_ID } from "../../createTool";
 import createIconUrl from "../../../../fontAwesome/createIconUrl";
+import { labels, notifications } from "../../../../i18n/strings";
 import { dateTimeFormatter } from "../../../../i18n/format/dateTime";
 
 export async function createInfoAction(obr: Obr, extension: Extension) {
@@ -10,7 +11,7 @@ export async function createInfoAction(obr: Obr, extension: Extension) {
     icons: [
       {
         icon: createIconUrl("circle-info-solid.svg"),
-        label: "Show Extension Information",
+        label: labels.showInfo,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],
@@ -19,7 +20,7 @@ export async function createInfoAction(obr: Obr, extension: Extension) {
     ],
     async onClick() {
       await obr.notification.show(
-        `${extension.name} ${extension.version} (${dateTimeFormatter.format(extension.buildDateTime)})`,
+        notifications.extensionInfo(extension.name, extension.version, dateTimeFormatter.format(extension.buildDateTime)),
         "DEFAULT",
       );
     },

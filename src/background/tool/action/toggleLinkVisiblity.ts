@@ -1,6 +1,7 @@
 import { Obr } from "../../../obr/types";
 import { TOOL_ID } from "../createTool";
 import createIconUrl from "../../../fontAwesome/createIconUrl";
+import { labels } from "../../../i18n/strings";
 import toggleLinkVisibility, {
   LINK_VISIBILITY_METADATA_ID,
 } from "../../../crud/read/link/toggleLinkVisibility";
@@ -11,7 +12,7 @@ export async function createToggleLinkVisibilityAction(obr: Obr) {
     icons: [
       {
         icon: createIconUrl("eye-slash-regular.svg"),
-        label: "Show Links",
+        label: labels.toggleLinkVisibilityShow,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],
@@ -25,7 +26,7 @@ export async function createToggleLinkVisibilityAction(obr: Obr) {
       },
       {
         icon: createIconUrl("eye-regular.svg"),
-        label: "Hide Links",
+        label: labels.toggleLinkVisibilityHide,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],

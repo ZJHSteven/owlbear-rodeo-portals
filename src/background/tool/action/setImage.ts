@@ -2,6 +2,7 @@ import { ImageDownload } from "@owlbear-rodeo/sdk";
 import { Obr } from "../../../obr/types";
 import { TOOL_ID } from "../createTool";
 import createIconUrl from "../../../fontAwesome/createIconUrl";
+import { labels } from "../../../i18n/strings";
 
 let originImage: ImageDownload | undefined = undefined;
 let destinationImage: ImageDownload | undefined = undefined;
@@ -26,7 +27,7 @@ async function createSetImageAction(obr: Obr, side: "origin" | "destination") {
     id: `${TOOL_ID}/action/set-image/${side}`,
     icons: [
       {
-        label: `Set Image (${side === "origin" ? "Origin" : "Destination"})`,
+        label: side === "origin" ? labels.setImageOrigin : labels.setImageDestination,
         icon: createIconUrl(
           side === "origin"
             ? "arrow-right-from-bracket-solid.svg"

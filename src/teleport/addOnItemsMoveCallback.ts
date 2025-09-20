@@ -5,6 +5,9 @@ import { findDestination } from "../crud/read/destination/findDestination";
 import onItemsMove from "../obr/scene/items/onItemsMove";
 import gotoPosition from "../obr/viewport/gotoPosition";
 import {
+  confirmMessages,
+} from "../i18n/strings";
+import {
   ASK_FOR_CONFIRMATION_METADATA_ID,
   DESTINATION_ID_METADATA_ID,
   DISABLE_METADATA_ID,
@@ -149,7 +152,7 @@ async function findTeleports(obr: Obr, items: Item[]) {
         if (collides(item.position, bounds)) {
           if (
             !origin.metadata[ASK_FOR_CONFIRMATION_METADATA_ID] ||
-            confirm("Do you want to use the teleport?")
+            confirm(confirmMessages.useTeleport)
           ) {
             destinationGroups[destinationId].push({
               origin: bounds.center,

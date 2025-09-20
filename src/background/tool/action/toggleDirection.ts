@@ -1,6 +1,7 @@
 import { Obr } from "../../../obr/types";
 import { TOOL_ID } from "../createTool";
 import createIconUrl from "../../../fontAwesome/createIconUrl";
+import { labels } from "../../../i18n/strings";
 import { DIRECTION_METADATA_ID } from "../createToolModes";
 import { Direction } from "../../../crud/create/link";
 
@@ -9,7 +10,7 @@ export default async function createToggleDirectionAction(obr: Obr) {
     id: `${TOOL_ID}/action/toggle-direction`,
     icons: [
       {
-        label: "Enable Two-Way Mode",
+        label: labels.toggleDirectionToTwoWay,
         icon: createIconUrl("arrow-right-solid.svg"),
         filter: {
           activeTools: [TOOL_ID],
@@ -24,7 +25,7 @@ export default async function createToggleDirectionAction(obr: Obr) {
       },
       {
         icon: createIconUrl("arrows-left-right-solid.svg"),
-        label: "Enable One-Way Mode",
+        label: labels.toggleDirectionToOneWay,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],

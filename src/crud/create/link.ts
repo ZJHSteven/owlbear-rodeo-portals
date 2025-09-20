@@ -1,5 +1,6 @@
 import { Item, ItemFilter, Path, Vector2 } from "@owlbear-rodeo/sdk";
 import { Obr } from "../../obr/types";
+import { errors } from "../../i18n/strings";
 import setIndicatorPosition, {
   Heads,
 } from "../../ui/canvas/indicator/setIndicatorPosition";
@@ -47,16 +48,16 @@ export async function setLinkTarget(
 async function start(obr: Obr, direction: Direction, target?: Item) {
   if (target === undefined) {
     throw direction === Direction.ONE_WAY
-      ? "Click on a token to set the origin."
-      : "Click on a token to set first side of the portal.";
+      ? errors.clickToSetOrigin
+      : errors.clickToSetFirstSide;
   }
 
   if (!isSupported(target)) {
-    throw "Unsupported token type.";
+    throw errors.unsupportedToken;
   }
 
   if (hasDestination(target)) {
-    throw "This token already has a destination.";
+    throw errors.tokenAlreadyHasDestination;
   }
 
   origin = target;
@@ -69,7 +70,7 @@ async function addIndicator(
   direction: Direction,
 ) {
   if (indicatorId !== null) {
-    throw "Indicator already set.";
+    throw errors.indicatorAlreadySet;
   }
 
   const theme = await obr.theme.getTheme();
@@ -95,11 +96,11 @@ async function finish(obr: Obr, direction: Direction, target?: Item) {
   }
 
   if (origin === null) {
-    throw "Origin is not set.";
+    throw errors.originNotSet;
   }
 
   if (!isSupported(target)) {
-    throw "Unsupported token type.";
+    throw errors.unsupportedToken;
   }
 
   const error = checkDestination(direction, origin, target);
@@ -118,18 +119,18 @@ function checkDestination(
 ): string | null {
   if (target.id === origin.id) {
     return direction === Direction.ONE_WAY
-      ? "Origin and destination cannot be the same token."
-      : "The two sides of a portal cannot be the same token.";
+      ? errors.sameOriginAndDestination
+      : errors.samePortalSides;
   }
 
   if (hasDestination(origin)) {
     return direction === Direction.ONE_WAY
-      ? "The origin already has a destination."
-      : "The first side of the portal already has a destination.";
+      ? errors.originHasDestination
+      : errors.firstSideHasDestination;
   }
 
   if (direction === Direction.TWO_WAY && hasDestination(target)) {
-    return "The second side of the portal already has a destination.";
+    return errors.secondSideHasDestination;
   }
 
   return null;

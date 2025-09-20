@@ -8,6 +8,7 @@ import {
   SPREAD_RELATIVE,
 } from "../../constants";
 import createIconUrl from "../../fontAwesome/createIconUrl";
+import { contextMenuLabels } from "../../i18n/strings";
 import removeDestinations from "../../crud/delete/destination/removeDestinations";
 import { Direction, setLinkTarget } from "../../crud/create/link";
 import { TOOL_ID } from "../tool/createTool";
@@ -58,7 +59,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("trash-can-regular.svg"),
-          label: "Remove Destination",
+          label: contextMenuLabels.removeDestination,
           filter: {
             roles: ["GM"],
             some: [
@@ -81,7 +82,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("arrow-right-solid.svg"),
-          label: "Add 1-Way Teleport",
+          label: contextMenuLabels.addOneWayTeleport,
           filter: {
             roles: ["GM"],
             min: 1,
@@ -110,7 +111,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("arrows-left-right-solid.svg"),
-          label: "Add 2-Way Teleport",
+          label: contextMenuLabels.addTwoWayTeleport,
           filter: {
             roles: ["GM"],
             min: 1,
@@ -140,7 +141,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("maximize-solid.svg"),
-          label: "Spread Arrivals",
+          label: contextMenuLabels.spreadRelative,
           filter: {
             roles: ["GM"],
             min: 1,
@@ -167,7 +168,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("minimize-solid.svg"),
-          label: "Overlap Arrivals",
+          label: contextMenuLabels.spreadNone,
           filter: {
             roles: ["GM"],
             min: 1,
@@ -195,7 +196,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("toggle-off-solid.svg"),
-          label: "Enable Teleport",
+          label: contextMenuLabels.enableTeleport,
           filter: {
             roles: ["GM"],
             min: 1,
@@ -228,7 +229,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("toggle-on-solid.svg"),
-          label: "Disable Teleport",
+          label: contextMenuLabels.disableTeleport,
           filter: {
             roles: ["GM"],
             min: 1,
@@ -260,7 +261,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("comment-solid.svg"),
-          label: "Automagic Teleport",
+          label: contextMenuLabels.automagicTeleport,
           filter: {
             roles: ["GM"],
             min: 1,
@@ -293,7 +294,7 @@ async function createContextMenu(obr: Obr) {
       icons: [
         {
           icon: createIconUrl("comment-slash-solid.svg"),
-          label: "Confirm Teleport",
+          label: contextMenuLabels.confirmTeleport,
           filter: {
             roles: ["GM"],
             min: 1,

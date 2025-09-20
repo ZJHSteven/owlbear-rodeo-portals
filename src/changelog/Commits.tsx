@@ -5,6 +5,7 @@ import usePromise from "../react/hook/usePromise";
 import { obrContext } from "../obr/ObrContextProvider";
 import { EXTENSION_ID } from "../constants";
 import * as styles from "./commits.css";
+import { changelogText } from "../i18n/strings";
 
 type Props = {
   projectId: number;
@@ -36,7 +37,7 @@ export default function Commits({ projectId, installedId }: Readonly<Props>) {
   );
 
   if (commits === undefined) {
-    return <p>Loading...</p>;
+    return <p>{changelogText.loading}</p>;
   }
 
   return (
@@ -95,13 +96,13 @@ function renderCommit(
 
 function renderUpdateAvailable(isUpdateAvailable: boolean) {
   if (isUpdateAvailable) {
-    return "Update available: ";
+    return changelogText.updateAvailablePrefix;
   }
 }
 
 function renderUnread(isUnread: boolean) {
   if (isUnread) {
-    return "New: ";
+    return changelogText.newEntryPrefix;
   }
 }
 
@@ -119,6 +120,6 @@ function renderCommitMessage(commit: Commit, isRelevant: boolean) {
 
 function renderHasNext(hasNext: boolean) {
   if (hasNext) {
-    return <p>There are older changelog entries, which are not shown here.</p>;
+    return <p>{changelogText.moreEntriesNotice}</p>;
   }
 }

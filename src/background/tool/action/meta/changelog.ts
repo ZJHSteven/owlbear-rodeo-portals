@@ -1,6 +1,7 @@
 import { Obr } from "../../../../obr/types";
 import { TOOL_ID } from "../../createTool";
 import createIconUrl from "../../../../fontAwesome/createIconUrl";
+import { labels } from "../../../../i18n/strings";
 import { EXTENSION_ID } from "../../../../constants";
 import createUrl from "../../../../extension/createUrl";
 
@@ -10,7 +11,7 @@ export async function createChangelogAction(obr: Obr) {
     icons: [
       {
         icon: createIconUrl("newspaper-solid.svg"),
-        label: "Show Changelog",
+        label: labels.showChangelog,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],

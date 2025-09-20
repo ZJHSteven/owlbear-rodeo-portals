@@ -7,3 +7,9 @@
 ## 2025-09-20 （文档汉化）
 - 重写 README.md 与 static/store/index.md，为商店与项目提供完整中文说明，并新增 docs/store.md 作为内部记录。
 - 将 store.js 的主题切换标签翻译为中文；后续部署完成后需同步更新 learn-more 与静态资源链接。
+
+## 2025-09-20 （代码汉化）
+- 新增 src/i18n/strings.ts 集中维护界面标签、错误提示与确认文案，所有 UI/通知字符串改为简体中文。
+- 更新工具、动作、上下文菜单与提示消息的翻译，实现与文档一致的术语；扩展 ID 调整为 com.github.zjhsteven.portals。
+- 自检、帮助弹窗与更新日志等流程的提示语同步汉化，新增弹窗拦截提示。
+- TODO：后续需将 changelog API 从 GitLab 迁移至 GitHub，避免新仓库缺少提交信息。

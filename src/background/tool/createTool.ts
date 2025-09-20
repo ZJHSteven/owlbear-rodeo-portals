@@ -1,6 +1,7 @@
 import { EXTENSION_ID } from "../../constants";
 import { Obr } from "../../obr/types";
 import createIconUrl from "../../fontAwesome/createIconUrl";
+import { labels } from "../../i18n/strings";
 import createToolModes, {
   DEFAULT_DIRECTION,
   DIRECTION_METADATA_ID,
@@ -29,7 +30,7 @@ export default async function createTool(obr: Obr) {
     icons: [
       {
         icon: createIconUrl("dungeon-solid.svg"),
-        label: "Portals",
+        label: labels.toolName,
         filter: {
           roles: ["GM"],
         },

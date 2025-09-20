@@ -71,7 +71,7 @@ marked.use({
     },
     postprocess(html) {
       return `<!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hans">
     <head>
         <meta charset="UTF-8">
         <title>${frontMatter.title}</title>

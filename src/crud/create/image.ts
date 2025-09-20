@@ -1,6 +1,7 @@
 import { buildImage, Image, ImageDownload, Vector2 } from "@owlbear-rodeo/sdk";
 import { Direction } from "./link";
 import { Obr } from "../../obr/types";
+import { errors } from "../../i18n/strings";
 import {
   getDestinationImage,
   getOriginImage,
@@ -16,12 +17,12 @@ export async function setImagePosition(
 ) {
   const originImage = getOriginImage();
   if (originImage === undefined) {
-    throw "Set an image for origin.";
+    throw errors.setOriginImage;
   }
 
   const destinationImage = getDestinationImage();
   if (destinationImage === undefined) {
-    throw "Set an image for destination.";
+    throw errors.setDestinationImage;
   }
 
   if (origin === null) {
@@ -75,7 +76,7 @@ async function finish(
   direction: Direction,
 ) {
   if (origin === null) {
-    throw "Origin is not set.";
+    throw errors.originNotSet;
   }
 
   const destination = createImage(pointerPosition, imageDownload);

@@ -1,6 +1,7 @@
 import { Obr } from "../../../obr/types";
 import { TOOL_ID } from "../createTool";
 import createIconUrl from "../../../fontAwesome/createIconUrl";
+import { labels } from "../../../i18n/strings";
 import {
   CONTEXT_MENU_VISIBILITY_METADATA_ID,
   toggleContextMenuVisibility,
@@ -12,7 +13,7 @@ export async function createToggleContextMenuVisibilityAction(obr: Obr) {
     icons: [
       {
         icon: createIconUrl("wand-magic-solid.svg"),
-        label: "Show Context Menu Entries",
+        label: labels.toggleContextMenuShow,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],
@@ -26,7 +27,7 @@ export async function createToggleContextMenuVisibilityAction(obr: Obr) {
       },
       {
         icon: createIconUrl("wand-magic-sparkles-solid.svg"),
-        label: "Hide Context Menu Entries",
+        label: labels.toggleContextMenuHide,
         filter: {
           activeTools: [TOOL_ID],
           roles: ["GM"],
