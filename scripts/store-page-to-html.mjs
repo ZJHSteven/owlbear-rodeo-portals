@@ -1,51 +1,41 @@
-import { marked, RendererObject, Tokens } from "marked";
+import { marked } from "marked";
 import { gfmHeadingId } from "marked-gfm-heading-id";
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { parse } from "yaml";
-import * as meta from "../package.json";
+import meta from "../package.json" assert { type: "json" };
 
-marked.use(gfmHeadingId());
-
-function parseFrontMatter(input: string): [FrontMatter, string] {
+function parseFrontMatter(input) {
   if (!input.startsWith("---")) {
-    throw "missing YAML front matter";
+    throw new Error("missing YAML front matter");
   }
 
-  const end: number = input.indexOf("---", 1);
+  const end = input.indexOf("---", 1);
   if (end === -1) {
-    throw "missing end of YAML front matter";
+    throw new Error("missing end of YAML front matter");
   }
 
-  const frontMatter: FrontMatter = parse(input.substring(3, end));
-  const markdown: string = `![Screenshot: ${frontMatter.title}](${frontMatter.image})
+  const frontMatter = parse(input.substring(3, end));
+  const markdown = `![Screenshot: ${frontMatter.title}](${frontMatter.image})
   
   ${input.substring(end + 3)}`;
 
   return [frontMatter, markdown];
 }
 
-type FrontMatter = {
-  title: string;
-  description: string;
-  author: string;
-  image: string;
-  icon: string;
-  tags: string[];
-  manifest: string;
-  "learn-more": string;
-};
+const plugin = gfmHeadingId();
+marked.use(plugin);
 
-let frontMatter: FrontMatter;
-let markdown: string;
+let frontMatter;
+let markdown;
 
 const defaultRenderer = new marked.Renderer();
 
-function isExternalLink(href: string): boolean {
+function isExternalLink(href) {
   return href.startsWith("http://") || href.startsWith("https://");
 }
 
-const renderer: RendererObject = {
-  image(image: Tokens.Image): string {
+const renderer = {
+  image(image) {
     defaultRenderer.parser = this.parser;
     if (image.href.length === 0) {
       return defaultRenderer.image(image);
@@ -53,7 +43,7 @@ const renderer: RendererObject = {
 
     return `<a href="${image.href}" target="_blank">${defaultRenderer.image(image)}</a>`;
   },
-  link(link: Tokens.Link): string | false {
+  link(link) {
     const target = isExternalLink(link.href) ? "_blank" : null;
     if (target === null) {
       return false;
@@ -65,7 +55,7 @@ const renderer: RendererObject = {
 
 marked.use({
   hooks: {
-    preprocess(input): string {
+    preprocess(input) {
       [frontMatter, markdown] = parseFrontMatter(input);
       return markdown;
     },
@@ -93,7 +83,7 @@ ${html}
 const input = fs.readFileSync(0, "utf-8");
 const html = marked.parse(input);
 if (typeof html !== "string") {
-  throw "output can only handle string";
+  throw new Error("output can only handle string");
 }
 
 fs.writeFileSync(1, html);
