@@ -4,121 +4,77 @@
 >
 > 汉化维护者：[@ZJHSteven](https://github.com/ZJHSteven)
 
-## 安装指南（面向新手 DM）
-
-### 推荐流程：从 URL 安装汉化扩展
-
-1. 在浏览器复制清单链接：`https://owlbear-rodeo-portals.pages.dev/manifest.json`。
-2. 打开 Owlbear Rodeo 的 `Extensions` 面板，点击 `Install from URL`。
-3. 将链接粘贴进输入框并确认，页面会提示安装成功。
-4. 返回房间后，在工具栏中寻找名称为“传送门”的新图标。
-5. 首次使用建议切换到测试场景，避免在正式战役中误触。
-
-### 替换或更新已有英文版
-
-- 若已从上游商店安装英文版，请先在 `Extensions` 中卸载原插件，再按上述流程安装汉化版。
-- 若浏览器提示证书或来源未知，可在新标签页访问清单地址确认内容，再回到 Owlbear Rodeo 完成安装。
-- 建议清理旧会话缓存，以防持久化的旧元数据与新版标签混用。
-
-### 使用前的快速检查
-
-- 在任意地图中新建两个占位令牌，确认工具栏出现“传送门”工具。
-- 右键令牌检查上下文菜单是否含有“启用传送”“移除终点”等条目。
-- 打开 `Settings` 面板确认扩展作者显示为 `ZJHSteven`，版本号与 GitHub 发布页一致。
-
-## 使用教学（常见场景）
-
-### 权限与数据范围
-
-只有拥有 GM 身份的玩家可以创建、删除或暂停传送门，并可切换传送确认方式。拥有移动权限的玩家可以触发传送效果。所有设置均保存到工具或令牌的元数据中，随房间同步，因此无需额外备份。
-
-### 支持的令牌类型
-
-- Drawing：Curve、Line、Shape（Circle、Hexagon、Rectangle、Triangle）。
-- Image：任意导入的静态图像令牌。
-
-### 创建传送门
-
-#### 方法一：连接现有令牌
-
-1. 启用“传送门”工具，并切换到“将传送附加到令牌”模式。
-2. 点击欲作为起点的令牌。
-3. 点击目标终点令牌。
-4. 观察屏幕右上角的通知以确认链接创建成功。
-5. 如需删除链接，可右键起点令牌并选择“移除终点”。
-
-#### 方法二：放置一对新令牌
-
-1. 启用“传送门”工具，依次执行“设置起点图像”和“设置终点图像”（各操作只需完成一次）。
-2. 切换到“在场景中放置传送令牌”模式。
-3. 在地图上点击放置起点，再点击放置终点。
-4. 工具会自动为这两个令牌建立链接，并在通知中提示结果。
-5. 新建的令牌默认位于 `PROPS` 图层，可根据战斗需求调整。
-
-### 进入传送门
-
-1. 选中任意角色令牌。
-2. 将令牌中心拖入传送门起点令牌的包围盒中。
-3. 系统会立即将令牌移动到终点，移动玩家的视角会同步切换。
-4. 若启用了确认模式，系统会弹窗询问是否执行传送。
-
-### 高级选项
-
-- 保持相对位置：右键终点令牌，选择“分散到达位置”以维持队伍间距；需要恢复默认重叠时选择“重叠到达位置”。
-- 双向传送：在工具动作中切换为“双向模式”，之后自动为新建链接添加反向路径。
-- 显示传送链接：启用“传送门”工具后点击“显示传送链接”，完成排查后再点击“隐藏传送链接”。
-- 暂停或恢复传送：右键起点令牌，在“禁用传送”与“启用传送”之间切换。
-- 上下文菜单管理：在工具动作中切换“隐藏上下文菜单项”或“显示上下文菜单项”，保持界面简洁。
-
-## 故障排查
-
-- 在工具动作中执行“检查传送门完整性”，系统会标记缺失或断开的链接。
-- 若通知提示错误，可打开浏览器开发者工具（Ctrl+Shift+J 或 F12）查看详细日志。
-- 确保角色令牌具备移动权限，否则无法触发传送。
-- 如遇缓存问题，可在 `Extensions` 面板重新加载扩展或清除浏览器缓存。
-
 ## 项目概览
 
-- 插件通过传送门快速移动令牌，可模拟陷阱、魔法阵或传送网络。
-- 汉化覆盖 UI、上下文菜单、通知、商店文案，保持术语与文档一致。
-- 静态资源与清单现已迁移至 `https://owlbear-rodeo-portals.pages.dev/`，后续将继续补充中文演示内容。
+- 通过可配置的传送门在 Owlbear Rodeo 地图上瞬移角色令牌，可模拟陷阱、魔法阵或任意传送机制。
+- 汉化范围覆盖插件 UI、上下文菜单、通知提示以及开发/商店文档。
+- 当前仍复用上游的 GitLab Pages 静态资源，待自有部署完成后会更新为新的链接。
+
+## 安装
+
+推荐使用“从 URL 安装”的方式添加本汉化扩展：
+
+- 复制清单链接：`https://owlbear-rodeo-portals.pages.dev/manifest.json`
+- 在 OBR 中打开 Extensions → Install from URL，粘贴上述链接并确认。
+
+提示：如你已从上游商店安装了英文版，请先卸载后再按以上步骤安装本汉化版本，以避免混淆。
+
+## 快速体验
+
+1. 将此仓库克隆到本地：`git clone https://github.com/ZJHSteven/owlbear-rodeo-portals.git`。
+2. 在项目根目录执行 `npm install` 安装依赖。
+3. 运行 `npm start` 启动开发服务器，默认地址为 <https://localhost:8080/owlbear-rodeo-portals/>。
+4. 在 Owlbear Rodeo 中选择“Install Your Extension”，并填写 `https://localhost:8080/owlbear-rodeo-portals/manifest.json`。
+5. 如果浏览器因自签名证书拒绝访问，可在地址栏直接输入 `thisisunsafe`（Chromium 内核浏览器）跳过警告。
 
 ## 功能特性
 
 - 一键创建单向或双向传送门。
-- 支持自动传送与确认传送两种模式。
-- 可根据角色初始相对位置批量传送，避免重叠。
-- 提供可视化传送链接，方便调试与复查。
-- 集成上下文菜单操作，快速启用、禁用或删除传送门。
+- 为角色移动提供自动或确认式传送模式。
+- 支持按角色相对位置进行群体传送，避免令牌重叠。
+- 在画布上高亮现有传送链接，便于调试与复查。
+- 内置完整的上下文菜单操作，可启用/禁用/验证传送门状态。
 
-## 开发者快速体验
+## 安装与使用说明
 
-1. 克隆仓库：`git clone https://github.com/ZJHSteven/owlbear-rodeo-portals.git`。
-2. 进入项目根目录执行 `npm install` 安装依赖。
-3. 运行 `npm start` 启动开发服务器（默认地址 `https://localhost:8080/owlbear-rodeo-portals/`）。
-4. 在 Owlbear Rodeo 中使用 `Install from URL`，填写开发服务器提供的 `manifest.json`。
-5. 若浏览器提示自签名证书风险，在出现警告时输入 `thisisunsafe`（Chromium 内核）或手动信任证书。
+### Owlbear Rodeo 商店
+
+- 访问（暂时使用上游页面）<https://resident-uhlig.gitlab.io/owlbear-rodeo-portals/store/index.html> 了解图文教程。
+- 商店将展示汉化后的名称、描述与截图；部署完成后会迁移至自有页面。
+
+### 权限与范围
+
+- 仅 GM 角色可以创建、删除或切换传送设置。
+- 拥有移动权限的玩家可以触发传送。
+- 所有设置都保存在工具或令牌的元数据中，随存档同步。
+
+### 常用操作
+
+- **创建传送门**：选择“附加传送到令牌”或“在场景中放置传送令牌”，按提示选择起点与终点。
+- **显示/隐藏链接**：使用工具操作面板中的“显示/隐藏链接”按钮。
+- **管理上下文菜单**：根据需要添加或隐藏插件提供的右键菜单条目。
+- **校验完整性**：通过“检查传送门完整性”快速定位遗失或配置错误的令牌。
 
 ## 开发工作流
 
 1. `npm start`：启用带热更新的开发服务器。
-2. `npm run build`：生成生产资源到 `public/` 目录。
-3. 推荐开启 `.husky` 钩子以统一 Prettier 与 TypeScript 检查。
+2. `npm run build`：编译生产版本并生成 `public/` 目录资源。
+3. 建议启用 `.husky` 钩子以获得统一的 Prettier/TypeScript 格式化体验。
 
 ## 依赖清单
 
-- 运行期依赖：[@owlbear-rodeo/sdk](https://github.com/owlbear-rodeo/sdk)、[React](https://react.dev/)、[Font Awesome](https://fontawesome.com/)。
-- 构建期依赖：TypeScript、Webpack、Babel、Prettier（详见 `package.json`）。
+- 运行期：[@owlbear-rodeo/sdk](https://github.com/owlbear-rodeo/sdk)、[React](https://react.dev/)、[Font Awesome](https://fontawesome.com/)。
+- 构建期：TypeScript、Webpack、Babel、Prettier 等（详见 `package.json`）。
 
 ## 贡献与反馈
 
-- 汉化建议或文档补充：<https://github.com/ZJHSteven/owlbear-rodeo-portals/issues>。
-- 核心功能问题：请在上游仓库提交 Issue：<https://gitlab.com/resident-uhlig/owlbear-rodeo-portals/-/issues/new>。
-- 欢迎在提交前沟通需求，避免与后续汉化更新冲突。
+- 若发现汉化错漏或希望补充中文文档，请在 GitHub 仓库创建 Issue：<https://github.com/ZJHSteven/owlbear-rodeo-portals/issues>。
+- 若需核心功能改进或报告原始 Bug，请尊重上游作者劳动并在其仓库提交 Issue：<https://gitlab.com/resident-uhlig/owlbear-rodeo-portals/-/issues/new>。
+- 提交代码前建议先沟通需求，避免与后续汉化更新冲突。
 
 ## 后续计划
 
-- [ ] 补全 `owlbear-rodeo-portals.pages.dev` 上的中文演示与静态资源。
+- [ ] 完成自有静态资源部署，替换 `config.GITLAB_PAGES` 与商店链接。
 - [ ] 研究 GitHub 提供的 changelog 接口，替换当前基于 GitLab API 的更新日志实现。
 - [ ] 汇总常见 GM 工作流程，补充中文示例图。
 

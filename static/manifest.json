@@ -4,7 +4,7 @@
   "manifest_version": 1,
   "author": "$AUTHOR$",
   "homepage_url": "$HOMEPAGE$",
-  "icon": "/owlbear-rodeo-portals/font-awesome/svgs/dungeon-solid.svg",
-  "background_url": "/owlbear-rodeo-portals/background.html",
+  "icon": "font-awesome/svgs/dungeon-solid.svg",
+  "background_url": "background.html",
   "description": "$DESCRIPTION$"
 }
