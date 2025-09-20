@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const aside = document.createElement("aside");
   [
-    { text: "Light Scheme", colorScheme: "light", icon: "☀️" },
-    { text: "Dark Scheme", colorScheme: "dark", icon: "🌙" },
-    { text: "System Scheme", colorScheme: "system", icon: "⭐" },
+    { text: "浅色主题", colorScheme: "light", icon: "☀️" },
+    { text: "深色主题", colorScheme: "dark", icon: "🌙" },
+    { text: "跟随系统", colorScheme: "system", icon: "⭐" },
   ].forEach(({ text, colorScheme, icon }) => {
     const label = document.createElement("label");
     const input = document.createElement("input");

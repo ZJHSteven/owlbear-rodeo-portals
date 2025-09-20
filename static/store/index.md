@@ -12,49 +12,44 @@ learn-more: $HOMEPAGE$
 
 # $NAME$
 
-## About
+> 本页面由 ZJHSteven 维护，仅对上游文档进行简体中文翻译与本地化说明；功能实现仍源自原项目。
 
-This extension lets you create portals between [supported tokens](#supported-tokens) in order to teleport character tokens on the map.
+## 关于
 
-You can use the portals as traps, regular portals or teleportation circles.
+此扩展允许你在地图上为[受支持的令牌](#supported-tokens)创建传送门，通过传送链接在房间中即时移动角色令牌。你可以把它当作陷阱、常规传送门或魔法传送阵使用。
 
-## Features
+## 功能
 
-- Create one-way portals (from origin to destination)
-- Create two-way portals (both ends are origin and destination)
-- Teleport character token when moving center of character token into bounding box of origin token
+- 创建单向传送门（仅从起点到终点）。
+- 创建双向传送门（两个端点互为起点和终点）。
+- 当角色令牌移动到起点令牌包围盒中心时自动触发传送。
 
-## Installation
+## 安装
 
-[Install Your Extension] using the URL [$GITLAB_PAGES$manifest.json](../manifest.json).
+请参考 Owlbear Rodeo 文档中的“Install Your Extension”，使用网址 [$GITLAB_PAGES$manifest.json](../manifest.json) 进行安装。当前链接仍指向上游静态资源，待自有部署完成后会更新。
 
-[Install Your Extension]: https://docs.owlbear.rodeo/extensions/tutorial-hello-world/install-your-extension/
+## 使用
 
-## Usage
+### 权限
 
-### Permissions
+只有拥有 `GM` 身份的玩家可以：
 
-Only players with the [role] `GM` may:
+- [创建传送门](#create-portals)
+- [删除传送门](#delete-portals)
+- [展示现有链接](#show-existing-links)
+- [启用或禁用传送门](#disableenable-portals)
+- [切换传送确认方式](#toggle-confirmation-for-teleportation)
 
-- [Create portals](#create-portals)
-- [Delete portals](#delete-portals)
-- [Show existing links](#show-existing-links) between origins and destinations
-- [Disable/enable portals](#disableenable-portals)
-- [Toggle confirmation for teleportation](#toggle-confirmation-for-teleportation)
+拥有角色令牌移动权限的玩家可以[进入传送门](#enter-a-portal)。
 
-[role]: https://docs.owlbear.rodeo/extensions/apis/player#getrole
+### 数据范围
 
-All players with permission to move a character token may [enter a portal](#enter-a-portal).
+所有设置会作为工具或令牌的[元数据](https://docs.owlbear.rodeo/extensions/reference/metadata)保存并跟随房间同步。
 
-### Scope
+<a id="supported-tokens"></a>
+### 支持的令牌
 
-All settings are stored as [metadata] of either tool or token.
-
-[metadata]: https://docs.owlbear.rodeo/extensions/reference/metadata
-
-### Supported tokens
-
-The following type of tokens are supported:
+以下类型的令牌可以用作传送门：
 
 - [Drawing](https://docs.owlbear.rodeo/docs/drawing/)
   - Curve
@@ -66,130 +61,119 @@ The following type of tokens are supported:
     - Triangle
 - [Image](https://docs.owlbear.rodeo/docs/images/)
 
-### Create portals
+<a id="create-portals"></a>
+### 创建传送门
 
-There are two ways to add portals on your map.
+有两种方式可以在地图上添加传送门：
 
-1. Add a link between two existing tokens.
+1. 在现有令牌之间建立传送链接。
+   1. 启用“传送门”工具。
+   2. 选择“将传送附加到令牌”模式。
+   3. 点击作为起点的令牌。
+   4. 点击作为终点的令牌。
+   5. 会弹出通知提示链接已创建。
 
-   1. Activate the _Portals_ tool.
-   2. Activate the _Attach Teleport to Token_ mode.
-   3. Click on the token that should be the origin.
-   4. Click on the token that should be the destination.
-   5. A notification is shown, that the link has been created.
+   ![动图：在两个现有令牌之间建立链接。]($GITLAB_PAGES$store/attach-teleport.gif)
 
-   ![Animation: A link is added between two existing tokens.]($GITLAB_PAGES$store/attach-teleport.gif)
+2. 放置两个新的令牌并自动建立链接。
+   1. 启用“传送门”工具。
+   2. 点击“设置起点图像”动作，选择一个令牌作为起点（只需设置一次）。
+   3. 点击“设置终点图像”动作，选择一个令牌作为终点（只需设置一次）。
+   4. 切换到“在场景中放置传送令牌”模式。
+   5. 在地图上点击起点位置。
+   6. 在地图上点击终点位置。
+   7. 会弹出通知提示链接已创建。
 
-2. Place two new tokens and automatically link them.
+   > ℹ️ 新创建的令牌默认位于“PROPS”图层，可像普通令牌一样调整图层。
 
-   1. Activate the _Portals_ tool.
-   2. Click the _Set Image (Origin)_ action to pick a token as the origin. (You only have to do this once.)
-   3. Click the _Set Image (Destination)_ action to pick a token as the destination. (You only have to do this once.)
-   4. Activate the _Add Teleport Token to Map_ mode.
-   5. Click on the map where the origin should be placed.
-   6. Click on the map where the destination should be placed.
-   7. A notification is shown, that the link has been created.
+   ![动图：定义图像后自动放置一对传送门。]($GITLAB_PAGES$store/add-teleport-tokens.gif)
 
-   > ℹ️ The tokens are added to the "PROPS" layer by default. You can change the layer for them like every normal token.
+<a id="enter-a-portal"></a>
+### 进入传送门
 
-   ![Animation: After defining the respective images, two tokens are added as origin and destinations.]($GITLAB_PAGES$store/add-teleport-tokens.gif)
+1. 选中一个角色令牌。
+2. 将其中心移动到传送门起点令牌的包围盒内。
+3. 角色会自动传送到终点位置。
+4. 移动该令牌的玩家视角会自动跟随传送后的位置。
 
-### Enter a portal
+![动图：角色进入传送门后被传送。]($GITLAB_PAGES$store/enter-portal.gif)
 
-1. Select a character token.
-2. Move it to the center of the token into the bounding box of a portal origin.
-3. The character token is automagically teleported to the portal's destination.
-4. The viewport of the player (all connections) that moved the token is centered on that token.
+### 保持相对位置
 
-![Animation: A character token is teleported after entering a portal.]($GITLAB_PAGES$store/enter-portal.gif)
+你可以为终点配置“保持相对位置”，适合多名角色同时通过传送门的场景：
 
-### Keep relative position
+1. 右键点击终点令牌。
+2. 选择“分散到达位置”。
+3. 之后传送的令牌会保持相对间距。
 
-You can configure a destination to keep teleported tokens in the same relative position they had before teleporting. This can be useful if you intend to use the portal for multiple tokens at once, e.g. for actual portals instead of simple traps.
+若需恢复默认行为，可选择“重叠到达位置”。
 
-1. Right-click on a destination token.
-2. Click the _Spread Arrivals_ context menu.
-3. From now on the destination will spread the teleported tokens accordingly.
+### 创建双向传送门
 
-You can change this setting back by using the _Overlap Arrivals_ context menu.
+新建的传送门默认仅支持单向。如果希望双向传送，可以手动为终点建立反向链接，或在工具动作中切换到“双向模式”，之后创建的链接会自动双向互通。
 
-### Create two-way portals
+![动图：切换传送方向模式。]($GITLAB_PAGES$store/toggle-direction.gif)
 
-Usually new portals only work in one direction, from origin to destination. To create two-way portals,
-you can either create a one-way portal and then link the destination back to the origin manually.
+<a id="delete-portals"></a>
+### 删除传送门
 
-Or you can toggle the direction for new portals. If the two-way direction is enabled, new links automatically are created in both directions.
+1. 右键点击起点令牌。
+2. 选择“移除终点”。
+3. 链接会被删除（不再出现通知）。
 
-![Animation: The direction is changed from one-way to two-way.]($GITLAB_PAGES$store/toggle-direction.gif)
+![动图：删除传送链接。]($GITLAB_PAGES$store/delete-portal-link.gif)
 
-### Delete portals
+<a id="show-existing-links"></a>
+### 显示传送链接
 
-1. Right-click on an origin token.
-2. Click the _Remove Destination_ context menu.
-3. The link is removed (without notification.)
+传送链接只对当前玩家可见：
 
-![Animation: The destination is removed from a portal token.]($GITLAB_PAGES$store/delete-portal-link.gif)
+1. 启用“传送门”工具。
+2. 点击“显示传送链接”动作。
+3. 现有链接会以指示器呈现。
+4. 点击“隐藏传送链接”动作以关闭可视化。
 
-### Show existing links
+![动图：显示与隐藏传送链接。]($GITLAB_PAGES$store/show-portal-links.gif)
 
-The links are only shown for yourself and not for any other player or GM.
+<a id="disableenable-portals"></a>
+### 启用或禁用传送门
 
-1. Activate the _Portals_ tool.
-2. Click the _Show Links_ action.
-3. The existing links are shown.
-4. Click the _Hide Links_ action.
-5. The existing links are no longer shown.
+- 右键起点令牌并选择“禁用传送”即可暂停该传送门。
+- 通过“启用传送”可以重新激活。
 
-![Animation: The display of portal links is activated and deactivated.]($GITLAB_PAGES$store/show-portal-links.gif)
+<a id="toggle-confirmation-for-teleportation"></a>
+### 切换传送确认方式
 
-### Disable/enable portals
+默认情况下，角色令牌放置到传送门上会自动传送。若希望先确认：
 
-You can disable or enable individual portals.
+1. 右键起点令牌。
+2. 选择“需要确认后传送”。
+3. 下次触发传送时会弹出确认提示。
 
-1. Right-click on the origin token.
-2. Click the _Disable Teleport_ context menu.
-3. The portal is disabled.
+要恢复自动传送，可选择“自动传送”。
 
-You can enable the portal again by using the _Enable Teleport_ context menu.
+### 显示或隐藏上下文菜单项
 
-### Toggle confirmation for teleportation
+在游戏过程中，你可以临时隐藏插件提供的上下文菜单项以减少干扰：
 
-By default, a character token is teleported automatically when dropped on a portal. You can enable a confirmation per portal:
+1. 启用“传送门”工具。
+2. 点击“隐藏上下文菜单项”。
+3. 菜单项会被移除。
+4. 点击“显示上下文菜单项”即可重新创建。
 
-1. Right-click on the origin token.
-2. Click the _Confirm Teleport_ context menu.
-3. The next time a token is dropped on the portal, the user is asked before the token is teleported.
+![动图：切换上下文菜单项显示状态。]($GITLAB_PAGES$store/remove-context-menu.gif)
 
-You can disable the confirmation again by using the _Automagic Teleport_ context menu.
+## 故障排查
 
-### Show/hide context menu
+### 验证传送门完整性
 
-During a game session you might want to remove clutter from the context menu. For this, you can hide the context menu entries of this extension.
+1. 启用“传送门”工具。
+2. 点击“检查传送门完整性”。
+3. 系统会在通知中显示检测结果，并选中存在问题的令牌。
+4. 若仍有错误，可打开浏览器开发者工具（Ctrl+Shift+J 或 F12）查看详情。
 
-1. Activate the _Portals_ tool.
-2. Click the _Hide Context Menu Entries_ action.
-3. The context menu entries are removed.
-4. Click the _Show Context Menu Entries_ action.
-5. The context menu entries are created again.
+## 支持与反馈
 
-![Animation: The context menu entries are remove and created.]($GITLAB_PAGES$store/remove-context-menu.gif)
-
-## Troubleshooting
-
-### Verify portals integrity
-
-1. Activate the _Portals_ tool.
-2. Click the _Verify Portals Integrity_ action.
-3. A notification is shown, that indicates the integrity. Also, all offending items are selected.
-
-   Furthermore, if there are any errors, you can open the browser's JavaScript console (<kbd>Ctrl + Shift + J</kbd> or <kbd>F12</kbd>) for details.
-
-## Support
-
-If there are any issues with the extension, join the [Owlbear Rodeo Discord], create a new post and mention `@resident_uhlig` in the [#extension-support] channel.
-
-For general comments, please use the thread [Portals chat].
-
-[Owlbear Rodeo Discord]: https://discord.gg/u5RYMkV98s
-[#extension-support]: https://discord.com/channels/795808973743194152/1108276291960045578
-[Portals chat]: https://discord.com/channels/795808973743194152/1257966858800332861
+- 若遇到插件问题，可加入 [Owlbear Rodeo Discord](https://discord.gg/u5RYMkV98s)，在 [#extension-support](https://discord.com/channels/795808973743194152/1108276291960045578) 频道@`resident_uhlig` 获取上游支持。
+- 若只涉及汉化或翻译文本，请前往 GitHub 仓库提交 Issue。
+- 讨论帖：[Portals chat](https://discord.com/channels/795808973743194152/1257966858800332861)。
