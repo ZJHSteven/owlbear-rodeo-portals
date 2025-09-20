@@ -22,3 +22,9 @@
 - 解决 `npm run build` 在 node20 下的 ESM 冲突，将 store 页面生成脚本改写为 `scripts/store-page-to-html.mjs`。
 - build 脚本改为使用原生 node 执行，并恢复 TypeScript 脚本配置。
 - 验证 `npm run build` 成功通过，保留 webpack 对资源体积的警告提示。
+
+## 2025-09-20 （用户文档重排）
+
+- 重写 README.md，新增“安装指南（面向新手 DM）”与“使用教学”模块，将安装步骤置于文首。
+- 更新清单链接与静态资源域名为 `https://owlbear-rodeo-portals.pages.dev/`，提示卸载上游英文版后再安装汉化版。
+- 精炼常见操作说明，补充高级选项与故障排查要点，方便初学者快速上手。
